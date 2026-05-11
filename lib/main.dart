@@ -1,7 +1,10 @@
+// The new unified main.dart
 import 'package:flutter/material.dart';
+import 'package:geotas/core/router/router.dart';
+import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:geotas/student/router/student_router.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // We will create this
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,16 +12,16 @@ Future<void> main() async {
   final container = ProviderContainer();
 
   runApp(
-    UncontrolledProviderScope(container: container, child: const StudentApp()),
+    UncontrolledProviderScope(container: container, child: const GeotasApp()),
   );
 }
 
-class StudentApp extends ConsumerWidget {
-  const StudentApp({super.key});
+class GeotasApp extends ConsumerWidget {
+  const GeotasApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(studentRouteProvider);
+    final router = ref.watch(appRouteProvider);
 
     return ShadApp.router(
       title: 'GEOTAS',

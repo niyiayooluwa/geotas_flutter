@@ -1,7 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:geotas/core/network/interceptors/auth_interceptor.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-Dio createDioClient() {
+part 'dio_client.g.dart';
+
+@riverpod
+Dio dio(Ref ref) {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'http://localhost:8080',
@@ -11,7 +15,7 @@ Dio createDioClient() {
     ),
   );
 
-  dio.interceptors.add(AuthInterceptor());
+  dio.interceptors.add(AuthInterceptor(ref));
 
   return dio;
 }

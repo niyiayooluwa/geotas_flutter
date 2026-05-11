@@ -1,27 +1,34 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:geotas/core/storage/secure_storage.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthInterceptor extends Interceptor {
-  final _storage = const FlutterSecureStorage();
+  final Ref _ref;
+
+  AuthInterceptor(this._ref);
 
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final token = await _storage.read(key: 'jwt_token');
+    // Access the storage through the provider
+    final storage = _ref.read(secureStorageProvider);
+    final token = await storage.getToken();
+
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
     }
-    handler.next(options); // continue the request
-  }
 
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (err.response?.statusCode == 401) {
-      // token expired — clear storage, redirect to login
-      // you'd use your go_router ref here
+    handler.next(options);
+
+    @override
+    // ignore: unused_element
+    void onError(DioException err, ErrorInterceptorHandler handler) {
+      if (err.response?.statusCode == 401) {
+        // TODO: Trigger logout and navigation via Ref
+      }
+      handler.next(err);
     }
-    handler.next(err);
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+part 'secure_storage.g.dart';
 
 class SecureStorage {
-  final FlutterSecureStorage _storage;
-
-  SecureStorage(this._storage);
-
+  // Use a constant instance to avoid recreation overhead
+  final _storage = const FlutterSecureStorage();
   static const _tokenKey = 'auth_token';
 
   Future<void> saveToken(String token) async {
@@ -20,3 +20,6 @@ class SecureStorage {
     await _storage.delete(key: _tokenKey);
   }
 }
+
+@riverpod
+SecureStorage secureStorage(Ref ref) => SecureStorage();
