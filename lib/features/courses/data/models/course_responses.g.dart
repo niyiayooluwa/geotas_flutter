@@ -13,7 +13,7 @@ _CourseModel _$CourseModelFromJson(Map<String, dynamic> json) => _CourseModel(
   code: json['code'] as String,
   inviteCode: json['invite_code'] as String,
   department: json['department'] as String,
-  createdAt: DateTime.parse(json['created_at'] as String),
+  createdAt: json['created_at'] as String,
 );
 
 Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
@@ -24,7 +24,7 @@ Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
       'code': instance.code,
       'invite_code': instance.inviteCode,
       'department': instance.department,
-      'created_at': instance.createdAt.toIso8601String(),
+      'created_at': instance.createdAt,
     };
 
 _JoinCourseResponse _$JoinCourseResponseFromJson(Map<String, dynamic> json) =>
@@ -33,7 +33,7 @@ _JoinCourseResponse _$JoinCourseResponseFromJson(Map<String, dynamic> json) =>
       courseId: json['course_id'] as String,
       userId: json['user_id'] as String,
       role: json['role'] as String,
-      joinedAt: DateTime.parse(json['joined_at'] as String),
+      joinedAt: json['joined_at'] as String,
     );
 
 Map<String, dynamic> _$JoinCourseResponseToJson(_JoinCourseResponse instance) =>
@@ -42,7 +42,7 @@ Map<String, dynamic> _$JoinCourseResponseToJson(_JoinCourseResponse instance) =>
       'course_id': instance.courseId,
       'user_id': instance.userId,
       'role': instance.role,
-      'joined_at': instance.joinedAt.toIso8601String(),
+      'joined_at': instance.joinedAt,
     };
 
 _EnrolledCourse _$EnrolledCourseFromJson(Map<String, dynamic> json) =>

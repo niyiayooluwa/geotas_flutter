@@ -12,7 +12,7 @@ abstract class CourseModel with _$CourseModel {
     required String code,
     @JsonKey(name: 'invite_code') required String inviteCode,
     required String department,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'created_at') required String createdAt,
   }) = _CourseModel;
 
   factory CourseModel.fromJson(Map<String, dynamic> json) =>
@@ -26,7 +26,7 @@ abstract class JoinCourseResponse with _$JoinCourseResponse {
     @JsonKey(name: 'course_id') required String courseId,
     @JsonKey(name: 'user_id') required String userId,
     required String role,
-    @JsonKey(name: 'joined_at') required DateTime joinedAt,
+    @JsonKey(name: 'joined_at') required String joinedAt,
   }) = _JoinCourseResponse;
 
   factory JoinCourseResponse.fromJson(Map<String, dynamic> json) =>
@@ -43,7 +43,7 @@ abstract class EnrolledCourse with _$EnrolledCourse {
     required String department,
     @JsonKey(name: 'created_at') required String createdAt,
     required String role,
-    @JsonKey(name: 'matriculation_number') required String? matriculationNumber,
+    @JsonKey(name: 'matriculation_number') String? matriculationNumber,
   }) = _EnrolledCourse;
 
   factory EnrolledCourse.fromJson(Map<String, dynamic> json) =>
