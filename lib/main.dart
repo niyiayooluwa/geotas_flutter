@@ -1,10 +1,8 @@
 // The new unified main.dart
 import 'package:flutter/material.dart';
 import 'package:geotas/core/router/router.dart';
-import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // We will create this
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
