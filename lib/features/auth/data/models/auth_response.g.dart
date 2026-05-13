@@ -13,7 +13,7 @@ _RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) =>
       lastName: json['last_name'] as String,
       email: json['email'] as String,
       department: json['department'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: json['created_at'] as String,
     );
 
 Map<String, dynamic> _$RegisterResponseToJson(_RegisterResponse instance) =>
@@ -23,7 +23,7 @@ Map<String, dynamic> _$RegisterResponseToJson(_RegisterResponse instance) =>
       'last_name': instance.lastName,
       'email': instance.email,
       'department': instance.department,
-      'created_at': instance.createdAt.toIso8601String(),
+      'created_at': instance.createdAt,
     };
 
 _LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>

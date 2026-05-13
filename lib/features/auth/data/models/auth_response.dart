@@ -11,7 +11,7 @@ abstract class RegisterResponse with _$RegisterResponse {
     @JsonKey(name: 'last_name') required String lastName,
     required String email,
     required String department,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'created_at') required String createdAt,
   }) = _RegisterResponse;
 
   factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
