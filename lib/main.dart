@@ -19,7 +19,7 @@ class GeotasApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(appRouteProvider);
+    final router = ref.watch(routerProvider);
 
     return ShadApp.router(
       title: 'GEOTAS',
