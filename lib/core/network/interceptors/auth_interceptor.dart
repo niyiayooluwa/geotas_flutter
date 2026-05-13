@@ -21,14 +21,13 @@ class AuthInterceptor extends Interceptor {
     }
 
     handler.next(options);
+  }
 
-    @override
-    // ignore: unused_element
-    void onError(DioException err, ErrorInterceptorHandler handler) {
-      if (err.response?.statusCode == 401) {
-        // TODO: Trigger logout and navigation via Ref
-      }
-      handler.next(err);
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (err.response?.statusCode == 401) {
+      // TODO: Trigger logout and navigation via Ref
     }
+    handler.next(err);
   }
 }
