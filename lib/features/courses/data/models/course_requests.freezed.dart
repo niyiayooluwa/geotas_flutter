@@ -11,6 +11,7 @@ part of 'course_requests.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$CreateCourseRequest {
 
@@ -21,6 +22,8 @@ mixin _$CreateCourseRequest {
 @pragma('vm:prefer-inline')
 $CreateCourseRequestCopyWith<CreateCourseRequest> get copyWith => _$CreateCourseRequestCopyWithImpl<CreateCourseRequest>(this as CreateCourseRequest, _$identity);
 
+  /// Serializes this CreateCourseRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateCourseRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,title,code,department);
 
@@ -205,11 +208,11 @@ return $default(_that.title,_that.code,_that.department);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _CreateCourseRequest implements CreateCourseRequest {
   const _CreateCourseRequest({required this.title, required this.code, required this.department});
-  
+  factory _CreateCourseRequest.fromJson(Map<String, dynamic> json) => _$CreateCourseRequestFromJson(json);
 
 @override final  String title;
 @override final  String code;
@@ -221,14 +224,17 @@ class _CreateCourseRequest implements CreateCourseRequest {
 @pragma('vm:prefer-inline')
 _$CreateCourseRequestCopyWith<_CreateCourseRequest> get copyWith => __$CreateCourseRequestCopyWithImpl<_CreateCourseRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$CreateCourseRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateCourseRequest&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,title,code,department);
 
@@ -274,6 +280,7 @@ as String,
 
 }
 
+
 /// @nodoc
 mixin _$JoinCourseRequest {
 
@@ -284,6 +291,8 @@ mixin _$JoinCourseRequest {
 @pragma('vm:prefer-inline')
 $JoinCourseRequestCopyWith<JoinCourseRequest> get copyWith => _$JoinCourseRequestCopyWithImpl<JoinCourseRequest>(this as JoinCourseRequest, _$identity);
 
+  /// Serializes this JoinCourseRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -291,7 +300,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is JoinCourseRequest&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,inviteCode,matriculationNumber);
 
@@ -467,11 +476,11 @@ return $default(_that.inviteCode,_that.matriculationNumber);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _JoinCourseRequest implements JoinCourseRequest {
   const _JoinCourseRequest({@JsonKey(name: 'invite_code') required this.inviteCode, @JsonKey(name: 'matriculation_number') required this.matriculationNumber});
-  
+  factory _JoinCourseRequest.fromJson(Map<String, dynamic> json) => _$JoinCourseRequestFromJson(json);
 
 @override@JsonKey(name: 'invite_code') final  String inviteCode;
 @override@JsonKey(name: 'matriculation_number') final  String matriculationNumber;
@@ -482,14 +491,17 @@ class _JoinCourseRequest implements JoinCourseRequest {
 @pragma('vm:prefer-inline')
 _$JoinCourseRequestCopyWith<_JoinCourseRequest> get copyWith => __$JoinCourseRequestCopyWithImpl<_JoinCourseRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$JoinCourseRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _JoinCourseRequest&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,inviteCode,matriculationNumber);
 

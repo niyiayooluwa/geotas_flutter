@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'attendance_requests.freezed.dart';
+part 'attendance_requests.g.dart';
 
 @freezed
 abstract class MarkAttendanceQRRequest with _$MarkAttendanceQRRequest {
@@ -14,6 +15,9 @@ abstract class MarkAttendanceQRRequest with _$MarkAttendanceQRRequest {
     @JsonKey(name: 'os_version') required String osVersion,
     @JsonKey(name: 'mock_location_detected') required bool mockLocationDetected,
   }) = _MarkAttendanceQRRequest;
+
+  factory MarkAttendanceQRRequest.fromJson(Map<String, dynamic> json) =>
+      _$MarkAttendanceQRRequestFromJson(json);
 }
 
 @freezed
@@ -28,6 +32,9 @@ abstract class MarkAttendanceOTPRequest with _$MarkAttendanceOTPRequest {
     @JsonKey(name: 'os_version') required String osVersion,
     @JsonKey(name: 'mock_location_detected') required bool mockLocationDetected,
   }) = _MarkAttendanceOTPRequest;
+
+  factory MarkAttendanceOTPRequest.fromJson(Map<String, dynamic> json) =>
+      _$MarkAttendanceOTPRequestFromJson(json);
 }
 
 @freezed
@@ -35,4 +42,7 @@ abstract class RequestOTPRequest with _$RequestOTPRequest {
   const factory RequestOTPRequest({
     @JsonKey(name: 'session_id') required String sessionId,
   }) = _RequestOTPRequest;
+
+  factory RequestOTPRequest.fromJson(Map<String, dynamic> json) =>
+      _$RequestOTPRequestFromJson(json);
 }

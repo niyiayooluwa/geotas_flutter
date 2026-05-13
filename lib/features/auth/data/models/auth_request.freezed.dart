@@ -11,6 +11,7 @@ part of 'auth_request.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$RegisterRequest {
 
@@ -21,6 +22,8 @@ mixin _$RegisterRequest {
 @pragma('vm:prefer-inline')
 $RegisterRequestCopyWith<RegisterRequest> get copyWith => _$RegisterRequestCopyWithImpl<RegisterRequest>(this as RegisterRequest, _$identity);
 
+  /// Serializes this RegisterRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterRequest&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.department, department) || other.department == department));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,firstName,lastName,email,password,department);
 
@@ -207,11 +210,11 @@ return $default(_that.firstName,_that.lastName,_that.email,_that.password,_that.
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _RegisterRequest implements RegisterRequest {
   const _RegisterRequest({@JsonKey(name: 'first_name') required this.firstName, @JsonKey(name: 'last_name') required this.lastName, required this.email, required this.password, required this.department});
-  
+  factory _RegisterRequest.fromJson(Map<String, dynamic> json) => _$RegisterRequestFromJson(json);
 
 @override@JsonKey(name: 'first_name') final  String firstName;
 @override@JsonKey(name: 'last_name') final  String lastName;
@@ -225,14 +228,17 @@ class _RegisterRequest implements RegisterRequest {
 @pragma('vm:prefer-inline')
 _$RegisterRequestCopyWith<_RegisterRequest> get copyWith => __$RegisterRequestCopyWithImpl<_RegisterRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$RegisterRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterRequest&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.department, department) || other.department == department));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,firstName,lastName,email,password,department);
 
@@ -280,6 +286,7 @@ as String,
 
 }
 
+
 /// @nodoc
 mixin _$LoginRequest {
 
@@ -290,6 +297,8 @@ mixin _$LoginRequest {
 @pragma('vm:prefer-inline')
 $LoginRequestCopyWith<LoginRequest> get copyWith => _$LoginRequestCopyWithImpl<LoginRequest>(this as LoginRequest, _$identity);
 
+  /// Serializes this LoginRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -297,7 +306,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginRequest&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,email,password);
 
@@ -473,11 +482,11 @@ return $default(_that.email,_that.password);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _LoginRequest implements LoginRequest {
   const _LoginRequest({required this.email, required this.password});
-  
+  factory _LoginRequest.fromJson(Map<String, dynamic> json) => _$LoginRequestFromJson(json);
 
 @override final  String email;
 @override final  String password;
@@ -488,14 +497,17 @@ class _LoginRequest implements LoginRequest {
 @pragma('vm:prefer-inline')
 _$LoginRequestCopyWith<_LoginRequest> get copyWith => __$LoginRequestCopyWithImpl<_LoginRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$LoginRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginRequest&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,email,password);
 

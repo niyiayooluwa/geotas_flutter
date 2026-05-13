@@ -11,6 +11,7 @@ part of 'attendance_requests.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$MarkAttendanceQRRequest {
 
@@ -21,6 +22,8 @@ mixin _$MarkAttendanceQRRequest {
 @pragma('vm:prefer-inline')
 $MarkAttendanceQRRequestCopyWith<MarkAttendanceQRRequest> get copyWith => _$MarkAttendanceQRRequestCopyWithImpl<MarkAttendanceQRRequest>(this as MarkAttendanceQRRequest, _$identity);
 
+  /// Serializes this MarkAttendanceQRRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is MarkAttendanceQRRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.qrToken, qrToken) || other.qrToken == qrToken)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,sessionId,qrToken,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
 
@@ -210,11 +213,11 @@ return $default(_that.sessionId,_that.qrToken,_that.latitude,_that.longitude,_th
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _MarkAttendanceQRRequest implements MarkAttendanceQRRequest {
   const _MarkAttendanceQRRequest({@JsonKey(name: 'session_id') required this.sessionId, @JsonKey(name: 'qr_token') required this.qrToken, required this.latitude, required this.longitude, @JsonKey(name: 'device_id') required this.deviceId, @JsonKey(name: 'device_model') required this.deviceModel, @JsonKey(name: 'os_version') required this.osVersion, @JsonKey(name: 'mock_location_detected') required this.mockLocationDetected});
-  
+  factory _MarkAttendanceQRRequest.fromJson(Map<String, dynamic> json) => _$MarkAttendanceQRRequestFromJson(json);
 
 @override@JsonKey(name: 'session_id') final  String sessionId;
 @override@JsonKey(name: 'qr_token') final  String qrToken;
@@ -231,14 +234,17 @@ class _MarkAttendanceQRRequest implements MarkAttendanceQRRequest {
 @pragma('vm:prefer-inline')
 _$MarkAttendanceQRRequestCopyWith<_MarkAttendanceQRRequest> get copyWith => __$MarkAttendanceQRRequestCopyWithImpl<_MarkAttendanceQRRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$MarkAttendanceQRRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarkAttendanceQRRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.qrToken, qrToken) || other.qrToken == qrToken)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,sessionId,qrToken,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
 
@@ -289,6 +295,7 @@ as bool,
 
 }
 
+
 /// @nodoc
 mixin _$MarkAttendanceOTPRequest {
 
@@ -299,6 +306,8 @@ mixin _$MarkAttendanceOTPRequest {
 @pragma('vm:prefer-inline')
 $MarkAttendanceOTPRequestCopyWith<MarkAttendanceOTPRequest> get copyWith => _$MarkAttendanceOTPRequestCopyWithImpl<MarkAttendanceOTPRequest>(this as MarkAttendanceOTPRequest, _$identity);
 
+  /// Serializes this MarkAttendanceOTPRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -306,7 +315,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is MarkAttendanceOTPRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.otpCode, otpCode) || other.otpCode == otpCode)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,sessionId,otpCode,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
 
@@ -488,11 +497,11 @@ return $default(_that.sessionId,_that.otpCode,_that.latitude,_that.longitude,_th
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _MarkAttendanceOTPRequest implements MarkAttendanceOTPRequest {
   const _MarkAttendanceOTPRequest({@JsonKey(name: 'session_id') required this.sessionId, @JsonKey(name: 'otp_code') required this.otpCode, required this.latitude, required this.longitude, @JsonKey(name: 'device_id') required this.deviceId, @JsonKey(name: 'device_model') required this.deviceModel, @JsonKey(name: 'os_version') required this.osVersion, @JsonKey(name: 'mock_location_detected') required this.mockLocationDetected});
-  
+  factory _MarkAttendanceOTPRequest.fromJson(Map<String, dynamic> json) => _$MarkAttendanceOTPRequestFromJson(json);
 
 @override@JsonKey(name: 'session_id') final  String sessionId;
 @override@JsonKey(name: 'otp_code') final  String otpCode;
@@ -509,14 +518,17 @@ class _MarkAttendanceOTPRequest implements MarkAttendanceOTPRequest {
 @pragma('vm:prefer-inline')
 _$MarkAttendanceOTPRequestCopyWith<_MarkAttendanceOTPRequest> get copyWith => __$MarkAttendanceOTPRequestCopyWithImpl<_MarkAttendanceOTPRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$MarkAttendanceOTPRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarkAttendanceOTPRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.otpCode, otpCode) || other.otpCode == otpCode)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,sessionId,otpCode,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
 
@@ -567,6 +579,7 @@ as bool,
 
 }
 
+
 /// @nodoc
 mixin _$RequestOTPRequest {
 
@@ -577,6 +590,8 @@ mixin _$RequestOTPRequest {
 @pragma('vm:prefer-inline')
 $RequestOTPRequestCopyWith<RequestOTPRequest> get copyWith => _$RequestOTPRequestCopyWithImpl<RequestOTPRequest>(this as RequestOTPRequest, _$identity);
 
+  /// Serializes this RequestOTPRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -584,7 +599,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is RequestOTPRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,sessionId);
 
@@ -759,11 +774,11 @@ return $default(_that.sessionId);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _RequestOTPRequest implements RequestOTPRequest {
   const _RequestOTPRequest({@JsonKey(name: 'session_id') required this.sessionId});
-  
+  factory _RequestOTPRequest.fromJson(Map<String, dynamic> json) => _$RequestOTPRequestFromJson(json);
 
 @override@JsonKey(name: 'session_id') final  String sessionId;
 
@@ -773,14 +788,17 @@ class _RequestOTPRequest implements RequestOTPRequest {
 @pragma('vm:prefer-inline')
 _$RequestOTPRequestCopyWith<_RequestOTPRequest> get copyWith => __$RequestOTPRequestCopyWithImpl<_RequestOTPRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$RequestOTPRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _RequestOTPRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,sessionId);
 
