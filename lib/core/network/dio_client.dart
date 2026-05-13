@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:geotas/core/constants/api_constants.dart';
 import 'package:geotas/core/network/interceptors/auth_interceptor.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,9 +9,9 @@ part 'dio_client.g.dart';
 Dio dio(Ref ref) {
   final dio = Dio(
     BaseOptions(
-      baseUrl: 'http://localhost:8080',
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      baseUrl: ApiConstants.baseUrl,
+      connectTimeout: ApiConstants.connectTimeout,
+      receiveTimeout: ApiConstants.receiveTimeout,
       headers: {'Content-Type': 'application/json'},
     ),
   );

@@ -12,7 +12,17 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Access the storage through the provider
+    // Endpoints that do NOT need a token
+    const bypassEndpoints = [
+      '/auth/login',
+      '/auth/register',
+      '/health',
+    ];
+
+    if (bypassEndpoints.contains(options.path)) {
+      return handler.next(options);
+    }
+
     final storage = _ref.read(secureStorageProvider);
     final token = await storage.getToken();
 
