@@ -571,7 +571,7 @@ as DateTime,
 /// @nodoc
 mixin _$EnrolledCourse {
 
- String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code; String get department;@JsonKey(name: 'created_at') DateTime get createdAt; String get role;@JsonKey(name: 'matriculation_number') String get matriculationNumber;
+ String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code; String get department;@JsonKey(name: 'created_at') String get createdAt; String get role;@JsonKey(name: 'matriculation_number') String? get matriculationNumber;
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -604,7 +604,7 @@ abstract mixin class $EnrolledCourseCopyWith<$Res>  {
   factory $EnrolledCourseCopyWith(EnrolledCourse value, $Res Function(EnrolledCourse) _then) = _$EnrolledCourseCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'created_at') DateTime createdAt, String role,@JsonKey(name: 'matriculation_number') String matriculationNumber
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber
 });
 
 
@@ -621,7 +621,7 @@ class _$EnrolledCourseCopyWithImpl<$Res>
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -629,9 +629,9 @@ as String,title: null == title ? _self.title : title // ignore: cast_nullable_to
 as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
-as String,matriculationNumber: null == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
-as String,
+as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,matriculationNumber: freezed == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -716,7 +716,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'created_at')  DateTime createdAt,  String role, @JsonKey(name: 'matriculation_number')  String matriculationNumber)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EnrolledCourse() when $default != null:
 return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.createdAt,_that.role,_that.matriculationNumber);case _:
@@ -737,7 +737,7 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'created_at')  DateTime createdAt,  String role, @JsonKey(name: 'matriculation_number')  String matriculationNumber)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber)  $default,) {final _that = this;
 switch (_that) {
 case _EnrolledCourse():
 return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.createdAt,_that.role,_that.matriculationNumber);case _:
@@ -757,7 +757,7 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'created_at')  DateTime createdAt,  String role, @JsonKey(name: 'matriculation_number')  String matriculationNumber)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber)?  $default,) {final _that = this;
 switch (_that) {
 case _EnrolledCourse() when $default != null:
 return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.createdAt,_that.role,_that.matriculationNumber);case _:
@@ -780,9 +780,9 @@ class _EnrolledCourse implements EnrolledCourse {
 @override final  String title;
 @override final  String code;
 @override final  String department;
-@override@JsonKey(name: 'created_at') final  DateTime createdAt;
+@override@JsonKey(name: 'created_at') final  String createdAt;
 @override final  String role;
-@override@JsonKey(name: 'matriculation_number') final  String matriculationNumber;
+@override@JsonKey(name: 'matriculation_number') final  String? matriculationNumber;
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
@@ -817,7 +817,7 @@ abstract mixin class _$EnrolledCourseCopyWith<$Res> implements $EnrolledCourseCo
   factory _$EnrolledCourseCopyWith(_EnrolledCourse value, $Res Function(_EnrolledCourse) _then) = __$EnrolledCourseCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'created_at') DateTime createdAt, String role,@JsonKey(name: 'matriculation_number') String matriculationNumber
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber
 });
 
 
@@ -834,7 +834,7 @@ class __$EnrolledCourseCopyWithImpl<$Res>
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,}) {
   return _then(_EnrolledCourse(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -842,9 +842,9 @@ as String,title: null == title ? _self.title : title // ignore: cast_nullable_to
 as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
-as String,matriculationNumber: null == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
-as String,
+as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,matriculationNumber: freezed == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

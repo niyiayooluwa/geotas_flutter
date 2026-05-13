@@ -41,9 +41,9 @@ abstract class EnrolledCourse with _$EnrolledCourse {
     required String title,
     required String code,
     required String department,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'created_at') required String createdAt,
     required String role,
-    @JsonKey(name: 'matriculation_number') required String matriculationNumber,
+    @JsonKey(name: 'matriculation_number') required String? matriculationNumber,
   }) = _EnrolledCourse;
 
   factory EnrolledCourse.fromJson(Map<String, dynamic> json) =>

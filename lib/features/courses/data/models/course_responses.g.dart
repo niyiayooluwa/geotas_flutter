@@ -52,9 +52,9 @@ _EnrolledCourse _$EnrolledCourseFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       code: json['code'] as String,
       department: json['department'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: json['created_at'] as String,
       role: json['role'] as String,
-      matriculationNumber: json['matriculation_number'] as String,
+      matriculationNumber: json['matriculation_number'] as String?,
     );
 
 Map<String, dynamic> _$EnrolledCourseToJson(_EnrolledCourse instance) =>
@@ -64,7 +64,7 @@ Map<String, dynamic> _$EnrolledCourseToJson(_EnrolledCourse instance) =>
       'title': instance.title,
       'code': instance.code,
       'department': instance.department,
-      'created_at': instance.createdAt.toIso8601String(),
+      'created_at': instance.createdAt,
       'role': instance.role,
       'matriculation_number': instance.matriculationNumber,
     };
