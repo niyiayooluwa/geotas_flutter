@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
+import 'package:geotas/features/auth/presentation/screens/register_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
@@ -47,22 +49,36 @@ GoRouter router(Ref ref) {
       //=========================
       // AUTHTENTICATION ROUTES
       //=========================
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+
       GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
-      /*GoRoute(
         path: '/register',
         builder: (context, state) => const RegisterScreen(),
-      ),*/
+      ),
 
-      
+      //=========================
+      // DASHBOARD ROUTES
+      //=========================
       GoRoute(
         path: '/dashboard',
-        builder: (context, state) =>
-            // Placeholder — will be replaced with role-based
-            // branching to LecturerDashboard or StudentDashboard.
-            const Scaffold(body: Center(child: Text('Dashboard Placeholder'))),
+        builder: (context, state) {
+          return Scaffold(
+            body: Center(
+              child: Consumer(
+                builder: (context, ref, _) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      final storage = ref.read(secureStorageProvider);
+                      await storage.deleteToken();
+                      if (context.mounted) context.go('/login');
+                    },
+                    child: const Text('Logout'),
+                  );
+                },
+              ),
+            ),
+          );
+        },
       ),
     ],
   );
