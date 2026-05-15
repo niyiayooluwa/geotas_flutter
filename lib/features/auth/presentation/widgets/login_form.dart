@@ -65,7 +65,7 @@ class LoginForm extends HookConsumerWidget {
                 label: const Text('Password'),
                 placeholder: const Text('••••••••'),
                 obscureText: !isVisible,
-                validator: (value) => validatePassword(value ?? ''),
+                validator: (value) => validatePassword(value),
                 trailing: GestureDetector(
                   onTap: () =>
                       form.isPasswordVisible.value = !isVisible,
