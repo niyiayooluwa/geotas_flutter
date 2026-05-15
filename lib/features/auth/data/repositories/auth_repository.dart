@@ -16,12 +16,13 @@ class AuthRepository {
   Future<Either<Failure, LoginResponse>> login(LoginRequest request) async {
     try {
       final response = await _dio.post('/auth/login', data: request.toJson());
-
       return Either.right(LoginResponse.fromJson(response.data));
     } on DioException catch (e) {
-      return Either.left(
-        ServerFailure(e.response?.data['message'] ?? 'Something went wrong'),
-      );
+      final data = e.response?.data;
+      final message = data is Map
+          ? data['message']?.toString()
+          : data?.toString();
+      return Either.left(ServerFailure(message ?? 'Something went wrong'));
     } catch (e) {
       return Either.left(OtherFailure(e.toString()));
     }
@@ -37,9 +38,11 @@ class AuthRepository {
       );
       return Either.right(RegisterResponse.fromJson(response.data));
     } on DioException catch (e) {
-      return Either.left(
-        ServerFailure(e.response?.data['message'] ?? 'Something went wrong'),
-      );
+      final data = e.response?.data;
+      final message = data is Map
+          ? data['message']?.toString()
+          : data?.toString();
+      return Either.left(ServerFailure(message ?? 'Something went wrong'));
     } catch (e) {
       return Either.left(OtherFailure(e.toString()));
     }
