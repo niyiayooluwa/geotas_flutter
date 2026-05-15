@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/features/auth/presentation/widgets/image_widget.dart';
 import 'package:geotas/features/auth/presentation/widgets/login_form.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -11,8 +12,7 @@ class LoginScreen extends HookConsumerWidget {
     return Scaffold(
       body: ShadResponsiveBuilder(
         builder: (context, breakpoint) {
-          final isDesktop =
-              breakpoint >= ShadTheme.of(context).breakpoints.md;
+          final isDesktop = breakpoint >= ShadTheme.of(context).breakpoints.md;
 
           return isDesktop
               ? const _LoginDesktopLayout()
@@ -28,14 +28,32 @@ class _LoginDesktopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 480),
-        child: ShadCard(
-          padding: const EdgeInsets.all(32),
-          child: const LoginForm(),
+    return Row(
+      children: [
+        // Left panel — image + copy
+        const Expanded(flex: 55, child: AuthImagePanel()),
+
+        // Right panel — form
+        Expanded(
+          flex: 45,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 48, vertical: 64),
+                child: const LoginForm(),
+              ),
+              /*child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 48,
+                  vertical: 64,
+                ),
+                child: const LoginForm(),
+              ),*/
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

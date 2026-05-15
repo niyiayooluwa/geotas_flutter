@@ -32,6 +32,7 @@ class RegisterForm extends HookConsumerWidget {
     return ShadForm(
       key: form.formKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -41,6 +42,7 @@ class RegisterForm extends HookConsumerWidget {
             style: ShadTheme.of(context).textTheme.h2,
           ),
           const SizedBox(height: 8),
+
           Text(
             "Let's get you set up!",
             style: ShadTheme.of(context).textTheme.muted,

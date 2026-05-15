@@ -32,14 +32,18 @@ class LoginForm extends HookConsumerWidget {
     return ShadForm(
       key: form.formKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Header
-          Text('Welcome back', style: ShadTheme.of(context).textTheme.h2),
+          Text(
+            'Welcome back to GEOTAS!',
+            style: ShadTheme.of(context).textTheme.h2,
+          ),
           const SizedBox(height: 8),
           Text(
-            'Sign in to your GEOTAS account',
+            'Sign in to your account',
             style: ShadTheme.of(context).textTheme.muted,
           ),
           const SizedBox(height: 32),
@@ -67,8 +71,7 @@ class LoginForm extends HookConsumerWidget {
                 obscureText: !isVisible,
                 validator: (value) => validatePassword(value),
                 trailing: GestureDetector(
-                  onTap: () =>
-                      form.isPasswordVisible.value = !isVisible,
+                  onTap: () => form.isPasswordVisible.value = !isVisible,
                   child: Icon(
                     isVisible ? Icons.visibility_off : Icons.visibility,
                     size: 18,
@@ -99,6 +102,7 @@ class LoginForm extends HookConsumerWidget {
                           }
                         }
                       },
+                width: double.infinity,
                 child: isLoading
                     ? const SizedBox(
                         height: 16,

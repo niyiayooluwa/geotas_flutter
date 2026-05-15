@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/features/auth/presentation/widgets/image_widget.dart';
 import 'package:geotas/features/auth/presentation/widgets/register_form.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -27,16 +28,31 @@ class _RegisterDesktopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 480),
-          child: ShadCard(
-            padding: const EdgeInsets.all(32),
-            child: const RegisterForm(),
+    return Row(
+      children: [
+        // Left panel — image + copy
+        const Expanded(
+          flex: 55,
+          child: AuthImagePanel(),
+        ),
+
+        // Right panel — form
+        Expanded(
+          flex: 45,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480, minWidth: 440),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 48,
+                  vertical: 64,
+                ),
+                child: const RegisterForm(),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
