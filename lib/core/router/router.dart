@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
+import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -43,27 +44,25 @@ GoRouter router(Ref ref) {
     },
 
     routes: <RouteBase>[
-      /*GoRoute(
-        path: '/login',
-        builder: (BuildContext context, GoRouterState state) {
-          return const AuthScreen();
-        },
-      ),
+      //=========================
+      // AUTHTENTICATION ROUTES
+      //=========================
       GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      /*GoRoute(
         path: '/register',
-        builder: (BuildContext context, GoRouterState state) {
-          return const AuthScreen();
-        },
+        builder: (context, state) => const RegisterScreen(),
       ),*/
+
+      
       GoRoute(
         path: '/dashboard',
-        builder: (BuildContext context, GoRouterState state) {
-          // Placeholder — will be replaced with role-based
-          // branching to LecturerDashboard or StudentDashboard.
-          return const Scaffold(
-            body: Center(child: Text('Dashboard Placeholder')),
-          );
-        },
+        builder: (context, state) =>
+            // Placeholder — will be replaced with role-based
+            // branching to LecturerDashboard or StudentDashboard.
+            const Scaffold(body: Center(child: Text('Dashboard Placeholder'))),
       ),
     ],
   );
