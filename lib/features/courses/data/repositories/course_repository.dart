@@ -113,6 +113,6 @@ class CourseRepository {
 }
 
 @riverpod
-CourseRepository courseRepository(CourseRepositoryRef ref) { 
+CourseRepository courseRepository(Ref ref) { 
   return CourseRepository(ref.watch(dioProvider));
 }
