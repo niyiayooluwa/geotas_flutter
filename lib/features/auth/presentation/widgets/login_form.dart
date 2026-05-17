@@ -7,7 +7,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 class LoginForm extends HookConsumerWidget {
-  const LoginForm({super.key});
+  const LoginForm({super.key, this.showLogo = true});
+
+  final bool showLogo;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +17,6 @@ class LoginForm extends HookConsumerWidget {
     final vm = ref.watch(loginProvider);
     final isLoading = vm.isLoading;
 
-    // Listen for errors and show toast
     ref.listen(loginProvider, (_, next) {
       next.whenOrNull(
         error: (error, _) {
@@ -36,17 +37,32 @@ class LoginForm extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header
+          // Logo mark
+          if (showLogo) ...[
+            SvgPicture.asset(
+            'assets/svgs/logo-black.svg',
+            height: 36,
+            fit: BoxFit.contain,
+            alignment: Alignment.centerLeft,
+          ),
+          const SizedBox(height: 28),
+          ],
+
+          // Heading — two-line heavy display style
           Text(
-            'Welcome back to GEOTAS!',
-            style: ShadTheme.of(context).textTheme.h2,
+            'Sign in to your\nAccount',
+            style: ShadTheme.of(context).textTheme.h1.copyWith(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  height: 1.15,
+                ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Sign in to your account',
+            'Enter your email and password to log in',
             style: ShadTheme.of(context).textTheme.muted,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 28),
 
           // Email field
           ShadInputFormField(
@@ -80,9 +96,10 @@ class LoginForm extends HookConsumerWidget {
               );
             },
           ),
+
           const SizedBox(height: 24),
 
-          // Submit button
+          // Submit button — blue, full width
           ValueListenableBuilder(
             valueListenable: form.isFormValid,
             builder: (context, isValid, _) {
@@ -109,11 +126,11 @@ class LoginForm extends HookConsumerWidget {
                         width: 16,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Sign in'),
+                    : const Text('Log In'),
               );
             },
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
 
           // Register link
           Row(
@@ -126,10 +143,12 @@ class LoginForm extends HookConsumerWidget {
               GestureDetector(
                 onTap: () => context.go('/register'),
                 child: Text(
-                  'Sign up',
-                  style: ShadTheme.of(
-                    context,
-                  ).textTheme.p.copyWith(decoration: TextDecoration.underline),
+                  'Sign Up',
+                  style: ShadTheme.of(context).textTheme.p.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.primary,
+                        decoration: TextDecoration.none,
+                      ),
                 ),
               ),
             ],

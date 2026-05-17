@@ -31,10 +31,7 @@ class _RegisterDesktopLayout extends StatelessWidget {
     return Row(
       children: [
         // Left panel — image + copy
-        const Expanded(
-          flex: 55,
-          child: AuthImagePanel(),
-        ),
+        const Expanded(flex: 55, child: AuthImagePanel()),
 
         // Right panel — form
         Expanded(
@@ -47,7 +44,7 @@ class _RegisterDesktopLayout extends StatelessWidget {
                   horizontal: 48,
                   vertical: 64,
                 ),
-                child: const RegisterForm(),
+                child: const RegisterForm(showLogo: false),
               ),
             ),
           ),
