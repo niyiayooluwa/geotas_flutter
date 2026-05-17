@@ -53,4 +53,4 @@ final class CourseRepositoryProvider
   }
 }
 
-String _$courseRepositoryHash() => r'e7ea4732443864456dff20bfe8bd633d633650d3';
+String _$courseRepositoryHash() => r'3b5e11bb90e5016bc30838eeaa15bb6c171cb539';
