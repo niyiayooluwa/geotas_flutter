@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/register_screen.dart';
+import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
@@ -25,7 +25,7 @@ GoRouter router(Ref ref) {
     // It checks SecureStorage for a token and enforces auth guards.
     // Returns a path to redirect to, or null to allow the navigation through.
     redirect: (BuildContext context, GoRouterState state) async {
-      final storage = ref.read(secureStorageProvider);
+      final storage = SecureStorage();
       final token = await storage.getToken();
 
       final bool isLoggedIn = token != null;
@@ -61,24 +61,7 @@ GoRouter router(Ref ref) {
       //=========================
       GoRoute(
         path: '/dashboard',
-        builder: (context, state) {
-          return Scaffold(
-            body: Center(
-              child: Consumer(
-                builder: (context, ref, _) {
-                  return ElevatedButton(
-                    onPressed: () async {
-                      final storage = ref.read(secureStorageProvider);
-                      await storage.deleteToken();
-                      if (context.mounted) context.go('/login');
-                    },
-                    child: const Text('Logout'),
-                  );
-                },
-              ),
-            ),
-          );
-        },
+        builder: (context, state) => const DashboardScreen(),
       ),
     ],
   );
