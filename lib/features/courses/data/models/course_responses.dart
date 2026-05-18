@@ -41,6 +41,7 @@ abstract class EnrolledCourse with _$EnrolledCourse {
     required String title,
     required String code,
     required String department,
+    @JsonKey(name: 'invite_code') required String inviteCode,
     @JsonKey(name: 'created_at') required String createdAt,
     required String role,
     @JsonKey(name: 'matriculation_number') String? matriculationNumber,
