@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geotas/core/router/widgets/bottom_nav.dart';
+import 'package:geotas/core/utils/date_formatter.dart';
+import 'package:geotas/features/auth/data/models/user_model.dart';
 import 'package:geotas/features/auth/providers/notifier/user_notifier.dart';
 import 'package:geotas/features/courses/presentation/widgets/add_course_sheet.dart';
 import 'package:geotas/features/courses/presentation/widgets/course_list.dart';
@@ -32,67 +34,84 @@ class MobileDashboardView extends HookConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Greeting
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Hi, ${user?.firstName ?? ''} 👋',
-                                style: ShadTheme.of(context).textTheme.h3,
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                'Your courses this semester',
-                                style: ShadTheme.of(context).textTheme.muted,
-                              ),
-                            ],
-                          ),
-                        ),
-                        UserAvatar(user: user),
-                      ],
-                    ),
+                    _MobileHeader(user: user),
                     const SizedBox(height: 24),
-
-                    // Courses header
-                    Row(
-                      children: [
-                        const Text(
-                          'Enrolled courses',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () => showAddCourseSheet(context),
-                          child: Text(
-                            '+ Add course',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-
-                    const CourseList(),
+                    const _MobileContent(),
                   ],
                 ),
               ),
             ),
           ),
-
-          // Bottom nav
           const BottomNav(),
         ],
       ),
+    );
+  }
+}
+
+class _MobileHeader extends StatelessWidget {
+  final UserModel? user;
+  const _MobileHeader({required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Good ${greeting()}, ${user?.firstName ?? ''}',
+                style: ShadTheme.of(context).textTheme.h3,
+              ),
+              const SizedBox(height: 2),
+              Text(
+                formattedDate(),
+                style: ShadTheme.of(context).textTheme.muted,
+              ),
+            ],
+          ),
+        ),
+        UserAvatar(user: user),
+      ],
+    );
+  }
+}
+
+class _MobileContent extends StatelessWidget {
+  const _MobileContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            const Text(
+              'Enrolled courses',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () => showAddCourseSheet(context),
+              child: Text(
+                '+ Add course',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        const CourseList(),
+      ],
     );
   }
 }
