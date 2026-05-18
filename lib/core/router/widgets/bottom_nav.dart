@@ -20,6 +20,7 @@ class BottomNav extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           BottomNavItem(icon: LucideIcons.layoutDashboard, label: 'Home', active: true),
+          BottomNavItem(icon: LucideIcons.book, label: 'Courses'),
           BottomNavItem(icon: LucideIcons.qrCode, label: 'Scan'),
           BottomNavItem(icon: LucideIcons.circleUser, label: 'Profile'),
         ],

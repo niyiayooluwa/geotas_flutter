@@ -49,6 +49,7 @@ class Sidebar extends ConsumerWidget {
             label: 'Dashboard',
             active: true,
           ),
+          const NavItem(icon: LucideIcons.book, label: 'My Courses'),
           const NavItem(icon: LucideIcons.calendar, label: 'Sessions'),
           const NavItem(icon: LucideIcons.chartColumn, label: 'Reports'),
 
