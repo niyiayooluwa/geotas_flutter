@@ -134,11 +134,11 @@ lib/
 │   │   └── providers/auth_provider.dart
 │   ├── courses/
 │   │   ├── data/
-│   │   │   ├── models/course_model.dart
+│   │   │   ├── models/course_responses.dart
 │   │   │   └── repositories/course_repository.dart
 │   │   ├── presentation/
 │   │   │   ├── screens/course_screen.dart
-│   │   │   └── widgets/course_widget.dart
+│   │   │   └── widgets/                     # modular course UI components
 │   │   └── providers/course_provider.dart
 │   ├── sessions/
 │   │   ├── data/
