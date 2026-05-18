@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geotas/core/utils/validators.dart';
 import 'package:geotas/features/auth/providers/notifier/register_notifier.dart';
 import 'package:geotas/features/auth/providers/state/register_state.dart';
