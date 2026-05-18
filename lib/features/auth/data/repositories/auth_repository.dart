@@ -65,7 +65,7 @@ class AuthRepository {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) {
   return AuthRepository(ref.watch(dioProvider));
 }

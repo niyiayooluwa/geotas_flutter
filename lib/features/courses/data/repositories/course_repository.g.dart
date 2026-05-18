@@ -26,7 +26,7 @@ final class CourseRepositoryProvider
         argument: null,
         retry: null,
         name: r'courseRepositoryProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -53,4 +53,4 @@ final class CourseRepositoryProvider
   }
 }
 
-String _$courseRepositoryHash() => r'3b5e11bb90e5016bc30838eeaa15bb6c171cb539';
+String _$courseRepositoryHash() => r'7f1aac7240198c47e2a8bfae2338965e1584f15c';

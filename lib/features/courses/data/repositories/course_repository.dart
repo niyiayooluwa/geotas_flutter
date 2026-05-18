@@ -8,7 +8,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'course_repository.g.dart';
 
-// Removed @riverpod from here so it's a normal class
 class CourseRepository {
   final Dio _dio;
 
@@ -17,18 +16,14 @@ class CourseRepository {
   Future<Either<Failure, List<CourseModel>>> getOwnedCourses() async {
     try {
       final response = await _dio.get('/courses');
-      final data = response.data as List<dynamic>;
-
+      final data = (response.data ?? []) as List<dynamic>;
       final courses = data
           .map((json) => CourseModel.fromJson(json as Map<String, dynamic>))
           .toList();
-
       return Either.right(courses);
     } on DioException catch (e) {
       return Either.left(
-        ServerFailure(
-          e.message ?? 'An error occurred connecting to the server',
-        ),
+        ServerFailure(e.message ?? 'An error occurred connecting to the server'),
       );
     } catch (e) {
       return Either.left(OtherFailure('Failed to process course data: $e'));
@@ -76,18 +71,14 @@ class CourseRepository {
   Future<Either<Failure, List<EnrolledCourse>>> getEnrolledCourses() async {
     try {
       final response = await _dio.get('/courses/enrolled');
-      final data = response.data as List<dynamic>;
-
+      final data = (response.data ?? []) as List<dynamic>;
       final courses = data
           .map((json) => EnrolledCourse.fromJson(json as Map<String, dynamic>))
           .toList();
-
       return Either.right(courses);
     } on DioException catch (e) {
       return Either.left(
-        ServerFailure(
-          e.message ?? 'An error occurred connecting to the server',
-        ),
+        ServerFailure(e.message ?? 'An error occurred connecting to the server'),
       );
     } catch (e) {
       return Either.left(OtherFailure('Failed to process course data: $e'));
@@ -112,7 +103,7 @@ class CourseRepository {
   }
 }
 
-@riverpod
-CourseRepository courseRepository(Ref ref) { 
+@Riverpod(keepAlive: true)
+CourseRepository courseRepository(Ref ref) {
   return CourseRepository(ref.watch(dioProvider));
 }
