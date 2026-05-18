@@ -4,7 +4,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_notifier.g.dart';
 
-@riverpod
+// keepAlive: true — this provider is set immediately after login and read
+// on every screen. autoDispose would tear it down between navigations.
+@Riverpod(keepAlive: true)
 class UserNotifier extends _$UserNotifier {
   @override
   FutureOr<UserModel?> build() => null;
@@ -14,8 +16,11 @@ class UserNotifier extends _$UserNotifier {
 
     final result = await ref.read(authRepositoryProvider).getMe();
 
+    if (!ref.mounted) return;
+
     state = result.fold(
-      ifLeft: (failure) => AsyncValue.error(failure.message, StackTrace.current),
+      ifLeft: (failure) =>
+          AsyncValue.error(failure.message, StackTrace.current),
       ifRight: (user) => AsyncValue.data(user),
     );
   }
