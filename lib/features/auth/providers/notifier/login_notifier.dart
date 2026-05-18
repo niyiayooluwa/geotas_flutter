@@ -1,6 +1,7 @@
 import 'package:geotas/features/auth/data/repositories/auth_repository.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:geotas/features/auth/data/models/auth_request.dart';
+import 'package:geotas/features/auth/providers/notifier/user_notifier.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_notifier.g.dart';
@@ -24,8 +25,14 @@ class LoginNotifier extends _$LoginNotifier {
         return false;
       },
       ifRight: (response) async {
+        // Save token first — the Dio interceptor picks it up immediately,
+        // so the /me request that follows will be authenticated.
         final storage = ref.read(secureStorageProvider);
         await storage.saveToken(response.token);
+
+        // Fetch and cache the user — dashboard can read this synchronously.
+        await ref.read(userProvider.notifier).fetch();
+
         state = const AsyncValue.data(null);
         return true;
       },

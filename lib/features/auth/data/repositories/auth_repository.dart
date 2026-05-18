@@ -4,6 +4,7 @@ import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
 import 'package:geotas/features/auth/data/models/auth_request.dart';
 import 'package:geotas/features/auth/data/models/auth_response.dart';
+import 'package:geotas/features/auth/data/models/user_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_repository.g.dart';
@@ -37,6 +38,21 @@ class AuthRepository {
         data: request.toJson(),
       );
       return Either.right(RegisterResponse.fromJson(response.data));
+    } on DioException catch (e) {
+      final data = e.response?.data;
+      final message = data is Map
+          ? data['message']?.toString()
+          : data?.toString();
+      return Either.left(ServerFailure(message ?? 'Something went wrong'));
+    } catch (e) {
+      return Either.left(OtherFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, UserModel>> getMe() async {
+    try {
+      final response = await _dio.get('/me');
+      return Either.right(UserModel.fromJson(response.data));
     } on DioException catch (e) {
       final data = e.response?.data;
       final message = data is Map
