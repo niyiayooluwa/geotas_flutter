@@ -1,30 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthInterceptor extends Interceptor {
-  final Ref _ref;
+  // Instantiate directly — no Ref needed, SecureStorage has no dependencies.
+  final _storage = SecureStorage();
 
-  AuthInterceptor(this._ref);
+  static const _bypassEndpoints = ['/auth/login', '/auth/register', '/health'];
 
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Endpoints that do NOT need a token
-    const bypassEndpoints = [
-      '/auth/login',
-      '/auth/register',
-      '/health',
-    ];
-
-    if (bypassEndpoints.contains(options.path)) {
+    if (_bypassEndpoints.contains(options.path)) {
       return handler.next(options);
     }
 
-    final storage = _ref.read(secureStorageProvider);
-    final token = await storage.getToken();
+    final token = await _storage.getToken();
 
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
@@ -36,7 +28,8 @@ class AuthInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode == 401) {
-      // TODO: Trigger logout and navigation via Ref
+      _storage.deleteToken();
+      // Navigation will be handled by the caller using the error response
     }
     handler.next(err);
   }

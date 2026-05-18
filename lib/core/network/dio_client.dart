@@ -5,7 +5,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_client.g.dart';
 
-@riverpod
+// keepAlive: true — Dio must never be disposed while requests are in flight.
+// Without this, autoDispose tears down the provider (and its Ref) between
+// navigations, causing "Ref used after disposal" errors in the interceptor.
+@Riverpod(keepAlive: true)
 Dio dio(Ref ref) {
   final dio = Dio(
     BaseOptions(
@@ -16,7 +19,7 @@ Dio dio(Ref ref) {
     ),
   );
 
-  dio.interceptors.add(AuthInterceptor(ref));
+  dio.interceptors.add(AuthInterceptor());
 
   return dio;
 }
