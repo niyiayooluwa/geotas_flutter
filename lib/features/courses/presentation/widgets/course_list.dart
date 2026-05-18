@@ -6,6 +6,7 @@ import 'package:geotas/features/courses/presentation/widgets/course_empty_state.
 import 'package:geotas/features/courses/presentation/widgets/course_error_state.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class CourseList extends ConsumerWidget {
   const CourseList({super.key});
@@ -51,15 +52,15 @@ class MobileCourseRow extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // TODO: navigate to course detail
+        // TODO: add ontap logic
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           border: Border.all(
-            color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
-            width: 0.5,
+            color: ShadTheme.of(context).colorScheme.border,
+            width: 2,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -106,6 +107,7 @@ class MobileCourseRow extends StatelessWidget {
                 ],
               ),
             ),
+
             Icon(
               Icons.chevron_right,
               size: 16,

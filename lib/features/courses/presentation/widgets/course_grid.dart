@@ -45,7 +45,9 @@ class CourseGrid extends ConsumerWidget {
             }
             return EnrolledCourseCard(
               course: courses[i],
-              onTap: () {},
+              onTap: () {
+                // TODO: add ontap logic
+              },
             );
           },
         );

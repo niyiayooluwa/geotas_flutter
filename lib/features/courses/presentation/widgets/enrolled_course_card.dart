@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geotas/core/utils/colors.dart';
 import 'package:geotas/features/courses/data/models/course_responses.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class EnrolledCourseCard extends StatelessWidget {
   const EnrolledCourseCard({super.key, required this.course, this.onTap});
@@ -19,7 +20,10 @@ class EnrolledCourseCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          border: Border.all(color: Theme.of(context).dividerColor, width: 1),
+          border: Border.all(
+            color: ShadTheme.of(context).colorScheme.border,
+            width: 2,
+          ),
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.all(16),

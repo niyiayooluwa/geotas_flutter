@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class AddCourseCard extends StatelessWidget {
   const AddCourseCard({super.key, required this.onTap});
@@ -13,8 +14,8 @@ class AddCourseCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           border: Border.all(
-            color: Theme.of(context).dividerColor.withValues(alpha: 0.4),
-            width: 0.5,
+            color: ShadTheme.of(context).colorScheme.border,
+            width: 2,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -23,7 +24,7 @@ class AddCourseCard extends StatelessWidget {
           children: [
             Icon(
               Icons.add,
-              size: 22,
+              size: 24,
               color: Theme.of(
                 context,
               ).colorScheme.onSurface.withValues(alpha: 0.4),
@@ -32,10 +33,10 @@ class AddCourseCard extends StatelessWidget {
             Text(
               'Add course',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 14,
                 color: Theme.of(
                   context,
-                ).colorScheme.onSurface.withValues(alpha: 0.4),
+                ).colorScheme.onSurface.withValues(alpha: 0.7),
               ),
             ),
           ],

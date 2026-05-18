@@ -33,7 +33,10 @@ class DesktopDashboardView extends HookConsumerWidget {
             children: [
               _DesktopHeader(user: user),
               const SizedBox(height: 8),
-              const ShadSeparator.horizontal(thickness: 4),
+              ShadSeparator.horizontal(
+                thickness: 0.5,
+                color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
+              ),
               const _DesktopContent(),
             ],
           ),
