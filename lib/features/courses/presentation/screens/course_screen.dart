@@ -9,15 +9,13 @@ class DashboardScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: ShadResponsiveBuilder(
-        builder: (context, breakpoint) {
-          final isDesktop = breakpoint >= ShadTheme.of(context).breakpoints.md;
-          return isDesktop
-              ? const DesktopDashboardView()
-              : const MobileDashboardView();
-        },
-      ),
+    return ShadResponsiveBuilder(
+      builder: (context, breakpoint) {
+        final isDesktop = breakpoint >= ShadTheme.of(context).breakpoints.md;
+        return isDesktop
+            ? const DesktopDashboardView()
+            : const MobileDashboardView();
+      },
     );
   }
 }
