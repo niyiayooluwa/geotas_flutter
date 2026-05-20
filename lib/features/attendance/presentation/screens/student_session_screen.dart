@@ -5,6 +5,7 @@ import 'package:geotas/features/attendance/data/models/attendance_requests.dart'
 import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
 import 'package:geotas/features/attendance/data/repositories/attendance_repository.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
+import 'package:geotas/features/sessions/data/models/session_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -43,7 +44,7 @@ class StudentSessionScreen extends HookConsumerWidget {
           ifRight: (_) {
             if (context.mounted) {
               ShadToaster.of(context).show(
-                const ShadToast(title: Text('Attendance marked successfully!')),
+                const ShadToast(description: Text('Attendance marked successfully!')),
               );
               Navigator.pop(context);
             }
@@ -108,7 +109,7 @@ class StudentSessionScreen extends HookConsumerWidget {
           ifRight: (_) {
             if (context.mounted) {
               ShadToaster.of(context).show(
-                const ShadToast(title: Text('Attendance marked successfully!')),
+                const ShadToast(description: Text('Attendance marked successfully!')),
               );
               Navigator.pop(context);
             }
@@ -129,80 +130,122 @@ class StudentSessionScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mark Attendance')),
       body: sessionAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, _) => Center(child: Text('Error: $err')),
         data: (session) {
           if (session == null) return const Center(child: Text('Session not found'));
           
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+          return SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _SessionHeader(session: session),
-                const SizedBox(height: 32),
-                
-                ShadButton(
-                  onPressed: isLoading.value ? null : () => _showScanner(context, markWithQR),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                // Custom Borderless Header
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
                     children: [
-                      Icon(LucideIcons.qrCode, size: 18),
-                      SizedBox(width: 10),
-                      Text('Scan QR Code'),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                
-                ShadButton.outline(
-                  onPressed: isLoading.value ? null : requestOTP,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(LucideIcons.key, size: 18),
-                      SizedBox(width: 10),
-                      Text('Request OTP'),
+                      const BackButton(),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'Mark Attendance',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                 ),
                 
-                if (otpResponse.value != null) ...[
-                  const SizedBox(height: 32),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          const Text('Your OTP Code', style: TextStyle(fontSize: 12)),
-                          Text(
-                            otpResponse.value!.otpCode,
-                            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 4),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _SessionHeader(session: session),
+                        const SizedBox(height: 48),
+                        
+                        ShadButton(
+                          size: ShadButtonSize.lg,
+                          onPressed: isLoading.value ? null : () => _showScanner(context, markWithQR),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(LucideIcons.qrCode, size: 20),
+                              SizedBox(width: 12),
+                              Text('Scan QR Code'),
+                            ],
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Expires at: ${otpResponse.value!.expiresAt}',
-                            style: const TextStyle(fontSize: 11, color: Colors.grey),
+                        ),
+                        const SizedBox(height: 16),
+                        
+                        // WARNING: Consider refactoring this logic for production
+                        ShadButton.outline(
+                          size: ShadButtonSize.lg,
+                          onPressed: isLoading.value ? null : requestOTP,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(LucideIcons.keySquare, size: 20),
+                              SizedBox(width: 12),
+                              Text('Request OTP'),
+                            ],
                           ),
-                          const SizedBox(height: 16),
-                          ShadInput(
-                            controller: otpController,
-                            placeholder: const Text('Enter OTP to verify'),
-                            keyboardType: TextInputType.number,
-                          ),
-                          const SizedBox(height: 12),
-                          ShadButton(
-                            onPressed: isLoading.value ? null : verifyOTP,
-                            width: double.infinity,
-                            child: const Text('Verify OTP'),
+                        ),
+                        
+                        if (otpResponse.value != null) ...[
+                          const SizedBox(height: 32),
+                          // Shadcn-style bordered container instead of Material Card
+                          Container(
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              border: Border.all(
+                                color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Your OTP Code', 
+                                  style: ShadTheme.of(context).textTheme.muted,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  otpResponse.value!.otpCode,
+                                  style: const TextStyle(
+                                    fontSize: 36, 
+                                    fontWeight: FontWeight.w800, 
+                                    letterSpacing: 8,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Expires at: ${otpResponse.value!.expiresAt}',
+                                  style: TextStyle(
+                                    fontSize: 11, 
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
+                                ),
+                                const SizedBox(height: 24),
+                                ShadInput(
+                                  controller: otpController,
+                                  placeholder: const Text('Enter OTP to verify'),
+                                  keyboardType: TextInputType.number,
+                                ),
+                                const SizedBox(height: 16),
+                                ShadButton(
+                                  onPressed: isLoading.value ? null : verifyOTP,
+                                  width: double.infinity,
+                                  child: const Text('Verify OTP'),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
-                      ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ],
             ),
           );
@@ -212,20 +255,30 @@ class StudentSessionScreen extends HookConsumerWidget {
   }
 
   void _showScanner(BuildContext context, Function(String) onScan) {
+    // 1. Initialize the controller so we can control the hardware lifecycle
+    final MobileScannerController cameraController = MobileScannerController();
+
     showShadDialog(
       context: context,
-      builder: (context) => ShadDialog(
+      builder: (dialogContext) => ShadDialog(
         title: const Text('Scan QR Code'),
         child: SizedBox(
           height: 300,
           width: 300,
+          //clipBehavior: Clip.antiAlias,
           child: MobileScanner(
-            onDetect: (capture) {
+            controller: cameraController,
+            onDetect: (capture) async {
               final List<Barcode> barcodes = capture.barcodes;
               for (final barcode in barcodes) {
                 if (barcode.rawValue != null) {
-                  Navigator.pop(context);
-                  onScan(barcode.rawValue!);
+                  // 2. STOP THE CAMERA HARDWARE FIRST!
+                  await cameraController.stop();
+                  
+                  if (dialogContext.mounted) {
+                    Navigator.pop(dialogContext);
+                    onScan(barcode.rawValue!);
+                  }
                   break;
                 }
               }
@@ -233,36 +286,63 @@ class StudentSessionScreen extends HookConsumerWidget {
           ),
         ),
       ),
-    );
+    ).then((_) {
+      // 3. Ensure hardware is disposed if user dismisses dialog by tapping outside
+      cameraController.dispose();
+    });
   }
 }
 
 class _SessionHeader extends StatelessWidget {
-  final dynamic session;
+  final SessionModel session; // Typed safely
+  
   const _SessionHeader({required this.session});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Icon(LucideIcons.calendarDays, size: 48),
-        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            LucideIcons.mapPin, 
+            size: 40, 
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const SizedBox(height: 24),
         Text(
           session.title.isEmpty ? 'Week ${session.weekNumber}' : session.title,
           style: ShadTheme.of(context).textTheme.h2,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: Colors.green.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.green.withValues(alpha: 0.5)),
+            border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
           ),
-          child: const Text(
-            'SESSION ACTIVE',
-            style: TextStyle(color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(LucideIcons.radio, size: 14, color: Colors.green),
+              SizedBox(width: 6),
+              Text(
+                'SESSION ACTIVE',
+                style: TextStyle(
+                  color: Colors.green, 
+                  fontSize: 11, 
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ],
           ),
         ),
       ],

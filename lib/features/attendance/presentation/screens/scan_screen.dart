@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geotas/core/utils/device_info_helper.dart';
@@ -18,6 +19,14 @@ class ScanScreen extends HookConsumerWidget {
     final isLoading = useState(false);
     final isScanned = useState(false);
 
+    // 1. Create a controller to safely manage the hardware feed
+    final cameraController = useMemoized(() => MobileScannerController());
+
+    // Safely dispose of the camera when the user leaves the screen entirely
+    useEffect(() {
+      return () => cameraController.dispose();
+    }, const []);
+
     Future<void> processToken(String scannedValue) async {
       if (isScanned.value) return;
 
@@ -28,24 +37,23 @@ class ScanScreen extends HookConsumerWidget {
       isLoading.value = true;
       error.value = null;
 
+      // 2. PAUSE THE HARDWARE: Freeze the camera feed before doing anything else
+      await cameraController.stop();
+
       try {
         String tokenToDecode = rawToken;
 
-        // If it's a URL, try to extract the token parameter
         if (rawToken.startsWith('http')) {
           try {
             final uri = Uri.parse(rawToken);
             tokenToDecode = uri.queryParameters['token'] ?? rawToken;
-          } catch (_) {
-            // Not a valid URI, proceed with raw string
-          }
+          } catch (_) {}
         }
 
         final claims = _decodeJWT(tokenToDecode);
         final sessionId = claims['session_id'] as String?;
         if (sessionId == null) throw 'Token does not contain session ID';
 
-        // Collect data and mark
         final data = await DeviceInfoHelper.getCollectionData();
         final request = MarkAttendanceQRRequest(
           sessionId: sessionId,
@@ -58,8 +66,9 @@ class ScanScreen extends HookConsumerWidget {
           mockLocationDetected: data['mockLocationDetected'],
         );
 
-        final markResult =
-            await ref.read(attendanceRepositoryProvider).markWithQR(request);
+        final markResult = await ref
+            .read(attendanceRepositoryProvider)
+            .markWithQR(request);
 
         markResult.fold(
           ifLeft: (failure) => throw failure.message,
@@ -74,72 +83,28 @@ class ScanScreen extends HookConsumerWidget {
       }
     }
 
-    if (isLoading.value) {
-      return const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 16),
-              Text('Processing attendance...'),
-            ],
-          ),
-        ),
-      );
-    }
-
-    if (result.value != null || error.value != null) {
-      return Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      result.value != null
-                          ? LucideIcons.circleCheck
-                          : LucideIcons.circleX,
-                      size: 64,
-                      color: result.value != null ? Colors.green : Colors.red,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      result.value != null ? 'Success!' : 'Error',
-                      style: ShadTheme.of(context).textTheme.h2,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      result.value ?? error.value ?? '',
-                      textAlign: TextAlign.center,
-                      style: ShadTheme.of(context).textTheme.muted,
-                    ),
-                    const SizedBox(height: 24),
-                    ShadButton(
-                      onPressed: () {
-                        result.value = null;
-                        error.value = null;
-                        isScanned.value = false;
-                      },
-                      child: const Text('Scan Again'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
+    void resetScanner() {
+      result.value = null;
+      error.value = null;
+      isScanned.value = false;
+      // Restart the camera feed so they can try again
+      cameraController.start();
     }
 
     return Scaffold(
+      // Ensure the scaffold extends behind the app bar for a full-screen camera look
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      // 3. Keep everything in a Stack so the camera never unmounts
       body: Stack(
         children: [
+          // --- The Camera Layer ---
           MobileScanner(
+            controller: cameraController,
             onDetect: (capture) {
               final barcodes = capture.barcodes;
               for (final barcode in barcodes) {
@@ -150,39 +115,156 @@ class ScanScreen extends HookConsumerWidget {
               }
             },
           ),
-          // Overlay UI
+
+          // --- The Cutout Overlay Layer ---
           Positioned.fill(
             child: Container(
               decoration: ShapeDecoration(
                 shape: QrScannerOverlayShape(
                   borderColor: ShadTheme.of(context).colorScheme.primary,
-                  borderRadius: 10,
-                  borderLength: 30,
-                  borderWidth: 10,
-                  cutOutSize: 250,
+                  borderRadius: 12,
+                  borderLength: 32,
+                  borderWidth: 8,
+                  cutOutSize: 280,
                 ),
               ),
             ),
           ),
-          Positioned(
-            top: 60,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.black54,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Scan the session QR code',
-                  style:
-                      TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+
+          // --- Text Prompt ---
+          if (!isLoading.value && result.value == null && error.value == null)
+            Positioned(
+              top: 100,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'Position QR code in frame',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             ),
+
+          // --- The Frosted Glass Loading/Result Overlay ---
+          if (isLoading.value || result.value != null || error.value != null)
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.4),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: _buildOverlayState(
+                        context,
+                        isLoading.value,
+                        result.value,
+                        error.value,
+                        resetScanner,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  // Extracted to keep the build method clean
+  Widget _buildOverlayState(
+    BuildContext context,
+    bool isLoading,
+    String? result,
+    String? error,
+    VoidCallback onReset,
+  ) {
+    if (isLoading) {
+      return Container(
+        padding: const EdgeInsets.all(32),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 24),
+            Text(
+              'Verifying Location...',
+              style: ShadTheme.of(context).textTheme.h4,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Please do not close the app.',
+              style: ShadTheme.of(context).textTheme.muted,
+            ),
+          ],
+        ),
+      );
+    }
+
+    final isSuccess = result != null;
+
+    return Container(
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isSuccess
+              ? Colors.green.withValues(alpha: 0.3)
+              : Colors.red.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isSuccess ? LucideIcons.circleCheckBig : LucideIcons.circleX,
+            size: 64,
+            color: isSuccess ? Colors.green : Colors.red,
           ),
+          const SizedBox(height: 24),
+          Text(
+            isSuccess ? 'Success!' : 'Failed',
+            style: ShadTheme.of(context).textTheme.h3,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            result ?? error ?? '',
+            textAlign: TextAlign.center,
+            style: ShadTheme.of(context).textTheme.muted,
+          ),
+          const SizedBox(height: 32),
+
+          if (isSuccess)
+            ShadButton(
+              width: double.infinity,
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Return to Dashboard'),
+            )
+          else
+            ShadButton.outline(
+              width: double.infinity,
+              onPressed: onReset,
+              child: const Text('Try Again'),
+            ),
         ],
       ),
     );
@@ -192,11 +274,10 @@ class ScanScreen extends HookConsumerWidget {
     try {
       final parts = token.split('.');
       if (parts.length != 3) {
-        throw 'Invalid format (parts: ${parts.length}). Verify you are scanning a GEOTAS QR code.';
+        throw 'Invalid format. Verify you are scanning a GEOTAS QR code.';
       }
 
       final payload = parts[1];
-      // JWT payloads are base64Url encoded without padding.
       var normalized = payload.replaceAll('-', '+').replaceAll('_', '/');
       while (normalized.length % 4 != 0) {
         normalized += '=';
@@ -255,7 +336,8 @@ class QrScannerOverlayShape extends ShapeBorder {
         PathOperation.difference,
         Path()..addRect(rect),
         Path()..addRRect(
-            RRect.fromRectAndRadius(cutOutRect, Radius.circular(borderRadius))),
+          RRect.fromRectAndRadius(cutOutRect, Radius.circular(borderRadius)),
+        ),
       ),
       backgroundPaint,
     );
@@ -271,29 +353,37 @@ class QrScannerOverlayShape extends ShapeBorder {
     // Top Left
     path.moveTo(cutOutRect.left, cutOutRect.top + borderLength);
     path.lineTo(cutOutRect.left, cutOutRect.top + borderRadius);
-    path.arcToPoint(Offset(cutOutRect.left + borderRadius, cutOutRect.top),
-        radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(cutOutRect.left + borderRadius, cutOutRect.top),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(cutOutRect.left + borderLength, cutOutRect.top);
 
     // Top Right
     path.moveTo(cutOutRect.right - borderLength, cutOutRect.top);
     path.lineTo(cutOutRect.right - borderRadius, cutOutRect.top);
-    path.arcToPoint(Offset(cutOutRect.right, cutOutRect.top + borderRadius),
-        radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(cutOutRect.right, cutOutRect.top + borderRadius),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(cutOutRect.right, cutOutRect.top + borderLength);
 
     // Bottom Right
     path.moveTo(cutOutRect.right, cutOutRect.bottom - borderLength);
     path.lineTo(cutOutRect.right, cutOutRect.bottom - borderRadius);
-    path.arcToPoint(Offset(cutOutRect.right - borderRadius, cutOutRect.bottom),
-        radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(cutOutRect.right - borderRadius, cutOutRect.bottom),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(cutOutRect.right, cutOutRect.bottom - borderLength);
 
     // Bottom Left
     path.moveTo(cutOutRect.left + borderLength, cutOutRect.bottom);
     path.lineTo(cutOutRect.left + borderRadius, cutOutRect.bottom);
-    path.arcToPoint(Offset(cutOutRect.left, cutOutRect.bottom - borderRadius),
-        radius: Radius.circular(borderRadius));
+    path.arcToPoint(
+      Offset(cutOutRect.left, cutOutRect.bottom - borderRadius),
+      radius: Radius.circular(borderRadius),
+    );
     path.lineTo(cutOutRect.left, cutOutRect.bottom - borderLength);
 
     canvas.drawPath(path, borderPaint);
