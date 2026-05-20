@@ -31,29 +31,32 @@ class ProfileScreen extends ConsumerWidget {
             child: Column(
               children: [
                 const SizedBox(height: 20),
+
                 Center(child: UserAvatar(user: user)),
                 const SizedBox(height: 16),
+
                 Text(
                   '${user.firstName} ${user.lastName}',
                   style: ShadTheme.of(context).textTheme.h2,
                 ),
-                Text(
-                  user.email,
-                  style: ShadTheme.of(context).textTheme.muted,
-                ),
+
+                Text(user.email, style: ShadTheme.of(context).textTheme.muted),
                 const SizedBox(height: 32),
+
                 _ProfileInfoCard(
                   label: 'Department',
                   value: user.department,
                   icon: LucideIcons.building2,
                 ),
                 const SizedBox(height: 12),
+
                 _ProfileInfoCard(
                   label: 'Account Created',
                   value: formattedDate,
                   icon: LucideIcons.calendar,
                 ),
                 const SizedBox(height: 40),
+
                 ShadButton.destructive(
                   width: double.infinity,
                   onPressed: () async {
@@ -96,7 +99,11 @@ class _ProfileInfoCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: ShadTheme.of(context).colorScheme.primary),
+          Icon(
+            icon,
+            size: 20,
+            color: ShadTheme.of(context).colorScheme.primary,
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -126,4 +133,3 @@ class _ProfileInfoCard extends StatelessWidget {
     );
   }
 }
-
