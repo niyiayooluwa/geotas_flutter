@@ -7,6 +7,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+// Assuming you import your model here:
+import 'package:geotas/features/sessions/data/models/session_model.dart';
+
 class ActiveSessionScreen extends HookConsumerWidget {
   final String sessionId;
 
@@ -16,22 +19,35 @@ class ActiveSessionScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionAsync = ref.watch(sessionDetailsProvider(sessionId));
 
-    return sessionAsync.when(
-      loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (err, stack) => Scaffold(body: Center(child: Text('Error: $err'))),
-      data: (session) {
-        if (session == null) {
-          return const Scaffold(body: Center(child: Text('Session not found')));
-        }
-        return _ActiveSessionContent(session: session);
-      },
+    // Notice we wrap the ENTIRE AsyncValue return inside a single Scaffold root.
+    // This prevents layout crashes during the loading/error phases.
+    return Scaffold(
+      body: sessionAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
+        data: (session) {
+          if (session == null) {
+            return const Center(child: Text('Session not found'));
+          }
+
+          // If the session is accidentally closed by another device,
+          // this safety check boots the user out gracefully instead of crashing.
+          if (session.status != 'active') {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) Navigator.pop(context);
+            });
+            return const Center(child: Text('Session closed.'));
+          }
+
+          return _ActiveSessionContent(session: session);
+        },
+      ),
     );
   }
 }
 
 class _ActiveSessionContent extends HookConsumerWidget {
-  final dynamic session;
+  final SessionModel session; // Upgraded from dynamic
 
   const _ActiveSessionContent({required this.session});
 
@@ -43,27 +59,30 @@ class _ActiveSessionContent extends HookConsumerWidget {
     final timeLeft = useState(session.qrRotationSecs);
     final isClosing = useState(false);
 
-    useEffect(() {
-      final qrTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (timeLeft.value > 1) {
-          timeLeft.value--;
-        } else {
-          timeLeft.value = session.qrRotationSecs;
-          ref.invalidate(sessionQRTokenProvider(session.id));
-        }
-      });
+    useEffect(
+      () {
+        final qrTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+          if (timeLeft.value > 1) {
+            timeLeft.value--;
+          } else {
+            timeLeft.value = session.qrRotationSecs;
+            ref.invalidate(sessionQRTokenProvider(session.id));
+          }
+        });
 
-      final attendanceTimer = Timer.periodic(const Duration(seconds: 5), (
-        timer,
-      ) {
-        ref.invalidate(sessionAttendanceProvider(session.id));
-      });
+        final attendanceTimer = Timer.periodic(const Duration(seconds: 5), (
+          timer,
+        ) {
+          ref.invalidate(sessionAttendanceProvider(session.id));
+        });
 
-      return () {
-        qrTimer.cancel();
-        attendanceTimer.cancel();
-      };
-    }, [session.id]);
+        return () {
+          qrTimer.cancel();
+          attendanceTimer.cancel();
+        };
+      },
+      [session.id, session.qrRotationSecs],
+    ); // Added qrRotationSecs to the dependency array
 
     Future<void> handleClose() async {
       isClosing.value = true;
@@ -71,8 +90,11 @@ class _ActiveSessionContent extends HookConsumerWidget {
         await ref
             .read(courseSessionsProvider(session.courseId).notifier)
             .closeSession(session.id);
-        if (context.mounted) Navigator.pop(context);
+
+        // Let the parent ActiveSessionScreen's session.status check handle the routing!
+        // We do NOT pop the navigator here manually, avoiding race conditions.
       } catch (e) {
+        isClosing.value = false; // Only reset if there's an error
         if (context.mounted) {
           ShadToaster.of(context).show(
             ShadToast.destructive(
@@ -81,156 +103,188 @@ class _ActiveSessionContent extends HookConsumerWidget {
             ),
           );
         }
-      } finally {
-        isClosing.value = false;
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          session.title.isEmpty ? 'Week ${session.weekNumber}' : session.title,
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: const Text(
-                  'LIVE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            // QR Code Section
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    qrTokenAsync.when(
-                      loading: () => const SizedBox(
-                        height: 200,
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                      error: (err, _) => SizedBox(
-                        height: 200,
-                        child: Center(child: Text('Error: $err')),
-                      ),
-                      data: (token) => QrImageView(
-                        data: token.token,
-                        version: QrVersions.auto,
-                        size: 200.0,
-                        eyeStyle: const QrEyeStyle(
-                          eyeShape: QrEyeShape.square,
-                          color: Colors.black,
-                        ),
-                        dataModuleStyle: const QrDataModuleStyle(
-                          dataModuleShape: QrDataModuleShape.square,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Next rotation in ${timeLeft.value}s',
-                      style: ShadTheme.of(context).textTheme.muted,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-
-            // Attendance List Header
-            Row(
+    // Since the parent holds the Scaffold, this widget just returns a Column
+    return Column(
+      children: [
+        // App Bar equivalent inside the body
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
               children: [
-                Text(
-                  'Live Attendance',
-                  style: ShadTheme.of(context).textTheme.h3,
-                ),
-                const Spacer(),
-                attendanceAsync.when(
-                  data: (list) => Text(
-                    '${list.length} present',
-                    style: ShadTheme.of(context).textTheme.muted,
+                const BackButton(),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    session.title.isEmpty
+                        ? 'Week ${session.weekNumber}'
+                        : session.title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  loading: () => const SizedBox.shrink(),
-                  error: (_, _) => const SizedBox.shrink(),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: const Text(
+                    'LIVE',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+          ),
+        ),
 
-            // Attendance List
-            attendanceAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, _) => Center(child: Text('Error: $err')),
-              data: (list) {
-                if (list.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: Text(
-                        'No one has checked in yet',
+        // The rest of your content
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                // QR Code Section
+                Card(
+                  clipBehavior: Clip.antiAlias, // Ensures sharp edges
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        qrTokenAsync.when(
+                          loading: () => const SizedBox(
+                            height: 200,
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                          error: (err, _) => SizedBox(
+                            height: 200,
+                            child: Center(child: Text('Error: $err')),
+                          ),
+                          data: (token) => QrImageView(
+                            data: token.token,
+                            version: QrVersions.auto,
+                            size: 200.0,
+                            // Inverted QR colors for dark mode compatibility
+                            backgroundColor: Colors.white,
+                            eyeStyle: const QrEyeStyle(
+                              eyeShape: QrEyeShape.square,
+                              color: Colors.black,
+                            ),
+                            dataModuleStyle: const QrDataModuleStyle(
+                              dataModuleShape: QrDataModuleShape.square,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Next rotation in ${timeLeft.value}s',
+                          style: ShadTheme.of(context).textTheme.muted,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+
+                // ... (Keep the rest of your Attendance List UI exactly the same)
+
+                // Attendance List Header
+                Row(
+                  children: [
+                    Text(
+                      'Live Attendance',
+                      style: ShadTheme.of(context).textTheme.h3,
+                    ),
+                    const Spacer(),
+                    attendanceAsync.when(
+                      data: (list) => Text(
+                        '${list.length} present',
                         style: ShadTheme.of(context).textTheme.muted,
                       ),
+                      loading: () => const SizedBox.shrink(),
+                      error: (_, _) => const SizedBox.shrink(),
                     ),
-                  );
-                }
-                return ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: list.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final item = list[index];
-                    return _AttendanceRow(item: item);
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Attendance List
+                attendanceAsync.when(
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (err, _) => Center(child: Text('Error: $err')),
+                  data: (list) {
+                    if (list.isEmpty) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 32),
+                          child: Text(
+                            'No one has checked in yet',
+                            style: ShadTheme.of(context).textTheme.muted,
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: list.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
+                      itemBuilder: (context, index) {
+                        final item = list[index];
+                        return _AttendanceRow(item: item);
+                      },
+                    );
                   },
-                );
-              },
-            ),
+                ),
 
-            const SizedBox(height: 40),
+                const SizedBox(height: 40),
 
-            // Close Session Button
-            ShadButton.destructive(
-              width: double.infinity,
-              onPressed: isClosing.value ? null : handleClose,
-              child: isClosing.value
-                  ? const SizedBox(
-                      height: 16,
-                      width: 16,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Text('Close Session'),
+                // Close Session Button
+                ShadButton.destructive(
+                  width: double.infinity,
+                  onPressed: isClosing.value ? null : handleClose,
+                  child: isClosing.value
+                      ? const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text('Close Session'),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
 
+// ... Keep your _AttendanceRow exactly as it is.
 class _AttendanceRow extends StatelessWidget {
   final DetailedAttendanceModel item;
 
