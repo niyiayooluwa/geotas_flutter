@@ -14,7 +14,11 @@ class Sidebar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final location = GoRouterState.of(context).uri.toString();
 
-    final isCurrentThemeDark = Theme.of(context).brightness == Brightness.dark;
+    final isCurrentThemeDark =
+        MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    final logo = isCurrentThemeDark
+        ? 'assets/svgs/logo-white.svg'
+        : 'assets/svgs/logo-black.svg';
 
     return Container(
       height: double.infinity,
@@ -31,13 +35,7 @@ class Sidebar extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Brand
-          SvgPicture.asset(
-            isCurrentThemeDark
-                ? 'assets/svgs/logo-black.svg'
-                : 'assets/svgs/logo-white.svg',
-            fit: BoxFit.contain,
-            height: 40,
-          ),
+          SvgPicture.asset(logo, fit: BoxFit.contain, height: 40),
           const SizedBox(height: 4),
           Text(
             'Attendance portal',
@@ -61,15 +59,29 @@ class Sidebar extends ConsumerWidget {
             icon: LucideIcons.book,
             label: 'My Courses',
             active: location.startsWith('/courses'),
-            onTap: () =>
-                context.go('/dashboard'), // For now, dashboard lists courses
+            onTap: () => context.go('/courses'),
           ),
-          const _SidebarItem(icon: LucideIcons.calendar, label: 'Sessions'),
-          const _SidebarItem(icon: LucideIcons.chartColumn, label: 'Reports'),
+          _SidebarItem(
+            icon: LucideIcons.calendar,
+            label: 'Sessions',
+            active: location == '/sessions',
+            onTap: () => context.go('/sessions'),
+          ),
+          _SidebarItem(
+            icon: LucideIcons.chartColumn,
+            label: 'Reports',
+            active: location == '/reports',
+            onTap: () => context.go('/reports'),
+          ),
 
           const Spacer(),
 
-          const _SidebarItem(icon: LucideIcons.settings, label: 'Settings'),
+          _SidebarItem(
+            icon: LucideIcons.settings,
+            label: 'Settings',
+            active: location == '/settings',
+            onTap: () => context.go('/settings'),
+          ),
 
           // Sign out
           GestureDetector(

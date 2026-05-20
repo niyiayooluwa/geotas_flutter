@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-class SessionScreen extends StatelessWidget {
-  const SessionScreen({super.key});
+class ScanScreen extends StatelessWidget {
+  const ScanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +11,15 @@ class SessionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(LucideIcons.calendar, size: 48),
+            const Icon(LucideIcons.qrCode, size: 48),
             const SizedBox(height: 16),
             Text(
-              'Sessions',
+              'Scan QR Code',
               style: ShadTheme.of(context).textTheme.h2,
             ),
             const SizedBox(height: 8),
             Text(
-              'Attendance sessions will appear here.',
+              'The QR scanner will open here.',
               style: ShadTheme.of(context).textTheme.muted,
             ),
           ],

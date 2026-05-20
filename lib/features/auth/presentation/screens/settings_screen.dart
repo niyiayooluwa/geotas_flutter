@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-class SessionScreen extends StatelessWidget {
-  const SessionScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +11,12 @@ class SessionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(LucideIcons.calendar, size: 48),
+            const Icon(LucideIcons.settings, size: 48),
             const SizedBox(height: 16),
-            Text(
-              'Sessions',
-              style: ShadTheme.of(context).textTheme.h2,
-            ),
+            Text('Settings', style: ShadTheme.of(context).textTheme.h2),
             const SizedBox(height: 8),
             Text(
-              'Attendance sessions will appear here.',
+              'App settings and preferences.',
               style: ShadTheme.of(context).textTheme.muted,
             ),
           ],

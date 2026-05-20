@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geotas/core/router/widgets/app_layout.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
+import 'package:geotas/features/attendance/presentation/screens/reports_screen.dart';
+import 'package:geotas/features/attendance/presentation/screens/scan_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
+import 'package:geotas/features/auth/presentation/screens/profile_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/register_screen.dart';
+import 'package:geotas/features/auth/presentation/screens/settings_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
+import 'package:geotas/features/sessions/presentation/screens/session_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -69,11 +74,35 @@ GoRouter router(Ref ref) {
             builder: (context, state) => const DashboardScreen(),
           ),
           GoRoute(
+            path: '/courses',
+            builder: (context, state) => const DashboardScreen(),
+          ),
+          GoRoute(
             path: '/courses/:id',
             builder: (context, state) {
               final id = state.pathParameters['id']!;
               return CourseDetailScreen(courseId: id);
             },
+          ),
+          GoRoute(
+            path: '/sessions',
+            builder: (context, state) => const SessionScreen(),
+          ),
+          GoRoute(
+            path: '/reports',
+            builder: (context, state) => const ReportsScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfileScreen(),
+          ),
+          GoRoute(
+            path: '/scan',
+            builder: (context, state) => const ScanScreen(),
           ),
         ],
       ),

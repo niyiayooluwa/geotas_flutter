@@ -1,3 +1,7 @@
+// -----------------------------------------------------------------------------
+// IMPORTS
+// -----------------------------------------------------------------------------
+
 import 'package:flutter/material.dart';
 import 'package:geotas/core/utils/date_formatter.dart';
 import 'package:geotas/features/auth/data/models/user_model.dart';
@@ -7,6 +11,10 @@ import 'package:geotas/features/courses/presentation/widgets/user_avatar.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+
+// -----------------------------------------------------------------------------
+// DESKTOP DASHBOARD VIEW
+// -----------------------------------------------------------------------------
 
 class DesktopDashboardView extends HookConsumerWidget {
   const DesktopDashboardView({super.key});
@@ -33,6 +41,10 @@ class DesktopDashboardView extends HookConsumerWidget {
     );
   }
 }
+
+// -----------------------------------------------------------------------------
+// DESKTOP HEADER
+// -----------------------------------------------------------------------------
 
 class _DesktopHeader extends StatelessWidget {
   final UserModel? user;
@@ -66,6 +78,10 @@ class _DesktopHeader extends StatelessWidget {
     );
   }
 }
+
+// -----------------------------------------------------------------------------
+// DESKTOP CONTENT
+// -----------------------------------------------------------------------------
 
 class _DesktopContent extends ConsumerWidget {
   const _DesktopContent();
