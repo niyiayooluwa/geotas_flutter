@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/router/widgets/app_layout.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/register_screen.dart';
+import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -57,11 +59,23 @@ GoRouter router(Ref ref) {
       ),
 
       //=========================
-      // DASHBOARD ROUTES
+      // AUTHENTICATED ROUTES (With persistent layout)
       //=========================
-      GoRoute(
-        path: '/dashboard',
-        builder: (context, state) => const DashboardScreen(),
+      ShellRoute(
+        builder: (context, state, child) => AppLayout(child: child),
+        routes: [
+          GoRoute(
+            path: '/dashboard',
+            builder: (context, state) => const DashboardScreen(),
+          ),
+          GoRoute(
+            path: '/courses/:id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return CourseDetailScreen(courseId: id);
+            },
+          ),
+        ],
       ),
     ],
   );
