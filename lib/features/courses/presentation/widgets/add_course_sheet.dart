@@ -4,8 +4,7 @@ import 'package:geotas/features/courses/presentation/widgets/join_course_dialog.
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 void showAddCourseSheet(BuildContext context) {
-  showShadSheet(
-    side: ShadSheetSide.bottom,
+  showShadDialog(
     context: context,
     builder: (_) => const AddCourseSheet(),
   );
@@ -21,7 +20,8 @@ class AddCourseSheet extends StatelessWidget {
       child: ShadDialog(
         title: const Text('Add a Course'),
         description: const Text(
-          'Create a new course or join one with an invite code',
+          'Create or join a course with an invite code',
+          textAlign: TextAlign.left,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -42,7 +42,7 @@ class AddCourseSheet extends StatelessWidget {
             _SheetOption(
               icon: LucideIcons.logIn,
               title: 'Join a course',
-              subtitle: 'Enter an invite code from your lecturer',
+              subtitle: 'Enter the course invite code',
               onTap: () {
                 Navigator.pop(context);
                 showJoinCourseDialog(context);
