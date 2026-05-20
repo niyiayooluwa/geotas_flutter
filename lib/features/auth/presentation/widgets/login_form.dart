@@ -16,6 +16,11 @@ class LoginForm extends HookConsumerWidget {
     final form = useLoginForm();
     final vm = ref.watch(loginProvider);
     final isLoading = vm.isLoading;
+    final isCurrentThemeDark =
+        MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    final logo = isCurrentThemeDark
+        ? 'assets/svgs/logo-white.svg'
+        : 'assets/svgs/logo-black.svg';
 
     ref.listen(loginProvider, (_, next) {
       next.whenOrNull(
@@ -40,22 +45,22 @@ class LoginForm extends HookConsumerWidget {
           // Logo mark
           if (showLogo) ...[
             SvgPicture.asset(
-            'assets/svgs/logo-black.svg',
-            height: 36,
-            fit: BoxFit.contain,
-            alignment: Alignment.centerLeft,
-          ),
-          const SizedBox(height: 28),
+              logo,
+              height: 36,
+              fit: BoxFit.contain,
+              alignment: Alignment.centerLeft,
+            ),
+            const SizedBox(height: 28),
           ],
 
           // Heading — two-line heavy display style
           Text(
             'Sign in to your\nAccount',
             style: ShadTheme.of(context).textTheme.h1.copyWith(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
-                  height: 1.15,
-                ),
+              fontSize: 30,
+              fontWeight: FontWeight.w800,
+              height: 1.15,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
@@ -145,10 +150,10 @@ class LoginForm extends HookConsumerWidget {
                 child: Text(
                   'Sign Up',
                   style: ShadTheme.of(context).textTheme.p.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.primary,
-                        decoration: TextDecoration.none,
-                      ),
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.primary,
+                    decoration: TextDecoration.none,
+                  ),
                 ),
               ),
             ],

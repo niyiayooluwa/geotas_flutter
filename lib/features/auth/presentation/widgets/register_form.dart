@@ -16,6 +16,11 @@ class RegisterForm extends HookConsumerWidget {
     final form = useRegisterForm();
     final vm = ref.watch(registerProvider);
     final isLoading = vm.isLoading;
+    final isCurrentThemeDark =
+        MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    final logo = isCurrentThemeDark
+        ? 'assets/svgs/logo-white.svg'
+        : 'assets/svgs/logo-black.svg';
 
     ref.listen(registerProvider, (_, next) {
       next.whenOrNull(
@@ -40,7 +45,7 @@ class RegisterForm extends HookConsumerWidget {
           // Logo mark — hidden on desktop where the left panel already shows it
           if (showLogo) ...[
             SvgPicture.asset(
-              'assets/svgs/logo-black.svg',
+              logo,
               height: 36,
               fit: BoxFit.contain,
               alignment: Alignment.centerLeft,
@@ -52,10 +57,10 @@ class RegisterForm extends HookConsumerWidget {
           Text(
             'Create your\nAccount',
             style: ShadTheme.of(context).textTheme.h1.copyWith(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
-                  height: 1.15,
-                ),
+              fontSize: 30,
+              fontWeight: FontWeight.w800,
+              height: 1.15,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
@@ -149,8 +154,7 @@ class RegisterForm extends HookConsumerWidget {
                     ? 'Passwords do not match'
                     : null,
                 trailing: GestureDetector(
-                  onTap: () =>
-                      form.isConfirmPasswordVisible.value = !isVisible,
+                  onTap: () => form.isConfirmPasswordVisible.value = !isVisible,
                   child: Icon(
                     isVisible ? Icons.visibility_off : Icons.visibility,
                     size: 18,
@@ -173,11 +177,10 @@ class RegisterForm extends HookConsumerWidget {
                           final success = await ref
                               .read(registerProvider.notifier)
                               .register(
-                                firstName:
-                                    form.firstNameController.text.trim(),
+                                firstName: form.firstNameController.text.trim(),
                                 lastName: form.lastNameController.text.trim(),
-                                department:
-                                    form.departmentController.text.trim(),
+                                department: form.departmentController.text
+                                    .trim(),
                                 email: form.emailController.text.trim(),
                                 password: form.passwordController.text,
                               );
@@ -212,10 +215,10 @@ class RegisterForm extends HookConsumerWidget {
                 child: Text(
                   'Sign in',
                   style: ShadTheme.of(context).textTheme.p.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.primary,
-                        decoration: TextDecoration.none,
-                      ),
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.primary,
+                    decoration: TextDecoration.none,
+                  ),
                 ),
               ),
             ],

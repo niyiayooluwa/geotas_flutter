@@ -41,7 +41,7 @@ class _LoginDesktopLayout extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 480),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 48, vertical: 64),
-                child: const LoginForm(showLogo: false,),
+                child: const LoginForm(showLogo: false),
               ),
               /*child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
@@ -63,13 +63,15 @@ class _LoginMobileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 480),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-            child: const LoginForm(),
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+              child: const LoginForm(),
+            ),
           ),
         ),
       ),
