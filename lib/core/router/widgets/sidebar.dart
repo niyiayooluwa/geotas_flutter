@@ -76,12 +76,12 @@ class Sidebar extends ConsumerWidget {
 
           const Spacer(),
 
-          _SidebarItem(
+          /*_SidebarItem(
             icon: LucideIcons.settings,
             label: 'Settings',
             active: location == '/settings',
             onTap: () => context.go('/settings'),
-          ),
+          ),*/
 
           // Sign out
           GestureDetector(
@@ -138,7 +138,7 @@ class _SidebarItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
           color: active
-              ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.06)
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
@@ -148,7 +148,7 @@ class _SidebarItem extends StatelessWidget {
               icon,
               size: 16,
               color: active
-                  ? Theme.of(context).colorScheme.onSurface
+                  ? Theme.of(context).colorScheme.primary
                   : Theme.of(
                       context,
                     ).colorScheme.onSurface.withValues(alpha: 0.5),
@@ -160,7 +160,7 @@ class _SidebarItem extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: active ? FontWeight.w500 : FontWeight.normal,
                 color: active
-                    ? Theme.of(context).colorScheme.onSurface
+                    ? Theme.of(context).colorScheme.primary
                     : Theme.of(
                         context,
                       ).colorScheme.onSurface.withValues(alpha: 0.5),
