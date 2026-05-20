@@ -5,6 +5,7 @@ import 'package:geotas/features/courses/presentation/widgets/course_empty_state.
 import 'package:geotas/features/courses/presentation/widgets/course_error_state.dart';
 import 'package:geotas/features/courses/presentation/widgets/enrolled_course_card.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CourseGrid extends ConsumerWidget {
@@ -43,11 +44,10 @@ class CourseGrid extends ConsumerWidget {
             if (i == courses.length) {
               return AddCourseCard(onTap: () => showAddCourseSheet(context));
             }
+            final course = courses[i];
             return EnrolledCourseCard(
-              course: courses[i],
-              onTap: () {
-                // TODO: add ontap logic
-              },
+              course: course,
+              onTap: () => context.push('/courses/${course.id}'),
             );
           },
         );

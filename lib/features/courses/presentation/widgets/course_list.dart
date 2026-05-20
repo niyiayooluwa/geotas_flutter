@@ -5,6 +5,7 @@ import 'package:geotas/features/courses/presentation/widgets/add_course_sheet.da
 import 'package:geotas/features/courses/presentation/widgets/course_empty_state.dart';
 import 'package:geotas/features/courses/presentation/widgets/course_error_state.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -51,9 +52,7 @@ class MobileCourseRow extends StatelessWidget {
     final accent = colourForCode(course.code);
 
     return GestureDetector(
-      onTap: () {
-        // TODO: add ontap logic
-      },
+      onTap: () => context.push('/courses/${course.id}'),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
