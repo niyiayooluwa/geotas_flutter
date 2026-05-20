@@ -18,13 +18,30 @@ class ScanScreen extends HookConsumerWidget {
     final isLoading = useState(false);
     final isScanned = useState(false);
 
-    Future<void> processToken(String token) async {
+    Future<void> processToken(String scannedValue) async {
       if (isScanned.value) return;
+
+      final rawToken = scannedValue.trim();
+      if (rawToken.isEmpty) return;
+
       isScanned.value = true;
       isLoading.value = true;
+      error.value = null;
 
       try {
-        final claims = _decodeJWT(token);
+        String tokenToDecode = rawToken;
+
+        // If it's a URL, try to extract the token parameter
+        if (rawToken.startsWith('http')) {
+          try {
+            final uri = Uri.parse(rawToken);
+            tokenToDecode = uri.queryParameters['token'] ?? rawToken;
+          } catch (_) {
+            // Not a valid URI, proceed with raw string
+          }
+        }
+
+        final claims = _decodeJWT(tokenToDecode);
         final sessionId = claims['session_id'] as String?;
         if (sessionId == null) throw 'Token does not contain session ID';
 
@@ -32,7 +49,7 @@ class ScanScreen extends HookConsumerWidget {
         final data = await DeviceInfoHelper.getCollectionData();
         final request = MarkAttendanceQRRequest(
           sessionId: sessionId,
-          qrToken: token,
+          qrToken: tokenToDecode,
           latitude: data['latitude'],
           longitude: data['longitude'],
           deviceId: data['deviceId'],
@@ -174,24 +191,21 @@ class ScanScreen extends HookConsumerWidget {
   Map<String, dynamic> _decodeJWT(String token) {
     try {
       final parts = token.split('.');
-      if (parts.length != 3) throw 'Invalid QR token format';
+      if (parts.length != 3) {
+        throw 'Invalid format (parts: ${parts.length}). Verify you are scanning a GEOTAS QR code.';
+      }
 
       final payload = parts[1];
       // JWT payloads are base64Url encoded without padding.
-      // We must add padding back for the standard decoder.
       var normalized = payload.replaceAll('-', '+').replaceAll('_', '/');
-      switch (normalized.length % 4) {
-        case 2:
-          normalized += '==';
-          break;
-        case 3:
-          normalized += '=';
-          break;
+      while (normalized.length % 4 != 0) {
+        normalized += '=';
       }
 
       final decoded = utf8.decode(base64.decode(normalized));
       return json.decode(decoded) as Map<String, dynamic>;
     } catch (e) {
+      if (e is String && e.startsWith('Invalid format')) rethrow;
       throw 'Failed to parse token: $e';
     }
   }
@@ -273,7 +287,7 @@ class QrScannerOverlayShape extends ShapeBorder {
     path.lineTo(cutOutRect.right, cutOutRect.bottom - borderRadius);
     path.arcToPoint(Offset(cutOutRect.right - borderRadius, cutOutRect.bottom),
         radius: Radius.circular(borderRadius));
-    path.lineTo(cutOutRect.right - borderLength, cutOutRect.bottom);
+    path.lineTo(cutOutRect.right, cutOutRect.bottom - borderLength);
 
     // Bottom Left
     path.moveTo(cutOutRect.left + borderLength, cutOutRect.bottom);
