@@ -57,7 +57,9 @@ class CreateSessionDialog extends HookConsumerWidget {
       try {
         final position = await determinePosition();
 
-        await ref.read(courseSessionsProvider(courseId).notifier).createSession(
+        await ref
+            .read(courseSessionsProvider(courseId).notifier)
+            .createSession(
               CreateSessionRequest(
                 courseId: courseId,
                 title: titleController.text.trim(),
@@ -85,7 +87,9 @@ class CreateSessionDialog extends HookConsumerWidget {
 
     return ShadDialog(
       title: const Text('Start Attendance Session'),
-      description: const Text('This will use your current location as the geofence center.'),
+      description: const Text(
+        'This will use your current location as the geofence center.',
+      ),
       child: ShadForm(
         key: formKey,
         child: Column(
@@ -132,7 +136,10 @@ class CreateSessionDialog extends HookConsumerWidget {
                     ? const SizedBox(
                         height: 16,
                         width: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : const Text('Start Session'),
               ),
