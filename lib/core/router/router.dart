@@ -3,12 +3,15 @@ import 'package:geotas/core/router/widgets/app_layout.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:geotas/features/attendance/presentation/screens/reports_screen.dart';
 import 'package:geotas/features/attendance/presentation/screens/scan_screen.dart';
+import 'package:geotas/features/attendance/presentation/screens/student_session_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/profile_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/register_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/settings_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
+import 'package:geotas/features/sessions/presentation/screens/active_session_screen.dart';
+import 'package:geotas/features/sessions/presentation/screens/session_attendance_details_screen.dart';
 import 'package:geotas/features/sessions/presentation/screens/session_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -99,6 +102,31 @@ GoRouter router(Ref ref) {
           GoRoute(
             path: '/profile',
             builder: (context, state) => const ProfileScreen(),
+          ),
+          GoRoute(
+            path: '/sessions/:id/live',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return ActiveSessionScreen(sessionId: id);
+            },
+          ),
+          GoRoute(
+            path: '/sessions/:id/attendance',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final title = state.uri.queryParameters['title'] ?? 'Session Attendance';
+              return SessionAttendanceDetailsScreen(
+                sessionId: id,
+                sessionTitle: title,
+              );
+            },
+          ),
+          GoRoute(
+            path: '/sessions/:id/student',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return StudentSessionScreen(sessionId: id);
+            },
           ),
           GoRoute(
             path: '/scan',

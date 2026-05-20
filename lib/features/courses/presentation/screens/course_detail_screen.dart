@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:geotas/features/sessions/presentation/widgets/create_session_dialog.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -89,7 +91,14 @@ class CourseDetailScreen extends HookConsumerWidget {
                           IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
-                              // TODO: Copy to clipboard
+                              Clipboard.setData(
+                                ClipboardData(text: course.inviteCode),
+                              );
+                              ShadToaster.of(context).show(
+                                const ShadToast(
+                                  title: Text('Invite code copied'),
+                                ),
+                              );
                             },
                           ),
                         ],
@@ -189,7 +198,11 @@ class _SessionList extends ConsumerWidget {
                       )
                     : const Icon(Icons.chevron_right),
                 onTap: () {
-                  // TODO: Navigate to session details or marking screen
+                  if (isLecturer && isActive) {
+                    context.push('/sessions/${session.id}/live');
+                  } else if (!isLecturer && isActive) {
+                    context.push('/sessions/${session.id}/student');
+                  }
                 },
               ),
             );
