@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geotas/core/router/widgets/sidebar.dart';
 import 'package:geotas/core/utils/date_formatter.dart';
 import 'package:geotas/features/auth/data/models/user_model.dart';
 import 'package:geotas/features/auth/providers/notifier/user_notifier.dart';
@@ -21,26 +20,15 @@ class DesktopDashboardView extends HookConsumerWidget {
       error: (_, _) => null,
     );
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
       children: [
-        // Sidebar
-        SizedBox(width: 220, child: Sidebar(user: user)),
-
-        // Main Content
-        Expanded(
-          child: Column(
-            children: [
-              _DesktopHeader(user: user),
-              const SizedBox(height: 8),
-              ShadSeparator.horizontal(
-                thickness: 0.5,
-                color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
-              ),
-              const _DesktopContent(),
-            ],
-          ),
+        _DesktopHeader(user: user),
+        const SizedBox(height: 8),
+        ShadSeparator.horizontal(
+          thickness: 0.5,
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
         ),
+        const _DesktopContent(),
       ],
     );
   }
@@ -53,7 +41,7 @@ class _DesktopHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(32, 40, 32, 0),
+      padding: const EdgeInsets.fromLTRB(32, 24, 32, 0),
       child: Row(
         children: [
           Expanded(

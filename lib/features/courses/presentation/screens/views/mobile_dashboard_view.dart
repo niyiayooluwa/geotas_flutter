@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geotas/core/router/widgets/bottom_nav.dart';
 import 'package:geotas/core/utils/date_formatter.dart';
 import 'package:geotas/features/auth/data/models/user_model.dart';
 import 'package:geotas/features/auth/providers/notifier/user_notifier.dart';
@@ -23,27 +22,20 @@ class MobileDashboardView extends HookConsumerWidget {
     );
 
     return SafeArea(
-      child: Column(
-        children: [
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () => ref.read(courseProvider.notifier).refresh(),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _MobileHeader(user: user),
-                    const SizedBox(height: 24),
-                    const _MobileContent(),
-                  ],
-                ),
-              ),
-            ),
+      child: RefreshIndicator(
+        onRefresh: () => ref.read(courseProvider.notifier).refresh(),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _MobileHeader(user: user),
+              const SizedBox(height: 24),
+              const _MobileContent(),
+            ],
           ),
-          const BottomNav(),
-        ],
+        ),
       ),
     );
   }
