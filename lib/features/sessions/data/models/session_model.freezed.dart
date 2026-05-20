@@ -307,6 +307,7 @@ as String?,
 
 }
 
+
 /// @nodoc
 mixin _$CreateSessionRequest {
 
@@ -317,6 +318,8 @@ mixin _$CreateSessionRequest {
 @pragma('vm:prefer-inline')
 $CreateSessionRequestCopyWith<CreateSessionRequest> get copyWith => _$CreateSessionRequestCopyWithImpl<CreateSessionRequest>(this as CreateSessionRequest, _$identity);
 
+  /// Serializes this CreateSessionRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -324,7 +327,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateSessionRequest&&(identical(other.courseId, courseId) || other.courseId == courseId)&&(identical(other.title, title) || other.title == title)&&(identical(other.weekNumber, weekNumber) || other.weekNumber == weekNumber)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.radiusMeters, radiusMeters) || other.radiusMeters == radiusMeters)&&(identical(other.qrRotationSecs, qrRotationSecs) || other.qrRotationSecs == qrRotationSecs));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,courseId,title,weekNumber,latitude,longitude,radiusMeters,qrRotationSecs);
 
@@ -505,11 +508,11 @@ return $default(_that.courseId,_that.title,_that.weekNumber,_that.latitude,_that
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _CreateSessionRequest implements CreateSessionRequest {
   const _CreateSessionRequest({@JsonKey(name: 'course_id') required this.courseId, required this.title, @JsonKey(name: 'week_number') required this.weekNumber, required this.latitude, required this.longitude, @JsonKey(name: 'radius_meters') required this.radiusMeters, @JsonKey(name: 'qr_rotation_secs', defaultValue: 30) this.qrRotationSecs});
-  
+  factory _CreateSessionRequest.fromJson(Map<String, dynamic> json) => _$CreateSessionRequestFromJson(json);
 
 @override@JsonKey(name: 'course_id') final  String courseId;
 @override final  String title;
@@ -525,14 +528,17 @@ class _CreateSessionRequest implements CreateSessionRequest {
 @pragma('vm:prefer-inline')
 _$CreateSessionRequestCopyWith<_CreateSessionRequest> get copyWith => __$CreateSessionRequestCopyWithImpl<_CreateSessionRequest>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$CreateSessionRequestToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateSessionRequest&&(identical(other.courseId, courseId) || other.courseId == courseId)&&(identical(other.title, title) || other.title == title)&&(identical(other.weekNumber, weekNumber) || other.weekNumber == weekNumber)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.radiusMeters, radiusMeters) || other.radiusMeters == radiusMeters)&&(identical(other.qrRotationSecs, qrRotationSecs) || other.qrRotationSecs == qrRotationSecs));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,courseId,title,weekNumber,latitude,longitude,radiusMeters,qrRotationSecs);
 

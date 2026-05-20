@@ -35,6 +35,9 @@ abstract class CreateSessionRequest with _$CreateSessionRequest {
     @JsonKey(name: 'radius_meters') required double radiusMeters,
     @JsonKey(name: 'qr_rotation_secs', defaultValue: 30) int? qrRotationSecs,
   }) = _CreateSessionRequest;
+
+  factory CreateSessionRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateSessionRequestFromJson(json);
 }
 
 @freezed

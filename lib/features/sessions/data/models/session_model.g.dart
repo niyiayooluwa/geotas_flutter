@@ -38,6 +38,30 @@ Map<String, dynamic> _$SessionModelToJson(_SessionModel instance) =>
       'closed_at': instance.closedAt,
     };
 
+_CreateSessionRequest _$CreateSessionRequestFromJson(
+  Map<String, dynamic> json,
+) => _CreateSessionRequest(
+  courseId: json['course_id'] as String,
+  title: json['title'] as String,
+  weekNumber: (json['week_number'] as num).toInt(),
+  latitude: (json['latitude'] as num).toDouble(),
+  longitude: (json['longitude'] as num).toDouble(),
+  radiusMeters: (json['radius_meters'] as num).toDouble(),
+  qrRotationSecs: (json['qr_rotation_secs'] as num?)?.toInt() ?? 30,
+);
+
+Map<String, dynamic> _$CreateSessionRequestToJson(
+  _CreateSessionRequest instance,
+) => <String, dynamic>{
+  'course_id': instance.courseId,
+  'title': instance.title,
+  'week_number': instance.weekNumber,
+  'latitude': instance.latitude,
+  'longitude': instance.longitude,
+  'radius_meters': instance.radiusMeters,
+  'qr_rotation_secs': instance.qrRotationSecs,
+};
+
 _QRTokenResponse _$QRTokenResponseFromJson(Map<String, dynamic> json) =>
     _QRTokenResponse(token: json['token'] as String);
 
