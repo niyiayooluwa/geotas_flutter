@@ -1,6 +1,6 @@
 // The new unified main.dart
 import 'package:flutter/material.dart';
-import 'package:geotas/core/providers/theme_provider.dart';
+//import 'package:geotas/core/providers/theme_provider.dart';
 import 'package:geotas/core/router/router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -21,13 +21,13 @@ class GeotasApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    final themeMode = ref.watch(themeModeProvider);
+    //final themeMode = ref.watch(themeModeProvider);
 
     return ShadApp.router(
       title: 'GEOTAS',
       theme: ShadThemeData(colorScheme: const ShadGrayColorScheme.light()),
-      darkTheme: ShadThemeData(colorScheme: const ShadGrayColorScheme.dark()),
-      themeMode: themeMode,
+      //darkTheme: ShadThemeData(colorScheme: const ShadGrayColorScheme.dark()),
+      //themeMode: themeMode,
       routerConfig: router,
     );
   }
