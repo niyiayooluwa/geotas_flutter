@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
+import 'package:geotas/features/sessions/data/models/session_model.dart';
 import 'package:geotas/features/sessions/presentation/widgets/create_session_dialog.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +32,7 @@ class CourseDetailScreen extends HookConsumerWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(course.code),
-            actions: [
+            /*actions: [
               if (isLecturer)
                 IconButton(
                   icon: const Icon(Icons.settings),
@@ -39,7 +40,7 @@ class CourseDetailScreen extends HookConsumerWidget {
                     // TODO: Settings
                   },
                 ),
-            ],
+            ],*/
           ),
           body: RefreshIndicator(
             onRefresh: () =>
@@ -51,8 +52,9 @@ class CourseDetailScreen extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Course Header Info
-                  Text(course.title, style: ShadTheme.of(context).textTheme.h2),
+                  Text(course.title, style: ShadTheme.of(context).textTheme.h3),
                   const SizedBox(height: 8),
+
                   Text(
                     course.department,
                     style: ShadTheme.of(context).textTheme.muted,
@@ -147,6 +149,63 @@ class _SessionList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionsAsync = ref.watch(courseSessionsProvider(courseId));
 
+    Future<void> _confirmAndDelete(
+      BuildContext context,
+      WidgetRef ref,
+      SessionModel session,
+    ) async {
+      // 1. Show Confirmation Dialog
+      final confirm = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Delete Session?'),
+          content: Text(
+            'Are you sure you want to delete "${session.title.isEmpty ? 'Week ${session.weekNumber}' : session.title}"? All attendance data will be lost.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Delete'),
+            ),
+          ],
+        ),
+      );
+
+      // 2. Execute Deletion if Confirmed
+      if (confirm == true && context.mounted) {
+        try {
+          // Call the provider using the session's courseId
+          await ref
+              .read(courseSessionsProvider(session.courseId).notifier)
+              .deleteSession(session.id);
+
+          if (context.mounted) {
+            // Use Shadcn's native toaster instead of Material's ScaffoldMessenger
+            ShadToaster.of(context).show(
+              const ShadToast(
+                description: Text('Session deleted successfully.'),
+              ),
+            );
+          }
+        } catch (e) {
+          if (context.mounted) {
+            // Shadcn has a built-in destructive (red) variant for errors!
+            ShadToaster.of(context).show(
+              ShadToast.destructive(
+                title: const Text('Error deleting session'),
+                description: Text(e.toString()),
+              ),
+            );
+          }
+        }
+      }
+    }
+
     return sessionsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, stack) =>
@@ -174,29 +233,14 @@ class _SessionList extends ConsumerWidget {
 
             return Card(
               margin: const EdgeInsets.only(bottom: 12),
-              child: ListTile(
-                title: Text(
-                  session.title.isEmpty
-                      ? 'Week ${session.weekNumber}'
-                      : session.title,
-                ),
-                subtitle: Text('Status: ${session.status.toUpperCase()}'),
-                trailing: isActive
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Text(
-                          'LIVE',
-                          style: TextStyle(color: Colors.white, fontSize: 10),
-                        ),
-                      )
-                    : const Icon(Icons.chevron_right),
+              elevation: 0, // Flat modern look
+              clipBehavior: Clip
+                  .antiAlias, // Ensures the ripple effect stays inside the rounded corners
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(color: Colors.grey.shade300), // Subtle border
+              ),
+              child: InkWell(
                 onTap: () {
                   if (isLecturer && isActive) {
                     context.push('/sessions/${session.id}/live');
@@ -204,6 +248,126 @@ class _SessionList extends ConsumerWidget {
                     context.push('/sessions/${session.id}/student');
                   }
                 },
+                // The Padding here is what gives the card its "thickness"
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // --- TOP ROW: Title & Badge ---
+                      Row(
+                        crossAxisAlignment: .start,
+                        mainAxisAlignment: .spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              session.title.isEmpty
+                                  ? 'Week ${session.weekNumber}'
+                                  : session.title,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          // Status Badge
+                          Row(
+                            crossAxisAlignment: .center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isActive
+                                      ? Colors.green.shade50
+                                      : Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: isActive
+                                        ? Colors.green.shade200
+                                        : Colors.grey.shade300,
+                                  ),
+                                ),
+                                child: Text(
+                                  isActive ? 'LIVE' : 'CLOSED',
+                                  style: TextStyle(
+                                    color: isActive
+                                        ? Colors.green.shade700
+                                        : Colors.grey.shade600,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+
+                              if (isLecturer) ...[
+                                const SizedBox(width: 8),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    size: 20,
+                                  ),
+                                  color: Colors.red.shade400,
+                                  constraints:
+                                      const BoxConstraints(), // Removes default bulky padding
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () =>
+                                      _confirmAndDelete(context, ref, session),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      // --- BOTTOM ROW: Metadata ---
+                      Row(
+                        children: [
+                          // Time Icon & Text
+                          Icon(
+                            Icons.access_time_rounded,
+                            size: 16,
+                            color: Colors.grey.shade600,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            // You might want to parse this with DateFormat if it's an ISO string
+                            session.startedAt.substring(0, 10),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+
+                          const SizedBox(width: 16),
+
+                          // Radius Icon & Text
+                          Icon(
+                            Icons.my_location_rounded,
+                            size: 16,
+                            color: Colors.grey.shade600,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            '${session.radiusMeters.toInt()}m',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             );
           },

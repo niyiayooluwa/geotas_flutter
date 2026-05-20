@@ -55,6 +55,36 @@ class CourseSessions extends _$CourseSessions {
       },
     );
   }
+
+  Future<void> deleteSession(String sessionId) async {
+  // 1. Save the current state in case the network fails
+  final previousState = state.value;
+
+  // 2. Optimistic UI Update: Instantly remove the session from the screen
+  if (previousState != null) {
+    state = AsyncValue.data(
+      previousState.where((session) => session.id != sessionId).toList(),
+    );
+  }
+
+  // 3. Send the request to the server in the background
+  final repo = ref.read(sessionRepositoryProvider);
+  final result = await repo.deleteSession(sessionId);
+
+  result.fold(
+    ifLeft: (failure) {
+      // 4. Network dropped! Put the session back on the screen and throw error
+      if (previousState != null) {
+        state = AsyncValue.data(previousState);
+      }
+      throw failure.message;
+    },
+    ifRight: (_) {
+      // Success! We don't need to invalidate/refetch because the local UI 
+      // is already accurate. Saves bandwidth!
+    },
+  );
+}
 }
 
 @riverpod
