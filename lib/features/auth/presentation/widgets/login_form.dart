@@ -16,11 +16,11 @@ class LoginForm extends HookConsumerWidget {
     final form = useLoginForm();
     final vm = ref.watch(loginProvider);
     final isLoading = vm.isLoading;
-    final isCurrentThemeDark =
+    /*final isCurrentThemeDark =
         MediaQuery.platformBrightnessOf(context) == Brightness.dark;
     final logo = isCurrentThemeDark
         ? 'assets/svgs/logo-white.svg'
-        : 'assets/svgs/logo-black.svg';
+        : 'assets/svgs/logo-black.svg';*/
 
     ref.listen(loginProvider, (_, next) {
       next.whenOrNull(

@@ -149,7 +149,7 @@ class _SessionList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionsAsync = ref.watch(courseSessionsProvider(courseId));
 
-    Future<void> _confirmAndDelete(
+    Future<void> confirmAndDelete(
       BuildContext context,
       WidgetRef ref,
       SessionModel session,
@@ -316,7 +316,7 @@ class _SessionList extends ConsumerWidget {
                                       const BoxConstraints(), // Removes default bulky padding
                                   padding: EdgeInsets.zero,
                                   onPressed: () =>
-                                      _confirmAndDelete(context, ref, session),
+                                      confirmAndDelete(context, ref, session),
                                 ),
                               ],
                             ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
-import 'package:intl/intl.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 const _headings = [

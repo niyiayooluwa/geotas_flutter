@@ -14,11 +14,11 @@ class Sidebar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final location = GoRouterState.of(context).uri.toString();
 
-    final isCurrentThemeDark =
+    /*final isCurrentThemeDark =
         MediaQuery.platformBrightnessOf(context) == Brightness.dark;
     final logo = isCurrentThemeDark
         ? 'assets/svgs/logo-white.svg'
-        : 'assets/svgs/logo-black.svg';
+        : 'assets/svgs/logo-black.svg';*/
 
     return Container(
       height: double.infinity,

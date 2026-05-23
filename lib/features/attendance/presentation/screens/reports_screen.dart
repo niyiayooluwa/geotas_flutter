@@ -8,7 +8,6 @@ import 'package:geotas/features/attendance/presentation/widgets/attendance_table
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart'; // Make sure this is imported for DateFormat
 import 'package:path_provider/path_provider.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:share_plus/share_plus.dart';

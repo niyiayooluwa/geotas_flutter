@@ -16,11 +16,11 @@ class RegisterForm extends HookConsumerWidget {
     final form = useRegisterForm();
     final vm = ref.watch(registerProvider);
     final isLoading = vm.isLoading;
-    final isCurrentThemeDark =
+    /*final isCurrentThemeDark =
         MediaQuery.platformBrightnessOf(context) == Brightness.dark;
     final logo = isCurrentThemeDark
         ? 'assets/svgs/logo-white.svg'
-        : 'assets/svgs/logo-black.svg';
+        : 'assets/svgs/logo-black.svg';*/
 
     ref.listen(registerProvider, (_, next) {
       next.whenOrNull(
