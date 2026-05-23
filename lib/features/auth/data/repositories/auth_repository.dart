@@ -1,5 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
+import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
 import 'package:geotas/features/auth/data/models/auth_request.dart';
@@ -19,13 +20,9 @@ class AuthRepository {
       final response = await _dio.post('/auth/login', data: request.toJson());
       return Either.right(LoginResponse.fromJson(response.data));
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map
-          ? data['message']?.toString()
-          : data?.toString();
-      return Either.left(ServerFailure(message ?? 'Something went wrong'));
+      return Either.left(mapDioException(e));
     } catch (e) {
-      return Either.left(OtherFailure(e.toString()));
+      return Either.left(mapException(e));
     }
   }
 
@@ -39,13 +36,9 @@ class AuthRepository {
       );
       return Either.right(RegisterResponse.fromJson(response.data));
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map
-          ? data['message']?.toString()
-          : data?.toString();
-      return Either.left(ServerFailure(message ?? 'Something went wrong'));
+      return Either.left(mapDioException(e));
     } catch (e) {
-      return Either.left(OtherFailure(e.toString()));
+      return Either.left(mapException(e));
     }
   }
 
@@ -54,13 +47,9 @@ class AuthRepository {
       final response = await _dio.get('/me');
       return Either.right(UserModel.fromJson(response.data));
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map
-          ? data['message']?.toString()
-          : data?.toString();
-      return Either.left(ServerFailure(message ?? 'Something went wrong'));
+      return Either.left(mapDioException(e));
     } catch (e) {
-      return Either.left(OtherFailure(e.toString()));
+      return Either.left(mapException(e));
     }
   }
 }

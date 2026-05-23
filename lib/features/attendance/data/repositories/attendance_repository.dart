@@ -1,5 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
+import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
 import 'package:geotas/features/attendance/data/models/attendance_requests.dart';
@@ -23,18 +24,9 @@ class AttendanceRepository {
       );
       return Either.right(AttendanceResponse.fromJson(response.data));
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map
-          ? (data['error'] ?? data['message'])?.toString()
-          : data?.toString();
-      if (message != null && message.toLowerCase().contains('mock location')) {
-        return Either.left(MockLocationFailure(message));
-      }
-      return Either.left(
-        ServerFailure(message ?? 'An error occurred connecting to the server'),
-      );
+      return Either.left(mapDioException(e));
     } catch (e) {
-      return Either.left(OtherFailure('Failed to mark attendance: $e'));
+      return Either.left(mapException(e));
     }
   }
 
@@ -46,15 +38,9 @@ class AttendanceRepository {
       );
       return Either.right(OTPResponse.fromJson(response.data));
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map
-          ? data['message']?.toString()
-          : data?.toString();
-      return Either.left(
-        ServerFailure(message ?? 'An error occurred connecting to the server'),
-      );
+      return Either.left(mapDioException(e));
     } catch (e) {
-      return Either.left(OtherFailure('Failed to request OTP: $e'));
+      return Either.left(mapException(e));
     }
   }
 
@@ -68,18 +54,9 @@ class AttendanceRepository {
       );
       return Either.right(AttendanceResponse.fromJson(response.data));
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map
-          ? (data['error'] ?? data['message'])?.toString()
-          : data?.toString();
-      if (message != null && message.toLowerCase().contains('mock location')) {
-        return Either.left(MockLocationFailure(message));
-      }
-      return Either.left(
-        ServerFailure(message ?? 'An error occurred connecting to the server'),
-      );
+      return Either.left(mapDioException(e));
     } catch (e) {
-      return Either.left(OtherFailure('Failed to verify OTP: $e'));
+      return Either.left(mapException(e));
     }
   }
 
@@ -97,15 +74,9 @@ class AttendanceRepository {
           .toList();
       return Either.right(attendance);
     } on DioException catch (e) {
-      final data = e.response?.data;
-      final message = data is Map
-          ? data['message']?.toString()
-          : data?.toString();
-      return Either.left(
-        ServerFailure(message ?? 'An error occurred connecting to the server'),
-      );
+      return Either.left(mapDioException(e));
     } catch (e) {
-      return Either.left(OtherFailure('Failed to process attendance data: $e'));
+      return Either.left(mapException(e));
     }
   }
 }
