@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AttendanceResponse {
 
- String get id;@JsonKey(name: 'session_id') String get sessionId;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'marked_at') String get markedAt; String get method;@JsonKey(name: 'week_number') int get weekNumber;
+ String get id;@JsonKey(name: 'session_id') String get sessionId;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'marked_at') String get markedAt; String get method;@JsonKey(name: 'week_number') int get weekNumber;@JsonKey(name: 'confidence_score') double get confidenceScore;
 /// Create a copy of AttendanceResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AttendanceResponseCopyWith<AttendanceResponse> get copyWith => _$AttendanceResp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AttendanceResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.markedAt, markedAt) || other.markedAt == markedAt)&&(identical(other.method, method) || other.method == method)&&(identical(other.weekNumber, weekNumber) || other.weekNumber == weekNumber));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AttendanceResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.markedAt, markedAt) || other.markedAt == markedAt)&&(identical(other.method, method) || other.method == method)&&(identical(other.weekNumber, weekNumber) || other.weekNumber == weekNumber)&&(identical(other.confidenceScore, confidenceScore) || other.confidenceScore == confidenceScore));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sessionId,userId,markedAt,method,weekNumber);
+int get hashCode => Object.hash(runtimeType,id,sessionId,userId,markedAt,method,weekNumber,confidenceScore);
 
 @override
 String toString() {
-  return 'AttendanceResponse(id: $id, sessionId: $sessionId, userId: $userId, markedAt: $markedAt, method: $method, weekNumber: $weekNumber)';
+  return 'AttendanceResponse(id: $id, sessionId: $sessionId, userId: $userId, markedAt: $markedAt, method: $method, weekNumber: $weekNumber, confidenceScore: $confidenceScore)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AttendanceResponseCopyWith<$Res>  {
   factory $AttendanceResponseCopyWith(AttendanceResponse value, $Res Function(AttendanceResponse) _then) = _$AttendanceResponseCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method,@JsonKey(name: 'week_number') int weekNumber
+ String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method,@JsonKey(name: 'week_number') int weekNumber,@JsonKey(name: 'confidence_score') double confidenceScore
 });
 
 
@@ -65,7 +65,7 @@ class _$AttendanceResponseCopyWithImpl<$Res>
 
 /// Create a copy of AttendanceResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? weekNumber = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? weekNumber = null,Object? confidenceScore = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,sessionId: null == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,8 @@ as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullabl
 as String,markedAt: null == markedAt ? _self.markedAt : markedAt // ignore: cast_nullable_to_non_nullable
 as String,method: null == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
 as String,weekNumber: null == weekNumber ? _self.weekNumber : weekNumber // ignore: cast_nullable_to_non_nullable
-as int,
+as int,confidenceScore: null == confidenceScore ? _self.confidenceScore : confidenceScore // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -158,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method, @JsonKey(name: 'week_number')  int weekNumber)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'confidence_score')  double confidenceScore)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AttendanceResponse() when $default != null:
-return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.weekNumber);case _:
+return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.weekNumber,_that.confidenceScore);case _:
   return orElse();
 
 }
@@ -179,10 +180,10 @@ return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.metho
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method, @JsonKey(name: 'week_number')  int weekNumber)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'confidence_score')  double confidenceScore)  $default,) {final _that = this;
 switch (_that) {
 case _AttendanceResponse():
-return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.weekNumber);case _:
+return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.weekNumber,_that.confidenceScore);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +200,10 @@ return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.metho
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method, @JsonKey(name: 'week_number')  int weekNumber)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'confidence_score')  double confidenceScore)?  $default,) {final _that = this;
 switch (_that) {
 case _AttendanceResponse() when $default != null:
-return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.weekNumber);case _:
+return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.weekNumber,_that.confidenceScore);case _:
   return null;
 
 }
@@ -214,7 +215,7 @@ return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.metho
 @JsonSerializable()
 
 class _AttendanceResponse implements AttendanceResponse {
-  const _AttendanceResponse({required this.id, @JsonKey(name: 'session_id') required this.sessionId, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'marked_at') required this.markedAt, required this.method, @JsonKey(name: 'week_number') required this.weekNumber});
+  const _AttendanceResponse({required this.id, @JsonKey(name: 'session_id') required this.sessionId, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'marked_at') required this.markedAt, required this.method, @JsonKey(name: 'week_number') required this.weekNumber, @JsonKey(name: 'confidence_score') this.confidenceScore = 0.0});
   factory _AttendanceResponse.fromJson(Map<String, dynamic> json) => _$AttendanceResponseFromJson(json);
 
 @override final  String id;
@@ -223,6 +224,7 @@ class _AttendanceResponse implements AttendanceResponse {
 @override@JsonKey(name: 'marked_at') final  String markedAt;
 @override final  String method;
 @override@JsonKey(name: 'week_number') final  int weekNumber;
+@override@JsonKey(name: 'confidence_score') final  double confidenceScore;
 
 /// Create a copy of AttendanceResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AttendanceResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.markedAt, markedAt) || other.markedAt == markedAt)&&(identical(other.method, method) || other.method == method)&&(identical(other.weekNumber, weekNumber) || other.weekNumber == weekNumber));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AttendanceResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.markedAt, markedAt) || other.markedAt == markedAt)&&(identical(other.method, method) || other.method == method)&&(identical(other.weekNumber, weekNumber) || other.weekNumber == weekNumber)&&(identical(other.confidenceScore, confidenceScore) || other.confidenceScore == confidenceScore));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sessionId,userId,markedAt,method,weekNumber);
+int get hashCode => Object.hash(runtimeType,id,sessionId,userId,markedAt,method,weekNumber,confidenceScore);
 
 @override
 String toString() {
-  return 'AttendanceResponse(id: $id, sessionId: $sessionId, userId: $userId, markedAt: $markedAt, method: $method, weekNumber: $weekNumber)';
+  return 'AttendanceResponse(id: $id, sessionId: $sessionId, userId: $userId, markedAt: $markedAt, method: $method, weekNumber: $weekNumber, confidenceScore: $confidenceScore)';
 }
 
 
@@ -257,7 +259,7 @@ abstract mixin class _$AttendanceResponseCopyWith<$Res> implements $AttendanceRe
   factory _$AttendanceResponseCopyWith(_AttendanceResponse value, $Res Function(_AttendanceResponse) _then) = __$AttendanceResponseCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method,@JsonKey(name: 'week_number') int weekNumber
+ String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method,@JsonKey(name: 'week_number') int weekNumber,@JsonKey(name: 'confidence_score') double confidenceScore
 });
 
 
@@ -274,7 +276,7 @@ class __$AttendanceResponseCopyWithImpl<$Res>
 
 /// Create a copy of AttendanceResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? weekNumber = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? weekNumber = null,Object? confidenceScore = null,}) {
   return _then(_AttendanceResponse(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,sessionId: null == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
@@ -282,7 +284,8 @@ as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullabl
 as String,markedAt: null == markedAt ? _self.markedAt : markedAt // ignore: cast_nullable_to_non_nullable
 as String,method: null == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
 as String,weekNumber: null == weekNumber ? _self.weekNumber : weekNumber // ignore: cast_nullable_to_non_nullable
-as int,
+as int,confidenceScore: null == confidenceScore ? _self.confidenceScore : confidenceScore // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 

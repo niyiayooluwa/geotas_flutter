@@ -17,13 +17,19 @@ class AttendanceRepository {
     MarkAttendanceQRRequest request,
   ) async {
     try {
-      final response = await _dio.post('/attendance/qr', data: request.toJson());
+      final response = await _dio.post(
+        '/attendance/qr',
+        data: request.toJson(),
+      );
       return Either.right(AttendanceResponse.fromJson(response.data));
     } on DioException catch (e) {
       final data = e.response?.data;
       final message = data is Map
-          ? data['message']?.toString()
+          ? (data['error'] ?? data['message'])?.toString()
           : data?.toString();
+      if (message != null && message.toLowerCase().contains('mock location')) {
+        return Either.left(MockLocationFailure(message));
+      }
       return Either.left(
         ServerFailure(message ?? 'An error occurred connecting to the server'),
       );
@@ -64,8 +70,11 @@ class AttendanceRepository {
     } on DioException catch (e) {
       final data = e.response?.data;
       final message = data is Map
-          ? data['message']?.toString()
+          ? (data['error'] ?? data['message'])?.toString()
           : data?.toString();
+      if (message != null && message.toLowerCase().contains('mock location')) {
+        return Either.left(MockLocationFailure(message));
+      }
       return Either.left(
         ServerFailure(message ?? 'An error occurred connecting to the server'),
       );

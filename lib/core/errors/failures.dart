@@ -19,3 +19,7 @@ class NetworkFailure extends Failure {
 class OtherFailure extends Failure {
   OtherFailure(super.message);
 }
+
+class MockLocationFailure extends Failure {
+  MockLocationFailure(super.message);
+}

@@ -50,7 +50,7 @@ final class CourseSessionsProvider
   }
 }
 
-String _$courseSessionsHash() => r'5d233d5d0f185a191380e62df106136c2536eecb';
+String _$courseSessionsHash() => r'96a9ed4ad16b4388c1a6f8a4675253348c79917a';
 
 final class CourseSessionsFamily extends $Family
     with

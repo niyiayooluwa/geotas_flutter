@@ -12,6 +12,7 @@ abstract class AttendanceResponse with _$AttendanceResponse {
     @JsonKey(name: 'marked_at') required String markedAt,
     required String method,
     @JsonKey(name: 'week_number') required int weekNumber,
+    @JsonKey(name: 'confidence_score') @Default(0.0) double confidenceScore, // add this line
   }) = _AttendanceResponse;
 
   factory AttendanceResponse.fromJson(Map<String, dynamic> json) =>

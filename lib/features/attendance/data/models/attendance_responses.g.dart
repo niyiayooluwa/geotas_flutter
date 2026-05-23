@@ -14,6 +14,7 @@ _AttendanceResponse _$AttendanceResponseFromJson(Map<String, dynamic> json) =>
       markedAt: json['marked_at'] as String,
       method: json['method'] as String,
       weekNumber: (json['week_number'] as num).toInt(),
+      confidenceScore: (json['confidence_score'] as num?)?.toDouble() ?? 0.0,
     );
 
 Map<String, dynamic> _$AttendanceResponseToJson(_AttendanceResponse instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$AttendanceResponseToJson(_AttendanceResponse instance) =>
       'marked_at': instance.markedAt,
       'method': instance.method,
       'week_number': instance.weekNumber,
+      'confidence_score': instance.confidenceScore,
     };
 
 _DetailedAttendanceModel _$DetailedAttendanceModelFromJson(
