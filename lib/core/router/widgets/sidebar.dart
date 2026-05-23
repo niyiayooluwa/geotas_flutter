@@ -35,7 +35,7 @@ class Sidebar extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Brand
-          SvgPicture.asset(logo, fit: BoxFit.contain, height: 40),
+          SvgPicture.asset('assets/svgs/logo-black.svg', fit: BoxFit.contain, height: 40),
           const SizedBox(height: 4),
           Text(
             'Attendance portal',

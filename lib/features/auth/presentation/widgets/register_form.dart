@@ -45,7 +45,7 @@ class RegisterForm extends HookConsumerWidget {
           // Logo mark — hidden on desktop where the left panel already shows it
           if (showLogo) ...[
             SvgPicture.asset(
-              logo,
+              'assets/svgs/logo-black.svg',
               height: 36,
               fit: BoxFit.contain,
               alignment: Alignment.centerLeft,

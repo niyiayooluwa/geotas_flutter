@@ -45,7 +45,7 @@ class LoginForm extends HookConsumerWidget {
           // Logo mark
           if (showLogo) ...[
             SvgPicture.asset(
-              logo,
+              'assets/svgs/logo-black.svg',
               height: 36,
               fit: BoxFit.contain,
               alignment: Alignment.centerLeft,

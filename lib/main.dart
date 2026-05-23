@@ -25,7 +25,7 @@ class GeotasApp extends ConsumerWidget {
 
     return ShadApp.router(
       title: 'GEOTAS',
-      theme: ShadThemeData(colorScheme: const ShadGrayColorScheme.light()),
+      theme: ShadThemeData(colorScheme: const ShadVioletColorScheme.light()),
       //darkTheme: ShadThemeData(colorScheme: const ShadGrayColorScheme.dark()),
       //themeMode: themeMode,
       routerConfig: router,

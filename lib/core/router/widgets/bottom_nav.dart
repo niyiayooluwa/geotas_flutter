@@ -34,12 +34,12 @@ class BottomNav extends StatelessWidget {
             active: location.startsWith('/courses'),
             onTap: () => context.go('/courses'),
           ),
-          _BottomNavItem(
+          /*_BottomNavItem(
             icon: LucideIcons.qrCode,
             label: 'Scan',
             active: location == '/scan',
             onTap: () => context.go('/scan'),
-          ),
+          ),*/
           _BottomNavItem(
             icon: LucideIcons.circleUser,
             label: 'Profile',

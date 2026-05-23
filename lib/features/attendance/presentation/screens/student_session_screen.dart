@@ -165,19 +165,37 @@ class StudentSessionScreen extends HookConsumerWidget {
                         
                         ShadButton(
                           size: ShadButtonSize.lg,
-                          onPressed: isLoading.value ? null : () => _showScanner(context, markWithQR),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(LucideIcons.qrCode, size: 20),
-                              SizedBox(width: 12),
-                              Text('Scan QR Code'),
-                            ],
-                          ),
+                          onPressed: isLoading.value 
+                              ? null 
+                              : () async {
+                                  // 1. Wait for the decoupled dialog to return the token
+                                  final scannedToken = await showShadDialog<String>(
+                                    context: context,
+                                    builder: (context) => const _QRScannerDialog(),
+                                  );
+
+                                  // 2. Only run the API call AFTER the camera hardware is safely destroyed
+                                  if (scannedToken != null && context.mounted) {
+                                    markWithQR(scannedToken);
+                                  }
+                                },
+                          child: isLoading.value 
+                              ? const SizedBox(
+                                  height: 16, 
+                                  width: 16, 
+                                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                )
+                              : const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(LucideIcons.qrCode, size: 20),
+                                    SizedBox(width: 12),
+                                    Text('Scan QR Code'),
+                                  ],
+                                ),
                         ),
                         const SizedBox(height: 16),
                         
-                        // WARNING: Consider refactoring this logic for production
                         ShadButton.outline(
                           size: ShadButtonSize.lg,
                           onPressed: isLoading.value ? null : requestOTP,
@@ -193,7 +211,7 @@ class StudentSessionScreen extends HookConsumerWidget {
                         
                         if (otpResponse.value != null) ...[
                           const SizedBox(height: 32),
-                          // Shadcn-style bordered container instead of Material Card
+                          // Shadcn-style bordered container instead of standard Card
                           Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
@@ -253,32 +271,40 @@ class StudentSessionScreen extends HookConsumerWidget {
       ),
     );
   }
+}
 
-  void _showScanner(BuildContext context, Function(String) onScan) {
-    // 1. Initialize the controller so we can control the hardware lifecycle
-    final MobileScannerController cameraController = MobileScannerController();
+/// The Decoupled Camera Dialog
+/// This ensures the camera hardware spins up and shuts down in total isolation
+/// preventing Android lifecycle deadlocks on strict devices like Xiaomi.
+class _QRScannerDialog extends StatefulWidget {
+  const _QRScannerDialog();
 
-    showShadDialog(
-      context: context,
-      builder: (dialogContext) => ShadDialog(
-        title: const Text('Scan QR Code'),
-        child: SizedBox(
-          height: 300,
-          width: 300,
-          //clipBehavior: Clip.antiAlias,
+  @override
+  State<_QRScannerDialog> createState() => _QRScannerDialogState();
+}
+
+class _QRScannerDialogState extends State<_QRScannerDialog> {
+  bool _hasScanned = false; // Safety lock
+
+  @override
+  Widget build(BuildContext context) {
+    return ShadDialog(
+      title: const Text('Scan QR Code'),
+      description: const Text('Position the lecture hall QR code within the frame.'),
+      child: SizedBox(
+        height: 300,
+        width: 300,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
           child: MobileScanner(
-            controller: cameraController,
-            onDetect: (capture) async {
+            onDetect: (capture) {
+              if (_hasScanned) return; 
+
               final List<Barcode> barcodes = capture.barcodes;
               for (final barcode in barcodes) {
                 if (barcode.rawValue != null) {
-                  // 2. STOP THE CAMERA HARDWARE FIRST!
-                  await cameraController.stop();
-                  
-                  if (dialogContext.mounted) {
-                    Navigator.pop(dialogContext);
-                    onScan(barcode.rawValue!);
-                  }
+                  _hasScanned = true; 
+                  Navigator.of(context).pop(barcode.rawValue);
                   break;
                 }
               }
@@ -286,15 +312,12 @@ class StudentSessionScreen extends HookConsumerWidget {
           ),
         ),
       ),
-    ).then((_) {
-      // 3. Ensure hardware is disposed if user dismisses dialog by tapping outside
-      cameraController.dispose();
-    });
+    );
   }
 }
 
 class _SessionHeader extends StatelessWidget {
-  final SessionModel session; // Typed safely
+  final SessionModel session; 
   
   const _SessionHeader({required this.session});
 
