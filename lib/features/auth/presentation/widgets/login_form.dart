@@ -17,8 +17,8 @@ class LoginForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final form = useLoginForm();
     final vm = ref.watch(loginProvider);
-    final isLoading = vm.isLoading;
-    /*final isCurrentThemeDark =
+    /*final isLoading = vm.isLoading;
+    final isCurrentThemeDark =
         MediaQuery.platformBrightnessOf(context) == Brightness.dark;
     final logo = isCurrentThemeDark
         ? 'assets/svgs/logo-white.svg'
