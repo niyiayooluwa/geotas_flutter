@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/features/courses/presentation/widgets/add_course_card.dart';
 import 'package:geotas/features/courses/presentation/widgets/add_course_sheet.dart';
 import 'package:geotas/features/courses/presentation/widgets/course_empty_state.dart';
@@ -24,7 +25,10 @@ class CourseGrid extends ConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (e, _) => CourseErrorState(message: e.toString()),
+      error: (e, _) => ErrorView(
+        message: e.toString(),
+        onRetry: () => ref.invalidate(courseProvider),
+      ),
       data: (courses) {
         if (courses.isEmpty) {
           return CourseEmptyState(onAdd: () => showAddCourseSheet(context));

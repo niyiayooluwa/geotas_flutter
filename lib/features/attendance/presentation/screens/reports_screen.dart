@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
 import 'package:geotas/features/attendance/presentation/widgets/attendance_table.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
@@ -53,7 +55,12 @@ class ReportsScreen extends HookConsumerWidget {
             Expanded(
               child: coursesAsync.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, _) => Center(child: Text('Error: $err')),
+                error: (err, stack) => ErrorView(
+                  message: err is Failure
+                      ? err.message
+                      : 'Something went wrong.',
+                  onRetry: () => ref.invalidate(courseProvider),
+                ),
                 data: (courses) {
                   final lecturerCourses = courses
                       .where((c) => c.role == 'lecturer')

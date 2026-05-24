@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/core/utils/device_info_helper.dart';
 import 'package:geotas/features/attendance/data/models/attendance_requests.dart';
 import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
@@ -37,14 +39,18 @@ class StudentSessionScreen extends HookConsumerWidget {
           mockLocationDetected: data['mockLocationDetected'],
         );
 
-        final result = await ref.read(attendanceRepositoryProvider).markWithQR(request);
-        
+        final result = await ref
+            .read(attendanceRepositoryProvider)
+            .markWithQR(request);
+
         result.fold(
           ifLeft: (failure) => throw failure.message,
           ifRight: (_) {
             if (context.mounted) {
               ShadToaster.of(context).show(
-                const ShadToast(description: Text('Attendance marked successfully!')),
+                const ShadToast(
+                  description: Text('Attendance marked successfully!'),
+                ),
               );
               Navigator.pop(context);
             }
@@ -67,7 +73,9 @@ class StudentSessionScreen extends HookConsumerWidget {
     Future<void> requestOTP() async {
       isLoading.value = true;
       try {
-        final result = await ref.read(attendanceRepositoryProvider).requestOTP(sessionId);
+        final result = await ref
+            .read(attendanceRepositoryProvider)
+            .requestOTP(sessionId);
         result.fold(
           ifLeft: (failure) => throw failure.message,
           ifRight: (response) => otpResponse.value = response,
@@ -102,14 +110,18 @@ class StudentSessionScreen extends HookConsumerWidget {
           mockLocationDetected: data['mockLocationDetected'],
         );
 
-        final result = await ref.read(attendanceRepositoryProvider).verifyOTP(request);
-        
+        final result = await ref
+            .read(attendanceRepositoryProvider)
+            .verifyOTP(request);
+
         result.fold(
           ifLeft: (failure) => throw failure.message,
           ifRight: (_) {
             if (context.mounted) {
               ShadToaster.of(context).show(
-                const ShadToast(description: Text('Attendance marked successfully!')),
+                const ShadToast(
+                  description: Text('Attendance marked successfully!'),
+                ),
               );
               Navigator.pop(context);
             }
@@ -132,28 +144,39 @@ class StudentSessionScreen extends HookConsumerWidget {
     return Scaffold(
       body: sessionAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('Error: $err')),
+        error: (err, stack) => ErrorView(
+          message: err is Failure ? err.message : 'Something went wrong.',
+          onRetry: () => ref.invalidate(sessionDetailsProvider(sessionId)),
+        ),
         data: (session) {
-          if (session == null) return const Center(child: Text('Session not found'));
-          
+          if (session == null) {
+            return const Center(child: Text('Session not found'));
+          }
+
           return SafeArea(
             child: Column(
               children: [
                 // Custom Borderless Header
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   child: Row(
                     children: [
                       const BackButton(),
                       const SizedBox(width: 8),
                       const Text(
                         'Mark Attendance',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                
+
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -162,28 +185,33 @@ class StudentSessionScreen extends HookConsumerWidget {
                       children: [
                         _SessionHeader(session: session),
                         const SizedBox(height: 48),
-                        
+
                         ShadButton(
                           size: ShadButtonSize.lg,
-                          onPressed: isLoading.value 
-                              ? null 
+                          onPressed: isLoading.value
+                              ? null
                               : () async {
                                   // 1. Wait for the decoupled dialog to return the token
-                                  final scannedToken = await showShadDialog<String>(
-                                    context: context,
-                                    builder: (context) => const _QRScannerDialog(),
-                                  );
+                                  final scannedToken =
+                                      await showShadDialog<String>(
+                                        context: context,
+                                        builder: (context) =>
+                                            const _QRScannerDialog(),
+                                      );
 
                                   // 2. Only run the API call AFTER the camera hardware is safely destroyed
                                   if (scannedToken != null && context.mounted) {
                                     markWithQR(scannedToken);
                                   }
                                 },
-                          child: isLoading.value 
+                          child: isLoading.value
                               ? const SizedBox(
-                                  height: 16, 
-                                  width: 16, 
-                                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -195,7 +223,7 @@ class StudentSessionScreen extends HookConsumerWidget {
                                 ),
                         ),
                         const SizedBox(height: 16),
-                        
+
                         ShadButton.outline(
                           size: ShadButtonSize.lg,
                           onPressed: isLoading.value ? null : requestOTP,
@@ -208,7 +236,7 @@ class StudentSessionScreen extends HookConsumerWidget {
                             ],
                           ),
                         ),
-                        
+
                         if (otpResponse.value != null) ...[
                           const SizedBox(height: 32),
                           // Shadcn-style bordered container instead of standard Card
@@ -217,22 +245,24 @@ class StudentSessionScreen extends HookConsumerWidget {
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.surface,
                               border: Border.all(
-                                color: Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                                color: Theme.of(
+                                  context,
+                                ).dividerColor.withValues(alpha: 0.3),
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Column(
                               children: [
                                 Text(
-                                  'Your OTP Code', 
+                                  'Your OTP Code',
                                   style: ShadTheme.of(context).textTheme.muted,
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
                                   otpResponse.value!.otpCode,
                                   style: const TextStyle(
-                                    fontSize: 36, 
-                                    fontWeight: FontWeight.w800, 
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w800,
                                     letterSpacing: 8,
                                   ),
                                 ),
@@ -240,14 +270,16 @@ class StudentSessionScreen extends HookConsumerWidget {
                                 Text(
                                   'Expires at: ${otpResponse.value!.expiresAt}',
                                   style: TextStyle(
-                                    fontSize: 11, 
+                                    fontSize: 11,
                                     color: Theme.of(context).colorScheme.error,
                                   ),
                                 ),
                                 const SizedBox(height: 24),
                                 ShadInput(
                                   controller: otpController,
-                                  placeholder: const Text('Enter OTP to verify'),
+                                  placeholder: const Text(
+                                    'Enter OTP to verify',
+                                  ),
                                   keyboardType: TextInputType.number,
                                 ),
                                 const SizedBox(height: 16),
@@ -290,7 +322,9 @@ class _QRScannerDialogState extends State<_QRScannerDialog> {
   Widget build(BuildContext context) {
     return ShadDialog(
       title: const Text('Scan QR Code'),
-      description: const Text('Position the lecture hall QR code within the frame.'),
+      description: const Text(
+        'Position the lecture hall QR code within the frame.',
+      ),
       child: SizedBox(
         height: 300,
         width: 300,
@@ -298,12 +332,12 @@ class _QRScannerDialogState extends State<_QRScannerDialog> {
           borderRadius: BorderRadius.circular(12),
           child: MobileScanner(
             onDetect: (capture) {
-              if (_hasScanned) return; 
+              if (_hasScanned) return;
 
               final List<Barcode> barcodes = capture.barcodes;
               for (final barcode in barcodes) {
                 if (barcode.rawValue != null) {
-                  _hasScanned = true; 
+                  _hasScanned = true;
                   Navigator.of(context).pop(barcode.rawValue);
                   break;
                 }
@@ -317,8 +351,8 @@ class _QRScannerDialogState extends State<_QRScannerDialog> {
 }
 
 class _SessionHeader extends StatelessWidget {
-  final SessionModel session; 
-  
+  final SessionModel session;
+
   const _SessionHeader({required this.session});
 
   @override
@@ -332,8 +366,8 @@ class _SessionHeader extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: Icon(
-            LucideIcons.mapPin, 
-            size: 40, 
+            LucideIcons.mapPin,
+            size: 40,
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
@@ -359,8 +393,8 @@ class _SessionHeader extends StatelessWidget {
               Text(
                 'SESSION ACTIVE',
                 style: TextStyle(
-                  color: Colors.green, 
-                  fontSize: 11, 
+                  color: Colors.green,
+                  fontSize: 11,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
                 ),

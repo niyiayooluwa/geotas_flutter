@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/features/attendance/presentation/widgets/attendance_table.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,9 +24,14 @@ class SessionAttendanceDetailsScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(sessionTitle)),
       body: attendanceAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('Error: $err')),
+        error: (err, stack) => ErrorView(
+          message: err is Failure ? err.message : 'Something went wrong.',
+          onRetry: () => ref.invalidate(sessionAttendanceProvider(sessionId)),
+        ),
         data: (list) {
-          if (list.isEmpty) return const Center(child: Text('No attendance records.'));
+          if (list.isEmpty) {
+            return const Center(child: Text('No attendance records.'));
+          }
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

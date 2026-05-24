@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:geotas/features/sessions/data/models/session_model.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
@@ -19,7 +21,9 @@ class SessionScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Sessions')),
       body: sessionsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('Error: $err')),
+        error: (err, stack) => ErrorView(
+          message: err is Failure ? err.message : 'Something went wrong.',
+        ),
         data: (sessions) {
           if (sessions.isEmpty) {
             return const Center(child: Text('No sessions found.'));

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
+import 'package:geotas/core/utils/toast_helper.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:geotas/features/sessions/data/models/session_model.dart';
 import 'package:geotas/features/sessions/presentation/widgets/create_session_dialog.dart';
@@ -20,7 +23,10 @@ class CourseDetailScreen extends HookConsumerWidget {
     return coursesAsync.when(
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (err, stack) => Scaffold(body: Center(child: Text('Error: $err'))),
+      error: (err, stack) => ErrorView(
+        message: err is Failure ? err.message : 'Something went wrong.',
+        onRetry: () => ref.invalidate(courseProvider),
+      ),
       data: (courses) {
         final course = courses.firstWhere(
           (c) => c.id == courseId,
@@ -185,22 +191,11 @@ class _SessionList extends ConsumerWidget {
               .deleteSession(session.id);
 
           if (context.mounted) {
-            // Use Shadcn's native toaster instead of Material's ScaffoldMessenger
-            ShadToaster.of(context).show(
-              const ShadToast(
-                description: Text('Session deleted successfully.'),
-              ),
-            );
+            showSuccessToast(context, 'Session deleted successfully.');
           }
         } catch (e) {
           if (context.mounted) {
-            // Shadcn has a built-in destructive (red) variant for errors!
-            ShadToaster.of(context).show(
-              ShadToast.destructive(
-                title: const Text('Error deleting session'),
-                description: Text(e.toString()),
-              ),
-            );
+            showErrorToast(context, e is Failure ? e : const ServerFailure());
           }
         }
       }
@@ -208,8 +203,10 @@ class _SessionList extends ConsumerWidget {
 
     return sessionsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) =>
-          Center(child: Text('Error loading sessions: $err')),
+      error: (err, stack) => ErrorView(
+        message: err is Failure ? err.message : 'Something went wrong.',
+        onRetry: () => ref.invalidate(courseSessionsProvider(courseId)),
+      ),
       data: (sessions) {
         if (sessions.isEmpty) {
           return Center(

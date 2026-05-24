@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:geotas/features/auth/providers/notifier/user_notifier.dart';
 import 'package:geotas/features/courses/presentation/widgets/user_avatar.dart';
@@ -17,7 +19,10 @@ class ProfileScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Profile')),
       body: userAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => ErrorView(
+          message: err is Failure ? err.message : 'Something went wrong.',
+          onRetry: () => ref.invalidate(userProvider),
+        ),
         data: (user) {
           if (user == null) {
             return const Center(child: Text('No user data found'));

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/utils/toast_helper.dart';
 import 'package:geotas/core/utils/validators.dart';
 import 'package:geotas/features/auth/providers/notifier/register_notifier.dart';
 import 'package:geotas/features/auth/providers/state/register_state.dart';
@@ -25,11 +27,9 @@ class RegisterForm extends HookConsumerWidget {
     ref.listen(registerProvider, (_, next) {
       next.whenOrNull(
         error: (error, _) {
-          ShadToaster.of(context).show(
-            ShadToast.destructive(
-              title: const Text('Registration failed'),
-              description: Text(error.toString()),
-            ),
+          showErrorToast(
+            context,
+            error is Failure ? error : const ServerFailure(),
           );
         },
       );

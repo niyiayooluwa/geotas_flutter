@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/utils/toast_helper.dart';
 import 'package:geotas/core/utils/validators.dart';
 import 'package:geotas/features/auth/providers/notifier/login_notifier.dart';
 import 'package:geotas/features/auth/providers/state/login_state.dart';
@@ -25,11 +27,9 @@ class LoginForm extends HookConsumerWidget {
     ref.listen(loginProvider, (_, next) {
       next.whenOrNull(
         error: (error, _) {
-          ShadToaster.of(context).show(
-            ShadToast.destructive(
-              title: const Text('Login failed'),
-              description: Text(error.toString()),
-            ),
+          showErrorToast(
+            context,
+            error is Failure ? error : const ServerFailure(),
           );
         },
       );

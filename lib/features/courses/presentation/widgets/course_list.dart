@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/core/utils/colors.dart';
 import 'package:geotas/features/courses/data/models/course_responses.dart';
 import 'package:geotas/features/courses/presentation/widgets/add_course_sheet.dart';
 import 'package:geotas/features/courses/presentation/widgets/course_empty_state.dart';
-import 'package:geotas/features/courses/presentation/widgets/course_error_state.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,7 +23,10 @@ class CourseList extends ConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (e, _) => CourseErrorState(message: e.toString()),
+      error: (e, _) => ErrorView(
+        message: e.toString(),
+        onRetry: () => ref.invalidate(courseProvider),
+      ),
       data: (courses) {
         if (courses.isEmpty) {
           return CourseEmptyState(onAdd: () => showAddCourseSheet(context));

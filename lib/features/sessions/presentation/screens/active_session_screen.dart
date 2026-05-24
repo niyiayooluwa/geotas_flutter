@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:geotas/core/errors/failures.dart';
+import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,7 +26,10 @@ class ActiveSessionScreen extends HookConsumerWidget {
     return Scaffold(
       body: sessionAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => ErrorView(
+          message: err is Failure ? err.message : 'Something went wrong.',
+          onRetry: () => ref.invalidate(sessionDetailsProvider(sessionId)),
+        ),
         data: (session) {
           if (session == null) {
             return const Center(child: Text('Session not found'));
