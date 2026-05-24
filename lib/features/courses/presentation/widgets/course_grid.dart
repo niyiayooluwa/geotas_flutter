@@ -3,7 +3,6 @@ import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/features/courses/presentation/widgets/add_course_card.dart';
 import 'package:geotas/features/courses/presentation/widgets/add_course_sheet.dart';
 import 'package:geotas/features/courses/presentation/widgets/course_empty_state.dart';
-import 'package:geotas/features/courses/presentation/widgets/course_error_state.dart';
 import 'package:geotas/features/courses/presentation/widgets/enrolled_course_card.dart';
 import 'package:geotas/features/courses/providers/course_provider.dart';
 import 'package:go_router/go_router.dart';
