@@ -119,22 +119,39 @@ class RegisterForm extends HookConsumerWidget {
 
           // Password
           ValueListenableBuilder(
-            valueListenable: form.isPasswordVisible,
-            builder: (context, isVisible, _) {
-              return ShadInputFormField(
-                id: 'password',
-                controller: form.passwordController,
-                label: const Text('Password'),
-                placeholder: const Text('••••••••'),
-                obscureText: !isVisible,
-                validator: (value) => validatePassword(value),
-                trailing: GestureDetector(
-                  onTap: () => form.isPasswordVisible.value = !isVisible,
-                  child: Icon(
-                    isVisible ? Icons.visibility_off : Icons.visibility,
-                    size: 18,
-                  ),
-                ),
+            valueListenable: form.isFormValid,
+            builder: (context, isValid, _) {
+              final vm = ref.watch(registerProvider);
+              final isLoading = vm.isLoading;
+
+              return ShadButton(
+                onPressed: isLoading || !isValid
+                    ? null
+                    : () async {
+                        if (form.formKey.currentState!.saveAndValidate()) {
+                          final success = await ref
+                              .read(registerProvider.notifier)
+                              .register(
+                                firstName: form.firstNameController.text.trim(),
+                                lastName: form.lastNameController.text.trim(),
+                                department: form.departmentController.text
+                                    .trim(),
+                                email: form.emailController.text.trim(),
+                                password: form.passwordController.text,
+                              );
+                          if (success && context.mounted) {
+                            context.go('/login');
+                          }
+                        }
+                      },
+                width: double.infinity,
+                child: isLoading
+                    ? const SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Create Account'),
               );
             },
           ),

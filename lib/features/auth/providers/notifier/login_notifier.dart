@@ -21,7 +21,10 @@ class LoginNotifier extends _$LoginNotifier {
 
     return result.fold(
       ifLeft: (failure) {
-        state = AsyncValue.error(failure.message, StackTrace.current);
+        state = AsyncValue.error(
+          failure,
+          StackTrace.current,
+        ); // not failure.message
         return false;
       },
       ifRight: (response) async {

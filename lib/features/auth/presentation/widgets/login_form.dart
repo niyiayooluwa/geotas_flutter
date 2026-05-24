@@ -108,6 +108,10 @@ class LoginForm extends HookConsumerWidget {
           ValueListenableBuilder(
             valueListenable: form.isFormValid,
             builder: (context, isValid, _) {
+              // re-read vm inside here so this builder sees both signals
+              final vm = ref.watch(loginProvider);
+              final isLoading = vm.isLoading;
+
               return ShadButton(
                 onPressed: isLoading || !isValid
                     ? null

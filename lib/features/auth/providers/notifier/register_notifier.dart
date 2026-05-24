@@ -1,3 +1,4 @@
+import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/features/auth/data/repositories/auth_repository.dart';
 import 'package:geotas/features/auth/data/models/auth_request.dart';
 import 'package:geotas/core/utils/validators.dart';
@@ -17,10 +18,9 @@ class RegisterNotifier extends _$RegisterNotifier {
     required String department,
     required String password,
   }) async {
-    // Validate password before hitting the network
     final passwordError = validatePassword(password);
     if (passwordError != null) {
-      state = AsyncValue.error(passwordError, StackTrace.current);
+      state = AsyncValue.error(OtherFailure(passwordError), StackTrace.current);
       return false;
     }
 
@@ -39,7 +39,7 @@ class RegisterNotifier extends _$RegisterNotifier {
 
     return result.fold(
       ifLeft: (failure) {
-        state = AsyncValue.error(failure.message, StackTrace.current);
+        state = AsyncValue.error(failure, StackTrace.current);
         return false;
       },
       ifRight: (_) {
