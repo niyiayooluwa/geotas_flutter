@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:geotas/core/errors/failures.dart';
 
 /// Extracts the plain-text error body from a DioException.
@@ -51,4 +52,7 @@ Failure mapDioException(DioException e) {
 }
 
 /// Maps a generic dart exception to OtherFailure.
-Failure mapException(Object e) => const OtherFailure();
+Failure mapException(Object e) {
+  debugPrint('mapException caught: $e');
+  return const OtherFailure();
+}

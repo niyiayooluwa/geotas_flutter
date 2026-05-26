@@ -1,5 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
@@ -11,7 +12,6 @@ part 'auth_repository.g.dart';
 
 class AuthRepository {
   final Dio _dio;
-  static const _webClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
 
   bool _isGoogleInitialized = false;
 
@@ -22,7 +22,7 @@ class AuthRepository {
       final googleSignIn = GoogleSignIn.instance;
 
       if (!_isGoogleInitialized) {
-        await googleSignIn.initialize(clientId: _webClientId);
+        await googleSignIn.initialize();
         _isGoogleInitialized = true;
       }
 
