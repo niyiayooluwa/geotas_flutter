@@ -6,7 +6,6 @@ import 'package:geotas/features/attendance/presentation/screens/scan_screen.dart
 import 'package:geotas/features/attendance/presentation/screens/student_session_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/profile_screen.dart';
-import 'package:geotas/features/auth/presentation/screens/register_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/settings_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
@@ -61,10 +60,10 @@ GoRouter router(Ref ref) {
       //=========================
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
 
-      GoRoute(
+      /*GoRoute(
         path: '/register',
         builder: (context, state) => const RegisterScreen(),
-      ),
+      ),*/
 
       //=========================
       // AUTHENTICATED ROUTES (With persistent layout)

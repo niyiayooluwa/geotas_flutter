@@ -3,9 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
-import 'package:geotas/features/auth/data/models/auth_request.dart';
-import 'package:geotas/features/auth/data/models/auth_response.dart';
 import 'package:geotas/features/auth/data/models/user_model.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_repository.g.dart';
@@ -13,28 +12,34 @@ part 'auth_repository.g.dart';
 class AuthRepository {
   final Dio _dio;
 
+  // PASTE YOUR WEB CLIENT ID HERE
+  final String _webClientId = 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com';
+
   AuthRepository(this._dio);
 
-  Future<Either<Failure, LoginResponse>> login(LoginRequest request) async {
+  Future<Either<Failure, String>> signInWithGoogle() async {
     try {
-      final response = await _dio.post('/auth/login', data: request.toJson());
-      return Either.right(LoginResponse.fromJson(response.data));
-    } on DioException catch (e) {
-      return Either.left(mapDioException(e));
-    } catch (e) {
-      return Either.left(mapException(e));
-    }
-  }
+      final googleSignIn = GoogleSignIn.instance;
+      await googleSignIn.initialize(clientId: _webClientId);
 
-  Future<Either<Failure, RegisterResponse>> register(
-    RegisterRequest request,
-  ) async {
-    try {
+      await googleSignIn.signOut();
+      final googleUser = await googleSignIn.authenticate();
+
+      final googleAuth = googleUser.authentication;
+      final String? idToken = googleAuth.idToken;
+
+      if (idToken == null) {
+        return const Either.left(
+          ServerFailure('Failed to retrieve Google ID token'),
+        );
+      }
+
       final response = await _dio.post(
-        '/auth/register',
-        data: request.toJson(),
+        '/auth/google',
+        data: {'id_token': idToken},
       );
-      return Either.right(RegisterResponse.fromJson(response.data));
+
+      return Either.right(response.data['token'] as String);
     } on DioException catch (e) {
       return Either.left(mapDioException(e));
     } catch (e) {
