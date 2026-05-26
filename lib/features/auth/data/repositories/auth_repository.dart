@@ -11,9 +11,8 @@ part 'auth_repository.g.dart';
 
 class AuthRepository {
   final Dio _dio;
-  final String _webClientId = 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com';
+  static const _webClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
 
-  // 1. Add this flag
   bool _isGoogleInitialized = false;
 
   AuthRepository(this._dio);
@@ -22,16 +21,13 @@ class AuthRepository {
     try {
       final googleSignIn = GoogleSignIn.instance;
 
-      // 2. Wrap the initialization in the check
       if (!_isGoogleInitialized) {
         await googleSignIn.initialize(clientId: _webClientId);
         _isGoogleInitialized = true;
       }
 
-      // Force sign-out to allow account selection
       await googleSignIn.signOut();
 
-      // The rest of the code stays exactly the same...
       final googleUser = await googleSignIn.authenticate();
 
       final googleAuth = googleUser.authentication;
@@ -55,8 +51,6 @@ class AuthRepository {
       return Either.left(mapException(e));
     }
   }
-
-  // ... getMe() stays the same
 
   Future<Either<Failure, UserModel>> getMe() async {
     try {
