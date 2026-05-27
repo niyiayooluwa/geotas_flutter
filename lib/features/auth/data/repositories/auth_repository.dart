@@ -1,6 +1,7 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
@@ -13,25 +14,37 @@ part 'auth_repository.g.dart';
 class AuthRepository {
   final Dio _dio;
 
-  bool _isGoogleInitialized = false;
+  static bool _googleInitialized = false;
 
   AuthRepository(this._dio);
 
   Future<Either<Failure, String>> signInWithGoogle() async {
     try {
-      final googleSignIn = GoogleSignIn.instance;
+      String? idToken;
 
-      if (!_isGoogleInitialized) {
-        await googleSignIn.initialize();
-        _isGoogleInitialized = true;
+      if (kIsWeb) {
+        final provider = GoogleAuthProvider();
+        final userCredential = await FirebaseAuth.instance.signInWithPopup(
+          provider,
+        );
+        idToken = await userCredential.user?.getIdToken();
+      } else {
+        final googleSignIn = GoogleSignIn.instance;
+        if (!_googleInitialized) {
+          await googleSignIn.initialize();
+          _googleInitialized = true;
+        }
+        await googleSignIn.signOut();
+        final googleUser = await googleSignIn.authenticate();
+        final googleAuth = googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          idToken: googleAuth.idToken,
+        );
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(
+          credential,
+        );
+        idToken = await userCredential.user?.getIdToken();
       }
-
-      await googleSignIn.signOut();
-
-      final googleUser = await googleSignIn.authenticate();
-
-      final googleAuth = googleUser.authentication;
-      final String? idToken = googleAuth.idToken;
 
       if (idToken == null) {
         return const Either.left(
