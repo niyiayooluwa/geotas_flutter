@@ -4,22 +4,6 @@ part 'course_responses.freezed.dart';
 part 'course_responses.g.dart';
 
 @freezed
-abstract class CourseModel with _$CourseModel {
-  const factory CourseModel({
-    required String id,
-    @JsonKey(name: 'owner_id') required String ownerId,
-    required String title,
-    required String code,
-    @JsonKey(name: 'invite_code') required String inviteCode,
-    required String department,
-    @JsonKey(name: 'created_at') required String createdAt,
-  }) = _CourseModel;
-
-  factory CourseModel.fromJson(Map<String, dynamic> json) =>
-      _$CourseModelFromJson(json);
-}
-
-@freezed
 abstract class JoinCourseResponse with _$JoinCourseResponse {
   const factory JoinCourseResponse({
     required String id,
@@ -34,6 +18,23 @@ abstract class JoinCourseResponse with _$JoinCourseResponse {
 }
 
 @freezed
+abstract class CourseModel with _$CourseModel {
+  const factory CourseModel({
+    required String id,
+    @JsonKey(name: 'owner_id') required String ownerId,
+    required String title,
+    required String code,
+    @JsonKey(name: 'invite_code') required String inviteCode,
+    required String department,
+    @JsonKey(name: 'student_count') @Default(0) int studentCount,
+    @JsonKey(name: 'created_at') required String createdAt,
+  }) = _CourseModel;
+
+  factory CourseModel.fromJson(Map<String, dynamic> json) =>
+      _$CourseModelFromJson(json);
+}
+
+@freezed
 abstract class EnrolledCourse with _$EnrolledCourse {
   const factory EnrolledCourse({
     required String id,
@@ -45,6 +46,7 @@ abstract class EnrolledCourse with _$EnrolledCourse {
     @JsonKey(name: 'created_at') required String createdAt,
     required String role,
     @JsonKey(name: 'matriculation_number') String? matriculationNumber,
+    @JsonKey(name: 'student_count') @Default(0) int studentCount,
   }) = _EnrolledCourse;
 
   factory EnrolledCourse.fromJson(Map<String, dynamic> json) =>

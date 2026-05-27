@@ -13,287 +13,6 @@ part of 'course_responses.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$CourseModel {
-
- String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code;@JsonKey(name: 'invite_code') String get inviteCode; String get department;@JsonKey(name: 'created_at') String get createdAt;
-/// Create a copy of CourseModel
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$CourseModelCopyWith<CourseModel> get copyWith => _$CourseModelCopyWithImpl<CourseModel>(this as CourseModel, _$identity);
-
-  /// Serializes this CourseModel to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,createdAt);
-
-@override
-String toString() {
-  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, createdAt: $createdAt)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $CourseModelCopyWith<$Res>  {
-  factory $CourseModelCopyWith(CourseModel value, $Res Function(CourseModel) _then) = _$CourseModelCopyWithImpl;
-@useResult
-$Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'created_at') String createdAt
-});
-
-
-
-
-}
-/// @nodoc
-class _$CourseModelCopyWithImpl<$Res>
-    implements $CourseModelCopyWith<$Res> {
-  _$CourseModelCopyWithImpl(this._self, this._then);
-
-  final CourseModel _self;
-  final $Res Function(CourseModel) _then;
-
-/// Create a copy of CourseModel
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? createdAt = null,}) {
-  return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
-as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
-as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [CourseModel].
-extension CourseModelPatterns on CourseModel {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CourseModel value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _CourseModel() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CourseModel value)  $default,){
-final _that = this;
-switch (_that) {
-case _CourseModel():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CourseModel value)?  $default,){
-final _that = this;
-switch (_that) {
-case _CourseModel() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'created_at')  String createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _CourseModel() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.createdAt);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'created_at')  String createdAt)  $default,) {final _that = this;
-switch (_that) {
-case _CourseModel():
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.createdAt);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'created_at')  String createdAt)?  $default,) {final _that = this;
-switch (_that) {
-case _CourseModel() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.createdAt);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _CourseModel implements CourseModel {
-  const _CourseModel({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, @JsonKey(name: 'invite_code') required this.inviteCode, required this.department, @JsonKey(name: 'created_at') required this.createdAt});
-  factory _CourseModel.fromJson(Map<String, dynamic> json) => _$CourseModelFromJson(json);
-
-@override final  String id;
-@override@JsonKey(name: 'owner_id') final  String ownerId;
-@override final  String title;
-@override final  String code;
-@override@JsonKey(name: 'invite_code') final  String inviteCode;
-@override final  String department;
-@override@JsonKey(name: 'created_at') final  String createdAt;
-
-/// Create a copy of CourseModel
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$CourseModelCopyWith<_CourseModel> get copyWith => __$CourseModelCopyWithImpl<_CourseModel>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$CourseModelToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,createdAt);
-
-@override
-String toString() {
-  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, createdAt: $createdAt)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$CourseModelCopyWith<$Res> implements $CourseModelCopyWith<$Res> {
-  factory _$CourseModelCopyWith(_CourseModel value, $Res Function(_CourseModel) _then) = __$CourseModelCopyWithImpl;
-@override @useResult
-$Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'created_at') String createdAt
-});
-
-
-
-
-}
-/// @nodoc
-class __$CourseModelCopyWithImpl<$Res>
-    implements _$CourseModelCopyWith<$Res> {
-  __$CourseModelCopyWithImpl(this._self, this._then);
-
-  final _CourseModel _self;
-  final $Res Function(_CourseModel) _then;
-
-/// Create a copy of CourseModel
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? createdAt = null,}) {
-  return _then(_CourseModel(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
-as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
-as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
 mixin _$JoinCourseResponse {
 
  String get id;@JsonKey(name: 'course_id') String get courseId;@JsonKey(name: 'user_id') String get userId; String get role;@JsonKey(name: 'joined_at') String get joinedAt;
@@ -569,9 +288,293 @@ as String,
 
 
 /// @nodoc
+mixin _$CourseModel {
+
+ String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code;@JsonKey(name: 'invite_code') String get inviteCode; String get department;@JsonKey(name: 'student_count') int get studentCount;@JsonKey(name: 'created_at') String get createdAt;
+/// Create a copy of CourseModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CourseModelCopyWith<CourseModel> get copyWith => _$CourseModelCopyWithImpl<CourseModel>(this as CourseModel, _$identity);
+
+  /// Serializes this CourseModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,studentCount,createdAt);
+
+@override
+String toString() {
+  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, studentCount: $studentCount, createdAt: $createdAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CourseModelCopyWith<$Res>  {
+  factory $CourseModelCopyWith(CourseModel value, $Res Function(CourseModel) _then) = _$CourseModelCopyWithImpl;
+@useResult
+$Res call({
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'created_at') String createdAt
+});
+
+
+
+
+}
+/// @nodoc
+class _$CourseModelCopyWithImpl<$Res>
+    implements $CourseModelCopyWith<$Res> {
+  _$CourseModelCopyWithImpl(this._self, this._then);
+
+  final CourseModel _self;
+  final $Res Function(CourseModel) _then;
+
+/// Create a copy of CourseModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? studentCount = null,Object? createdAt = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
+as String,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
+as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CourseModel].
+extension CourseModelPatterns on CourseModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CourseModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CourseModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CourseModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _CourseModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CourseModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CourseModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CourseModel() when $default != null:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt)  $default,) {final _that = this;
+switch (_that) {
+case _CourseModel():
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt)?  $default,) {final _that = this;
+switch (_that) {
+case _CourseModel() when $default != null:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CourseModel implements CourseModel {
+  const _CourseModel({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, @JsonKey(name: 'invite_code') required this.inviteCode, required this.department, @JsonKey(name: 'student_count') this.studentCount = 0, @JsonKey(name: 'created_at') required this.createdAt});
+  factory _CourseModel.fromJson(Map<String, dynamic> json) => _$CourseModelFromJson(json);
+
+@override final  String id;
+@override@JsonKey(name: 'owner_id') final  String ownerId;
+@override final  String title;
+@override final  String code;
+@override@JsonKey(name: 'invite_code') final  String inviteCode;
+@override final  String department;
+@override@JsonKey(name: 'student_count') final  int studentCount;
+@override@JsonKey(name: 'created_at') final  String createdAt;
+
+/// Create a copy of CourseModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CourseModelCopyWith<_CourseModel> get copyWith => __$CourseModelCopyWithImpl<_CourseModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CourseModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,studentCount,createdAt);
+
+@override
+String toString() {
+  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, studentCount: $studentCount, createdAt: $createdAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CourseModelCopyWith<$Res> implements $CourseModelCopyWith<$Res> {
+  factory _$CourseModelCopyWith(_CourseModel value, $Res Function(_CourseModel) _then) = __$CourseModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'created_at') String createdAt
+});
+
+
+
+
+}
+/// @nodoc
+class __$CourseModelCopyWithImpl<$Res>
+    implements _$CourseModelCopyWith<$Res> {
+  __$CourseModelCopyWithImpl(this._self, this._then);
+
+  final _CourseModel _self;
+  final $Res Function(_CourseModel) _then;
+
+/// Create a copy of CourseModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? studentCount = null,Object? createdAt = null,}) {
+  return _then(_CourseModel(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
+as String,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
+as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$EnrolledCourse {
 
- String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code; String get department;@JsonKey(name: 'invite_code') String get inviteCode;@JsonKey(name: 'created_at') String get createdAt; String get role;@JsonKey(name: 'matriculation_number') String? get matriculationNumber;
+ String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code; String get department;@JsonKey(name: 'invite_code') String get inviteCode;@JsonKey(name: 'created_at') String get createdAt; String get role;@JsonKey(name: 'matriculation_number') String? get matriculationNumber;@JsonKey(name: 'student_count') int get studentCount;
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -584,16 +587,16 @@ $EnrolledCourseCopyWith<EnrolledCourse> get copyWith => _$EnrolledCourseCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber);
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber,studentCount);
 
 @override
 String toString() {
-  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber)';
+  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber, studentCount: $studentCount)';
 }
 
 
@@ -604,7 +607,7 @@ abstract mixin class $EnrolledCourseCopyWith<$Res>  {
   factory $EnrolledCourseCopyWith(EnrolledCourse value, $Res Function(EnrolledCourse) _then) = _$EnrolledCourseCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber,@JsonKey(name: 'student_count') int studentCount
 });
 
 
@@ -621,7 +624,7 @@ class _$EnrolledCourseCopyWithImpl<$Res>
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,Object? studentCount = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -632,7 +635,8 @@ as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // igno
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,matriculationNumber: freezed == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -717,10 +721,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EnrolledCourse() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount);case _:
   return orElse();
 
 }
@@ -738,10 +742,10 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount)  $default,) {final _that = this;
 switch (_that) {
 case _EnrolledCourse():
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -758,10 +762,10 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount)?  $default,) {final _that = this;
 switch (_that) {
 case _EnrolledCourse() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount);case _:
   return null;
 
 }
@@ -773,7 +777,7 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 @JsonSerializable()
 
 class _EnrolledCourse implements EnrolledCourse {
-  const _EnrolledCourse({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, required this.department, @JsonKey(name: 'invite_code') required this.inviteCode, @JsonKey(name: 'created_at') required this.createdAt, required this.role, @JsonKey(name: 'matriculation_number') this.matriculationNumber});
+  const _EnrolledCourse({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, required this.department, @JsonKey(name: 'invite_code') required this.inviteCode, @JsonKey(name: 'created_at') required this.createdAt, required this.role, @JsonKey(name: 'matriculation_number') this.matriculationNumber, @JsonKey(name: 'student_count') this.studentCount = 0});
   factory _EnrolledCourse.fromJson(Map<String, dynamic> json) => _$EnrolledCourseFromJson(json);
 
 @override final  String id;
@@ -785,6 +789,7 @@ class _EnrolledCourse implements EnrolledCourse {
 @override@JsonKey(name: 'created_at') final  String createdAt;
 @override final  String role;
 @override@JsonKey(name: 'matriculation_number') final  String? matriculationNumber;
+@override@JsonKey(name: 'student_count') final  int studentCount;
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
@@ -799,16 +804,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber);
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber,studentCount);
 
 @override
 String toString() {
-  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber)';
+  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber, studentCount: $studentCount)';
 }
 
 
@@ -819,7 +824,7 @@ abstract mixin class _$EnrolledCourseCopyWith<$Res> implements $EnrolledCourseCo
   factory _$EnrolledCourseCopyWith(_EnrolledCourse value, $Res Function(_EnrolledCourse) _then) = __$EnrolledCourseCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber,@JsonKey(name: 'student_count') int studentCount
 });
 
 
@@ -836,7 +841,7 @@ class __$EnrolledCourseCopyWithImpl<$Res>
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,Object? studentCount = null,}) {
   return _then(_EnrolledCourse(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -847,7 +852,8 @@ as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // igno
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,matriculationNumber: freezed == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

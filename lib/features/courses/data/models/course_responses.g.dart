@@ -6,27 +6,6 @@ part of 'course_responses.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_CourseModel _$CourseModelFromJson(Map<String, dynamic> json) => _CourseModel(
-  id: json['id'] as String,
-  ownerId: json['owner_id'] as String,
-  title: json['title'] as String,
-  code: json['code'] as String,
-  inviteCode: json['invite_code'] as String,
-  department: json['department'] as String,
-  createdAt: json['created_at'] as String,
-);
-
-Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'owner_id': instance.ownerId,
-      'title': instance.title,
-      'code': instance.code,
-      'invite_code': instance.inviteCode,
-      'department': instance.department,
-      'created_at': instance.createdAt,
-    };
-
 _JoinCourseResponse _$JoinCourseResponseFromJson(Map<String, dynamic> json) =>
     _JoinCourseResponse(
       id: json['id'] as String,
@@ -45,6 +24,29 @@ Map<String, dynamic> _$JoinCourseResponseToJson(_JoinCourseResponse instance) =>
       'joined_at': instance.joinedAt,
     };
 
+_CourseModel _$CourseModelFromJson(Map<String, dynamic> json) => _CourseModel(
+  id: json['id'] as String,
+  ownerId: json['owner_id'] as String,
+  title: json['title'] as String,
+  code: json['code'] as String,
+  inviteCode: json['invite_code'] as String,
+  department: json['department'] as String,
+  studentCount: (json['student_count'] as num?)?.toInt() ?? 0,
+  createdAt: json['created_at'] as String,
+);
+
+Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'owner_id': instance.ownerId,
+      'title': instance.title,
+      'code': instance.code,
+      'invite_code': instance.inviteCode,
+      'department': instance.department,
+      'student_count': instance.studentCount,
+      'created_at': instance.createdAt,
+    };
+
 _EnrolledCourse _$EnrolledCourseFromJson(Map<String, dynamic> json) =>
     _EnrolledCourse(
       id: json['id'] as String,
@@ -56,6 +58,7 @@ _EnrolledCourse _$EnrolledCourseFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] as String,
       role: json['role'] as String,
       matriculationNumber: json['matriculation_number'] as String?,
+      studentCount: (json['student_count'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$EnrolledCourseToJson(_EnrolledCourse instance) =>
@@ -69,4 +72,5 @@ Map<String, dynamic> _$EnrolledCourseToJson(_EnrolledCourse instance) =>
       'created_at': instance.createdAt,
       'role': instance.role,
       'matriculation_number': instance.matriculationNumber,
+      'student_count': instance.studentCount,
     };

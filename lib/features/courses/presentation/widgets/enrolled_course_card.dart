@@ -99,6 +99,30 @@ class EnrolledCourseCard extends StatelessWidget {
                 ),
               ],
             ),
+
+            // Student count — lecturer only
+            if (isLecturer) ...[
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(
+                    Icons.people_outline,
+                    size: 13,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.45),
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    '${course.studentCount} student${course.studentCount == 1 ? '' : 's'}',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: theme.colorScheme.onSurface.withValues(
+                        alpha: 0.45,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
