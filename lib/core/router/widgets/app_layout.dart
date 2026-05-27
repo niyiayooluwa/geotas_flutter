@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geotas/core/router/widgets/bottom_nav.dart';
+import 'package:geotas/core/router/widgets/mobile_fab_nav.dart';
 import 'package:geotas/core/router/widgets/sidebar.dart';
 import 'package:geotas/features/auth/providers/notifier/user_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,29 +19,28 @@ class AppLayout extends HookConsumerWidget {
       error: (_, _) => null,
     );
 
-    return Scaffold(
-      body: ShadResponsiveBuilder(
-        builder: (context, breakpoint) {
-          final isDesktop = breakpoint >= ShadTheme.of(context).breakpoints.md;
+    return ShadResponsiveBuilder(
+      builder: (context, breakpoint) {
+        final isDesktop = breakpoint >= ShadTheme.of(context).breakpoints.md;
 
-          if (isDesktop) {
-            return Row(
+        if (isDesktop) {
+          return Scaffold(
+            body: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 220, child: Sidebar(user: user)),
+                CollapsibleSidebar(user: user),
                 Expanded(child: child),
               ],
-            );
-          }
-
-          return Column(
-            children: [
-              Expanded(child: child),
-              const BottomNav(),
-            ],
+            ),
           );
-        },
-      ),
+        }
+
+        // Mobile — no bottom nav, FAB handles navigation
+        return Scaffold(
+          body: child,
+          floatingActionButton: const MobileFabNav(),
+        );
+      },
     );
   }
 }
