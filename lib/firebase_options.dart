@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:126735209283:web:60267d94dd64a643b955f6',
     messagingSenderId: '126735209283',
     projectId: 'geotas-eeaca',
-    authDomain: 'geotas.vercel.app',
+    authDomain: 'geotas-eeaca.firebaseapp.com',
     storageBucket: 'geotas-eeaca.firebasestorage.app',
     measurementId: 'G-ZCMD59C1J9',
   );
