@@ -81,6 +81,7 @@ class MobileCourseRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: .center,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -108,7 +109,7 @@ class MobileCourseRow extends StatelessWidget {
                       Text(
                         course.code,
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 11,
                           color: Theme.of(
                             context,
                           ).colorScheme.onSurface.withValues(alpha: 0.5),
@@ -120,7 +121,7 @@ class MobileCourseRow extends StatelessWidget {
                   Text(
                     course.title,
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
                     overflow: TextOverflow.ellipsis,
