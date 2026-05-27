@@ -27,7 +27,8 @@ class AuthRepository {
         final userCredential = await FirebaseAuth.instance.signInWithPopup(
           provider,
         );
-        idToken = await userCredential.user?.getIdToken();
+        final googleCredential = userCredential.credential as OAuthCredential;
+        idToken = googleCredential.idToken;
       } else {
         final googleSignIn = GoogleSignIn.instance;
         if (!_googleInitialized) {
@@ -36,14 +37,7 @@ class AuthRepository {
         }
         await googleSignIn.signOut();
         final googleUser = await googleSignIn.authenticate();
-        final googleAuth = googleUser.authentication;
-        final credential = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken,
-        );
-        final userCredential = await FirebaseAuth.instance.signInWithCredential(
-          credential,
-        );
-        idToken = await userCredential.user?.getIdToken();
+        idToken = googleUser.authentication.idToken;
       }
 
       if (idToken == null) {
