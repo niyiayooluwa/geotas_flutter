@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geotas/core/router/widgets/mobile_fab_nav.dart';
 import 'package:geotas/core/router/widgets/sidebar.dart';
+import 'package:geotas/core/services/permission_gate.dart';
 import 'package:geotas/features/auth/providers/notifier/user_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -35,9 +37,11 @@ class AppLayout extends HookConsumerWidget {
           );
         }
 
-        // Mobile — no bottom nav, FAB handles navigation
+        // Mobile — wrap with PermissionGate so permissions are checked once
         return Scaffold(
-          body: child,
+          body: kIsWeb
+              ? child
+              : PermissionGate(child: child),
           floatingActionButton: const MobileFabNav(),
         );
       },
