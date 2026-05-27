@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geotas/core/router/splash.dart';
 import 'package:geotas/core/router/widgets/app_layout.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:geotas/features/attendance/presentation/screens/reports_screen.dart';
@@ -28,42 +29,36 @@ GoRouter router(Ref ref) {
 
     // App always starts at login — the redirect below will push
     // authenticated users to the dashboard immediately if a token exists.
-    initialLocation: '/login',
+    initialLocation: '/splash',
 
     // redirect runs before every navigation event.
     // It checks SecureStorage for a token and enforces auth guards.
     // Returns a path to redirect to, or null to allow the navigation through.
     redirect: (BuildContext context, GoRouterState state) async {
+      if (state.matchedLocation == '/splash') return null;
+
       final storage = SecureStorage();
       final token = await storage.getToken();
 
       final bool isLoggedIn = token != null;
-      final bool isGoingToAuth =
-          state.matchedLocation == '/login' ||
-          state.matchedLocation == '/register';
+      final bool isGoingToAuth = state.matchedLocation == '/login';
 
-      // Unauthenticated user trying to access a protected route → login
       if (!isLoggedIn && !isGoingToAuth) return '/login';
-
-      // Authenticated user trying to access auth screens → dashboard
-      // Role-based branching (lecturer vs student) will be added here
-      // once the courses endpoint is wired up.
       if (isLoggedIn && isGoingToAuth) return '/courses';
 
-      // No redirect needed
       return null;
     },
 
     routes: <RouteBase>[
       //=========================
-      // AUTHTENTICATION ROUTES
+      // PRE_AUTHTENTICATION ROUTES
       //=========================
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
 
-      /*GoRoute(
-        path: '/register',
-        builder: (context, state) => const RegisterScreen(),
-      ),*/
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
 
       //=========================
       // AUTHENTICATED ROUTES (With persistent layout)
@@ -109,7 +104,8 @@ GoRouter router(Ref ref) {
             path: '/sessions/:id/attendance',
             builder: (context, state) {
               final id = state.pathParameters['id']!;
-              final title = state.uri.queryParameters['title'] ?? 'Session Attendance';
+              final title =
+                  state.uri.queryParameters['title'] ?? 'Session Attendance';
               return SessionAttendanceDetailsScreen(
                 sessionId: id,
                 sessionTitle: title,
