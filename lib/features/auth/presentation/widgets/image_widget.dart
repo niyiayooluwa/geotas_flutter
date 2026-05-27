@@ -9,60 +9,129 @@ class AuthImagePanel extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Background image
-        Image.asset('assets/image/auth.jpg', fit: BoxFit.cover),
-
-        // Dark gradient overlay — heavier at bottom for text readability
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black.withValues(alpha: 0.1),
-                Colors.black.withValues(alpha: 0.75),
-              ],
-            ),
-          ),
+        // Background image — faint
+        Image.asset(
+          'assets/image/auth.jpg',
+          fit: BoxFit.cover,
         ),
 
-        // Copy pinned to bottom left
-        Positioned(
-          bottom: 48,
-          left: 40,
-          right: 40,
+        // Dark overlay — heavy enough to wash out the image
+        Container(color: const Color(0xFF1a1a2e).withValues(alpha: 0.85)),
+
+        // Content
+        Padding(
+          padding: const EdgeInsets.all(32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Attendance,\naccounted for.',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  height: 1.2,
-                ),
+              // Logo — swap SvgPicture for your actual logo asset
+              SvgPicture.asset(
+                'assets/svgs/logo-white.svg',
+                height: 32,
+                fit: BoxFit.contain,
+                alignment: Alignment.centerLeft,
               ),
-              const SizedBox(height: 12),
-              Text(
-                'GEOTAS uses location and QR technology to make sure every present student is actually present.',
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.85),
-                  fontSize: 15,
-                  height: 1.5,
+
+              // Middle content
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF7c6ef0).withValues(alpha: 0.18),
+                      border: Border.all(
+                        color: const Color(0xFF7c6ef0).withValues(alpha: 0.35),
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFa89cf5),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        const Text(
+                          'Geo-Temporal Attendance System',
+                          style: TextStyle(fontSize: 12, color: Color(0xFFa89cf5)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Attendance,\naccounted for.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                      height: 1.25,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Location-verified, QR-secured attendance\nfor Nigerian universities.',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.5),
+                      fontSize: 13,
+                      height: 1.6,
+                    ),
+                  ),
+                ],
+              ),
+
+              // Stats row
+              IntrinsicHeight(
+                child: Row(
+                  children: [
+                    _Stat(value: '4 layers', label: 'of verification'),
+                    const VerticalDivider(color: Colors.white10, width: 40),
+                    _Stat(value: 'Real-time', label: 'confidence scoring'),
+                    const VerticalDivider(color: Colors.white10, width: 40),
+                    _Stat(value: 'Tamper-proof', label: 'records'),
+                  ],
                 ),
               ),
             ],
           ),
         ),
+      ],
+    );
+  }
+}
 
-        Positioned(
-          top: 20,
-          left: 40,
-          height: 40,
-          child: SvgPicture.asset(
-            'assets/svgs/logo-white.svg',
-            fit: BoxFit.contain,
+class _Stat extends StatelessWidget {
+  const _Stat({required this.value, required this.label});
+
+  final String value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.4),
+            fontSize: 11,
           ),
         ),
       ],
