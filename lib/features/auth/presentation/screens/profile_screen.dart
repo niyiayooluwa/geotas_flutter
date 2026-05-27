@@ -37,7 +37,18 @@ class ProfileScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
 
-                Center(child: UserAvatar(user: user)),
+                Center(
+                  child: ClipOval(
+                    child: Image.network(
+                      user.avatarUrl ?? '',
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stack) =>
+                          UserAvatar(user: user, size: 100),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 16),
 
                 Text(
@@ -47,13 +58,6 @@ class ProfileScreen extends ConsumerWidget {
 
                 Text(user.email, style: ShadTheme.of(context).textTheme.muted),
                 const SizedBox(height: 32),
-
-                _ProfileInfoCard(
-                  label: 'Department',
-                  value: user.department,
-                  icon: LucideIcons.building2,
-                ),
-                const SizedBox(height: 12),
 
                 _ProfileInfoCard(
                   label: 'Account Created',

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 class UserAvatar extends StatelessWidget {
-  const UserAvatar({super.key, required this.user});
+  const UserAvatar({super.key, required this.user, this.size = 40});
 
   final dynamic user;
+  final double size;
+
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +16,8 @@ class UserAvatar extends StatelessWidget {
     final theme = ShadTheme.of(context);
 
     return Container(
-      width: 40,
-      height: 40,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         color: theme.colorScheme.muted,
         shape: BoxShape.circle,

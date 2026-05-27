@@ -1,14 +1,15 @@
 // The new unified main.dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-//import 'package:geotas/core/providers/theme_provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:geotas/core/router/router.dart';
 import 'package:geotas/firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -27,13 +28,15 @@ class GeotasApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    //final themeMode = ref.watch(themeModeProvider);
+
+    // Remove splash screen once the first frame is rendered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterNativeSplash.remove();
+    });
 
     return ShadApp.router(
       title: 'GEOTAS',
       theme: ShadThemeData(colorScheme: const ShadVioletColorScheme.light()),
-      //darkTheme: ShadThemeData(colorScheme: const ShadGrayColorScheme.dark()),
-      //themeMode: themeMode,
       routerConfig: router,
     );
   }

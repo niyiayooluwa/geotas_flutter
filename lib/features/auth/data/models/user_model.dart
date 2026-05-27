@@ -10,7 +10,7 @@ abstract class UserModel with _$UserModel {
     @JsonKey(name: 'first_name') required String firstName,
     @JsonKey(name: 'last_name') required String lastName,
     required String email,
-    required String department,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
     @JsonKey(name: 'created_at') required String createdAt,
   }) = _UserModel;
 
