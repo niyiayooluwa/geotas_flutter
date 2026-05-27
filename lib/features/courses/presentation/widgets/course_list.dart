@@ -53,6 +53,8 @@ class MobileCourseRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accent = colourForCode(course.code);
+    final theme = Theme.of(context);
+    final isLecturer = course.role == 'lecturer';
 
     return GestureDetector(
       onTap: () => context.push('/courses/${course.id}'),
@@ -78,16 +80,43 @@ class MobileCourseRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    course.code,
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.5),
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isLecturer
+                              ? theme.colorScheme.secondaryContainer
+                              : theme.colorScheme.tertiaryContainer,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          isLecturer ? 'Lecturer' : 'Student',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            color: isLecturer
+                                ? theme.colorScheme.onSecondaryContainer
+                                : theme.colorScheme.onTertiaryContainer,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        course.code,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.5),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 1),
+                  const SizedBox(height: 4),
                   Text(
                     course.title,
                     style: const TextStyle(
@@ -96,16 +125,31 @@ class MobileCourseRow extends StatelessWidget {
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 1),
-                  Text(
-                    course.role == 'lecturer' ? 'Lecturer' : 'Student',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.5),
+                  const SizedBox(height: 4),
+
+                  if (course.role == 'lecturer') ...[
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.people_outline,
+                          size: 13,
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.45,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${course.studentCount} student${course.studentCount == 1 ? '' : 's'}',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.45,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),

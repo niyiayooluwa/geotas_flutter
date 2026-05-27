@@ -65,7 +65,15 @@ class _MobileHeader extends StatelessWidget {
             ],
           ),
         ),
-        UserAvatar(user: user),
+        ClipOval(
+          child: Image.network(
+            user?.avatarUrl ?? '',
+            width: 40,
+            height: 40,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stack) => UserAvatar(user: user),
+          ),
+        ),
       ],
     );
   }
@@ -82,10 +90,7 @@ class _MobileContent extends StatelessWidget {
           children: [
             const Text(
               'Enrolled courses',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
             ),
             const Spacer(),
             GestureDetector(
