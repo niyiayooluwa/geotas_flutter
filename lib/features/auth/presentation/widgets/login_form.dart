@@ -64,7 +64,7 @@ class LoginForm extends HookConsumerWidget {
                       .read(loginProvider.notifier)
                       .signInWithGoogle();
                   if (success && context.mounted) {
-                    context.go('/dashboard');
+                    context.go('/courses');
                   }
                 },
           width: double.infinity,

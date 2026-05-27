@@ -39,22 +39,22 @@ class MobileFabNav extends StatelessWidget {
                   ),
                 ),
                 _NavSheetItem(
-                  icon: LucideIcons.layoutDashboard,
-                  label: 'Home',
-                  active: location == '/dashboard',
-                  onTap: () { Navigator.pop(context); context.go('/dashboard'); },
-                ),
-                _NavSheetItem(
                   icon: LucideIcons.book,
                   label: 'Courses',
                   active: location.startsWith('/courses'),
-                  onTap: () { Navigator.pop(context); context.go('/courses'); },
+                  onTap: () {
+                    Navigator.pop(context);
+                    context.go('/courses');
+                  },
                 ),
                 _NavSheetItem(
                   icon: LucideIcons.circleUser,
                   label: 'Profile',
                   active: location == '/profile',
-                  onTap: () { Navigator.pop(context); context.go('/profile'); },
+                  onTap: () {
+                    Navigator.pop(context);
+                    context.go('/profile');
+                  },
                 ),
               ],
             ),

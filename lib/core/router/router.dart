@@ -48,7 +48,7 @@ GoRouter router(Ref ref) {
       // Authenticated user trying to access auth screens → dashboard
       // Role-based branching (lecturer vs student) will be added here
       // once the courses endpoint is wired up.
-      if (isLoggedIn && isGoingToAuth) return '/dashboard';
+      if (isLoggedIn && isGoingToAuth) return '/courses';
 
       // No redirect needed
       return null;
@@ -72,12 +72,8 @@ GoRouter router(Ref ref) {
         builder: (context, state, child) => AppLayout(child: child),
         routes: [
           GoRoute(
-            path: '/dashboard',
-            builder: (context, state) => const DashboardScreen(),
-          ),
-          GoRoute(
             path: '/courses',
-            builder: (context, state) => const DashboardScreen(),
+            builder: (context, state) => const CoursesScreen(),
           ),
           GoRoute(
             path: '/courses/:id',

@@ -28,9 +28,10 @@ class _CollapsibleSidebarState extends ConsumerState<CollapsibleSidebar>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _widthAnim = Tween<double>(begin: 220, end: 64).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _widthAnim = Tween<double>(
+      begin: 220,
+      end: 64,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -99,23 +100,14 @@ class _CollapsibleSidebarState extends ConsumerState<CollapsibleSidebar>
                     'Attendance portal',
                     style: TextStyle(
                       fontSize: 11,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.5),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                   ),
                 ],
 
                 const SizedBox(height: 32),
-
-                _SidebarItem(
-                  icon: LucideIcons.layoutDashboard,
-                  label: 'Dashboard',
-                  active: location == '/dashboard',
-                  collapsed: _collapsed,
-                  onTap: () => context.go('/dashboard'),
-                ),
                 _SidebarItem(
                   icon: LucideIcons.book,
                   label: 'My Courses',
@@ -206,8 +198,7 @@ class _SidebarItem extends StatelessWidget {
                     label,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight:
-                          active ? FontWeight.w500 : FontWeight.normal,
+                      fontWeight: active ? FontWeight.w500 : FontWeight.normal,
                       color: iconColor,
                     ),
                   ),
@@ -217,8 +208,6 @@ class _SidebarItem extends StatelessWidget {
     );
 
     // Show tooltip with label when collapsed
-    return collapsed
-        ? Tooltip(message: label, child: item)
-        : item;
+    return collapsed ? Tooltip(message: label, child: item) : item;
   }
 }
