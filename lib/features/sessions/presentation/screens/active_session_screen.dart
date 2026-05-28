@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert'; // <-- Added for JSON encoding
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geotas/core/errors/failures.dart';
@@ -9,7 +10,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-// Assuming you import your model here:
 import 'package:geotas/features/sessions/data/models/session_model.dart';
 
 class ActiveSessionScreen extends HookConsumerWidget {
@@ -21,8 +21,6 @@ class ActiveSessionScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionAsync = ref.watch(sessionDetailsProvider(sessionId));
 
-    // Notice we wrap the ENTIRE AsyncValue return inside a single Scaffold root.
-    // This prevents layout crashes during the loading/error phases.
     return Scaffold(
       body: sessionAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -35,8 +33,6 @@ class ActiveSessionScreen extends HookConsumerWidget {
             return const Center(child: Text('Session not found'));
           }
 
-          // If the session is accidentally closed by another device,
-          // this safety check boots the user out gracefully instead of crashing.
           if (session.status != 'active') {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (context.mounted) Navigator.pop(context);
@@ -52,7 +48,7 @@ class ActiveSessionScreen extends HookConsumerWidget {
 }
 
 class _ActiveSessionContent extends HookConsumerWidget {
-  final SessionModel session; // Upgraded from dynamic
+  final SessionModel session;
 
   const _ActiveSessionContent({required this.session});
 
@@ -87,7 +83,7 @@ class _ActiveSessionContent extends HookConsumerWidget {
         };
       },
       [session.id, session.qrRotationSecs],
-    ); // Added qrRotationSecs to the dependency array
+    );
 
     Future<void> handleClose() async {
       isClosing.value = true;
@@ -95,11 +91,8 @@ class _ActiveSessionContent extends HookConsumerWidget {
         await ref
             .read(courseSessionsProvider(session.courseId).notifier)
             .closeSession(session.id);
-
-        // Let the parent ActiveSessionScreen's session.status check handle the routing!
-        // We do NOT pop the navigator here manually, avoiding race conditions.
       } catch (e) {
-        isClosing.value = false; // Only reset if there's an error
+        isClosing.value = false;
         if (context.mounted) {
           ShadToaster.of(context).show(
             ShadToast.destructive(
@@ -111,7 +104,6 @@ class _ActiveSessionContent extends HookConsumerWidget {
       }
     }
 
-    // Since the parent holds the Scaffold, this widget just returns a Column
     return Column(
       children: [
         // App Bar equivalent inside the body
@@ -156,38 +148,46 @@ class _ActiveSessionContent extends HookConsumerWidget {
           ),
         ),
 
-        // The rest of your content
+        // Responsive Layout Builder
         Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                // QR Code Section
-                Card(
-                  clipBehavior: Clip.antiAlias, // Ensures sharp edges
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.grey.shade300),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      children: [
-                        qrTokenAsync.when(
-                          loading: () => const SizedBox(
-                            height: 200,
-                            child: Center(child: CircularProgressIndicator()),
-                          ),
-                          error: (err, _) => SizedBox(
-                            height: 200,
-                            child: Center(child: Text('Error: $err')),
-                          ),
-                          data: (token) => QrImageView(
-                            data: token.token,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isWideScreen = constraints.maxWidth >= 800;
+
+              // --- 1. Extract QR Widget ---
+              final qrSection = Card(
+                clipBehavior: Clip.antiAlias,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Colors.grey.shade300),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      qrTokenAsync.when(
+                        loading: () => SizedBox(
+                          height: isWideScreen ? 300 : 200,
+                          child: const Center(child: CircularProgressIndicator()),
+                        ),
+                        error: (err, _) => SizedBox(
+                          height: isWideScreen ? 300 : 200,
+                          child: Center(child: Text('Error: $err')),
+                        ),
+                        data: (token) {
+                          // TASK 6: Construct JSON Payload
+                          final qrPayload = jsonEncode({
+                            "token": token.token,
+                            "session_id": session.id,
+                            "course_id": session.courseId,
+                          });
+
+                          return QrImageView(
+                            data: qrPayload,
                             version: QrVersions.auto,
-                            size: 200.0,
-                            // Inverted QR colors for dark mode compatibility
+                            size: isWideScreen ? 350.0 : 200.0, // Larger on web
                             backgroundColor: Colors.white,
                             eyeStyle: const QrEyeStyle(
                               eyeShape: QrEyeShape.square,
@@ -197,91 +197,127 @@ class _ActiveSessionContent extends HookConsumerWidget {
                               dataModuleShape: QrDataModuleShape.square,
                               color: Colors.black,
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Next rotation in ${timeLeft.value}s',
-                          style: ShadTheme.of(context).textTheme.muted,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 32),
-
-                // ... (Keep the rest of your Attendance List UI exactly the same)
-
-                // Attendance List Header
-                Row(
-                  children: [
-                    Text(
-                      'Live Attendance',
-                      style: ShadTheme.of(context).textTheme.h3,
-                    ),
-                    const Spacer(),
-                    attendanceAsync.when(
-                      data: (list) => Text(
-                        '${list.length} present',
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Next rotation in ${timeLeft.value}s',
                         style: ShadTheme.of(context).textTheme.muted,
                       ),
-                      loading: () => const SizedBox.shrink(),
-                      error: (_, _) => const SizedBox.shrink(),
-                    ),
+                    ],
+                  ),
+                ),
+              );
+
+              // --- 2. Extract Attendance Widget ---
+              final attendanceSection = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Live Attendance',
+                        style: ShadTheme.of(context).textTheme.h3,
+                      ),
+                      const Spacer(),
+                      attendanceAsync.when(
+                        data: (list) => Text(
+                          '${list.length} present',
+                          style: ShadTheme.of(context).textTheme.muted,
+                        ),
+                        loading: () => const SizedBox.shrink(),
+                        error: (_, _) => const SizedBox.shrink(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  attendanceAsync.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (err, _) => Center(child: Text('Error: $err')),
+                    data: (list) {
+                      if (list.isEmpty) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 32),
+                            child: Text(
+                              'No one has checked in yet',
+                              style: ShadTheme.of(context).textTheme.muted,
+                            ),
+                          ),
+                        );
+                      }
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: list.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: 8),
+                        itemBuilder: (context, index) {
+                          return _AttendanceRow(item: list[index]);
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 40),
+                  ShadButton.destructive(
+                    width: double.infinity,
+                    onPressed: isClosing.value ? null : handleClose,
+                    child: isClosing.value
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text('Close Session'),
+                  ),
+                ],
+              );
+
+              // --- 3. Implement Responsive Split ---
+              
+              // TASK 5: Wide Screen (Web/Tablet Landscape) Layout
+              if (isWideScreen) {
+                return Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 60% Left Side (QR Code)
+                      Expanded(
+                        flex: 6,
+                        child: SingleChildScrollView(
+                          child: Center(child: qrSection),
+                        ),
+                      ),
+                      const SizedBox(width: 48),
+                      // 40% Right Side (Attendance & Controls)
+                      Expanded(
+                        flex: 4,
+                        child: SingleChildScrollView(
+                          child: attendanceSection,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              // Mobile Screen (Standard Column Layout)
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    qrSection,
+                    const SizedBox(height: 32),
+                    attendanceSection,
                   ],
                 ),
-                const SizedBox(height: 16),
-
-                // Attendance List
-                attendanceAsync.when(
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (err, _) => Center(child: Text('Error: $err')),
-                  data: (list) {
-                    if (list.isEmpty) {
-                      return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 32),
-                          child: Text(
-                            'No one has checked in yet',
-                            style: ShadTheme.of(context).textTheme.muted,
-                          ),
-                        ),
-                      );
-                    }
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: list.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 8),
-                      itemBuilder: (context, index) {
-                        final item = list[index];
-                        return _AttendanceRow(item: item);
-                      },
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 40),
-
-                // Close Session Button
-                ShadButton.destructive(
-                  width: double.infinity,
-                  onPressed: isClosing.value ? null : handleClose,
-                  child: isClosing.value
-                      ? const SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const Text('Close Session'),
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ],
@@ -289,7 +325,6 @@ class _ActiveSessionContent extends HookConsumerWidget {
   }
 }
 
-// ... Keep your _AttendanceRow exactly as it is.
 class _AttendanceRow extends StatelessWidget {
   final DetailedAttendanceModel item;
 
