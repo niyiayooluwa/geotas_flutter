@@ -27,8 +27,7 @@ class AuthRepository {
         final userCredential = await FirebaseAuth.instance.signInWithPopup(
           provider,
         );
-        final googleCredential = userCredential.credential as OAuthCredential;
-        idToken = googleCredential.idToken;
+        idToken = await userCredential.user?.getIdToken();
       } else {
         final googleSignIn = GoogleSignIn.instance;
         if (!_googleInitialized) {
