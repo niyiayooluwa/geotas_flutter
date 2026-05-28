@@ -45,7 +45,7 @@ class QrPanel extends ConsumerWidget {
               data: (token) => QrImageView(
                 data: token.qrContent,
                 version: QrVersions.auto,
-                size: isWideScreen ? 350.0 : 200.0,
+                size: isWideScreen ? 550.0 : 350.0,
                 backgroundColor: Colors.white,
                 eyeStyle: const QrEyeStyle(
                   eyeShape: QrEyeShape.square,
