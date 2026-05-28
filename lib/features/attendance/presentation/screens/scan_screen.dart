@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geotas/core/utils/device_info_helper.dart';
 import 'package:geotas/features/attendance/data/models/attendance_requests.dart';
-import 'package:geotas/features/attendance/data/repositories/attendance_repository.dart';
 import 'package:geotas/features/attendance/presentation/widgets/qr_scanner_overlay_shape.dart';
+import 'package:geotas/features/attendance/providers/attendance_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -49,11 +49,15 @@ class ScanScreen extends HookConsumerWidget {
         final token = payload['token'] as String?;
         final payloadSessionId = payload['session_id'] as String?;
 
-        if (token == null) throw 'Invalid QR code. Please scan a GEOTAS QR code.';
+        if (token == null) {
+          throw 'Invalid QR code. Please scan a GEOTAS QR code.';
+        }
 
         // prefer injected sessionId (old flow), fall back to payload (FAB flow)
         final resolvedSessionId = sessionId ?? payloadSessionId;
-        if (resolvedSessionId == null) throw 'QR code does not contain a session ID.';
+        if (resolvedSessionId == null) {
+          throw 'QR code does not contain a session ID.';
+        }
 
         final data = await DeviceInfoHelper.getCollectionData();
         final request = MarkAttendanceQRRequest(
@@ -67,13 +71,13 @@ class ScanScreen extends HookConsumerWidget {
           mockLocationDetected: data['mockLocationDetected'],
         );
 
-        final markResult = await ref
-            .read(attendanceRepositoryProvider)
-            .markWithQR(request);
+        await ref.read(markAttendanceProvider.notifier).withQR(request);
 
-        markResult.fold(
-          ifLeft: (failure) => throw failure.message,
-          ifRight: (_) => result.value = 'Attendance marked successfully!',
+        final markState = ref.read(markAttendanceProvider);
+        markState.when(
+          data: (_) => result.value = 'Attendance marked successfully!',
+          error: (e, _) => throw e,
+          loading: () {},
         );
       } catch (e) {
         error.value = e.toString();
@@ -131,14 +135,20 @@ class ScanScreen extends HookConsumerWidget {
               right: 0,
               child: Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
                     'Position QR code in frame',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -191,7 +201,10 @@ class ScanScreen extends HookConsumerWidget {
             const SizedBox(height: 24),
             Text('Verifying...', style: ShadTheme.of(context).textTheme.h4),
             const SizedBox(height: 8),
-            Text('Please do not close the app.', style: ShadTheme.of(context).textTheme.muted),
+            Text(
+              'Please do not close the app.',
+              style: ShadTheme.of(context).textTheme.muted,
+            ),
           ],
         ),
       );

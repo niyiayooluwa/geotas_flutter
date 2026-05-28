@@ -111,3 +111,67 @@ abstract class _$SessionAttendance
     element.handleValue(ref, created);
   }
 }
+
+@ProviderFor(MarkAttendance)
+const markAttendanceProvider = MarkAttendanceProvider._();
+
+final class MarkAttendanceProvider
+    extends $NotifierProvider<MarkAttendance, AsyncValue<AttendanceResponse?>> {
+  const MarkAttendanceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'markAttendanceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$markAttendanceHash();
+
+  @$internal
+  @override
+  MarkAttendance create() => MarkAttendance();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<AttendanceResponse?> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AsyncValue<AttendanceResponse?>>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$markAttendanceHash() => r'c0c6d067bb8b694d54d90884d69d2aed9d399406';
+
+abstract class _$MarkAttendance
+    extends $Notifier<AsyncValue<AttendanceResponse?>> {
+  AsyncValue<AttendanceResponse?> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<AttendanceResponse?>,
+              AsyncValue<AttendanceResponse?>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<AttendanceResponse?>,
+                AsyncValue<AttendanceResponse?>
+              >,
+              AsyncValue<AttendanceResponse?>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

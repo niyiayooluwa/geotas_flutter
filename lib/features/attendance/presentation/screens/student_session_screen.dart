@@ -6,6 +6,7 @@ import 'package:geotas/core/utils/device_info_helper.dart';
 import 'package:geotas/features/attendance/data/models/attendance_requests.dart';
 import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
 import 'package:geotas/features/attendance/data/repositories/attendance_repository.dart';
+import 'package:geotas/features/attendance/providers/attendance_provider.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:geotas/features/sessions/data/models/session_model.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,7 @@ class StudentSessionScreen extends HookConsumerWidget {
     final otpResponse = useState<OTPResponse?>(null);
     final otpController = useTextEditingController();
     final isLoading = useState(false);
-    
+
     Future<void> requestOTP() async {
       isLoading.value = true;
       try {
@@ -64,13 +65,11 @@ class StudentSessionScreen extends HookConsumerWidget {
           mockLocationDetected: data['mockLocationDetected'],
         );
 
-        final result = await ref
-            .read(attendanceRepositoryProvider)
-            .verifyOTP(request);
+        await ref.read(markAttendanceProvider.notifier).withOTP(request);
 
-        result.fold(
-          ifLeft: (failure) => throw failure.message,
-          ifRight: (_) {
+        final markState = ref.read(markAttendanceProvider);
+        markState.when(
+          data: (_) {
             if (context.mounted) {
               ShadToaster.of(context).show(
                 const ShadToast(
@@ -80,6 +79,8 @@ class StudentSessionScreen extends HookConsumerWidget {
               Navigator.pop(context);
             }
           },
+          error: (e, _) => throw e,
+          loading: () {},
         );
       } catch (e) {
         if (context.mounted) {
