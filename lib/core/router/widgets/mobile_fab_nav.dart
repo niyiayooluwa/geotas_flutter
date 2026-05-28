@@ -48,6 +48,15 @@ class MobileFabNav extends StatelessWidget {
                   },
                 ),
                 _NavSheetItem(
+                  icon: LucideIcons.qrCode,
+                  label: 'Scan QR',
+                  active: location == '/scan',
+                  onTap: () {
+                    Navigator.pop(context);
+                    context.push('/scan');
+                  },
+                ),
+                _NavSheetItem(
                   icon: LucideIcons.circleUser,
                   label: 'Profile',
                   active: location == '/profile',

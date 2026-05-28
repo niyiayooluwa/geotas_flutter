@@ -8,8 +8,8 @@ import 'package:geotas/features/attendance/data/models/attendance_responses.dart
 import 'package:geotas/features/attendance/data/repositories/attendance_repository.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:geotas/features/sessions/data/models/session_model.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 class StudentSessionScreen extends HookConsumerWidget {
@@ -23,53 +23,7 @@ class StudentSessionScreen extends HookConsumerWidget {
     final otpResponse = useState<OTPResponse?>(null);
     final otpController = useTextEditingController();
     final isLoading = useState(false);
-
-    Future<void> markWithQR(String token) async {
-      isLoading.value = true;
-      try {
-        final data = await DeviceInfoHelper.getCollectionData();
-        final request = MarkAttendanceQRRequest(
-          sessionId: sessionId,
-          qrToken: token,
-          latitude: data['latitude'],
-          longitude: data['longitude'],
-          deviceId: data['deviceId'],
-          deviceModel: data['deviceModel'],
-          osVersion: data['osVersion'],
-          mockLocationDetected: data['mockLocationDetected'],
-        );
-
-        final result = await ref
-            .read(attendanceRepositoryProvider)
-            .markWithQR(request);
-
-        result.fold(
-          ifLeft: (failure) => throw failure.message,
-          ifRight: (_) {
-            if (context.mounted) {
-              ShadToaster.of(context).show(
-                const ShadToast(
-                  description: Text('Attendance marked successfully!'),
-                ),
-              );
-              Navigator.pop(context);
-            }
-          },
-        );
-      } catch (e) {
-        if (context.mounted) {
-          ShadToaster.of(context).show(
-            ShadToast.destructive(
-              title: const Text('Failed to mark attendance'),
-              description: Text(e.toString()),
-            ),
-          );
-        }
-      } finally {
-        isLoading.value = false;
-      }
-    }
-
+    
     Future<void> requestOTP() async {
       isLoading.value = true;
       try {
@@ -190,20 +144,8 @@ class StudentSessionScreen extends HookConsumerWidget {
                           size: ShadButtonSize.lg,
                           onPressed: isLoading.value
                               ? null
-                              : () async {
-                                  // 1. Wait for the decoupled dialog to return the token
-                                  final scannedToken =
-                                      await showShadDialog<String>(
-                                        context: context,
-                                        builder: (context) =>
-                                            const _QRScannerDialog(),
-                                      );
-
-                                  // 2. Only run the API call AFTER the camera hardware is safely destroyed
-                                  if (scannedToken != null && context.mounted) {
-                                    markWithQR(scannedToken);
-                                  }
-                                },
+                              : () =>
+                                    context.push('/scan?sessionId=$sessionId'),
                           child: isLoading.value
                               ? const SizedBox(
                                   height: 16,
@@ -300,51 +242,6 @@ class StudentSessionScreen extends HookConsumerWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-/// The Decoupled Camera Dialog
-/// This ensures the camera hardware spins up and shuts down in total isolation
-/// preventing Android lifecycle deadlocks on strict devices like Xiaomi.
-class _QRScannerDialog extends StatefulWidget {
-  const _QRScannerDialog();
-
-  @override
-  State<_QRScannerDialog> createState() => _QRScannerDialogState();
-}
-
-class _QRScannerDialogState extends State<_QRScannerDialog> {
-  bool _hasScanned = false; // Safety lock
-
-  @override
-  Widget build(BuildContext context) {
-    return ShadDialog(
-      title: const Text('Scan QR Code'),
-      description: const Text(
-        'Position the lecture hall QR code within the frame.',
-      ),
-      child: SizedBox(
-        height: 300,
-        width: 300,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: MobileScanner(
-            onDetect: (capture) {
-              if (_hasScanned) return;
-
-              final List<Barcode> barcodes = capture.barcodes;
-              for (final barcode in barcodes) {
-                if (barcode.rawValue != null) {
-                  _hasScanned = true;
-                  Navigator.of(context).pop(barcode.rawValue);
-                  break;
-                }
-              }
-            },
-          ),
-        ),
       ),
     );
   }

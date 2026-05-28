@@ -1,5 +1,4 @@
-import 'dart:async';
-import 'dart:convert'; // <-- Added for JSON encoding
+import 'dart:async'; // <-- Added for JSON encoding
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geotas/core/errors/failures.dart';
@@ -60,30 +59,27 @@ class _ActiveSessionContent extends HookConsumerWidget {
     final timeLeft = useState(session.qrRotationSecs);
     final isClosing = useState(false);
 
-    useEffect(
-      () {
-        final qrTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-          if (timeLeft.value > 1) {
-            timeLeft.value--;
-          } else {
-            timeLeft.value = session.qrRotationSecs;
-            ref.invalidate(sessionQRTokenProvider(session.id));
-          }
-        });
+    useEffect(() {
+      final qrTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (timeLeft.value > 1) {
+          timeLeft.value--;
+        } else {
+          timeLeft.value = session.qrRotationSecs;
+          ref.invalidate(sessionQRTokenProvider(session.id));
+        }
+      });
 
-        final attendanceTimer = Timer.periodic(const Duration(seconds: 5), (
-          timer,
-        ) {
-          ref.invalidate(sessionAttendanceProvider(session.id));
-        });
+      final attendanceTimer = Timer.periodic(const Duration(seconds: 5), (
+        timer,
+      ) {
+        ref.invalidate(sessionAttendanceProvider(session.id));
+      });
 
-        return () {
-          qrTimer.cancel();
-          attendanceTimer.cancel();
-        };
-      },
-      [session.id, session.qrRotationSecs],
-    );
+      return () {
+        qrTimer.cancel();
+        attendanceTimer.cancel();
+      };
+    }, [session.id, session.qrRotationSecs]);
 
     Future<void> handleClose() async {
       isClosing.value = true;
@@ -170,22 +166,17 @@ class _ActiveSessionContent extends HookConsumerWidget {
                       qrTokenAsync.when(
                         loading: () => SizedBox(
                           height: isWideScreen ? 300 : 200,
-                          child: const Center(child: CircularProgressIndicator()),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
                         error: (err, _) => SizedBox(
                           height: isWideScreen ? 300 : 200,
                           child: Center(child: Text('Error: $err')),
                         ),
                         data: (token) {
-                          // TASK 6: Construct JSON Payload
-                          final qrPayload = jsonEncode({
-                            "token": token.token,
-                            "session_id": session.id,
-                            "course_id": session.courseId,
-                          });
-
                           return QrImageView(
-                            data: qrPayload,
+                            data: token.qrContent,
                             version: QrVersions.auto,
                             size: isWideScreen ? 350.0 : 200.0, // Larger on web
                             backgroundColor: Colors.white,
@@ -194,7 +185,7 @@ class _ActiveSessionContent extends HookConsumerWidget {
                               color: Colors.black,
                             ),
                             dataModuleStyle: const QrDataModuleStyle(
-                              dataModuleShape: QrDataModuleShape.square,
+                              dataModuleShape: QrDataModuleShape.circle,
                               color: Colors.black,
                             ),
                           );
@@ -278,7 +269,7 @@ class _ActiveSessionContent extends HookConsumerWidget {
               );
 
               // --- 3. Implement Responsive Split ---
-              
+
               // TASK 5: Wide Screen (Web/Tablet Landscape) Layout
               if (isWideScreen) {
                 return Padding(
@@ -297,9 +288,7 @@ class _ActiveSessionContent extends HookConsumerWidget {
                       // 40% Right Side (Attendance & Controls)
                       Expanded(
                         flex: 4,
-                        child: SingleChildScrollView(
-                          child: attendanceSection,
-                        ),
+                        child: SingleChildScrollView(child: attendanceSection),
                       ),
                     ],
                   ),

@@ -121,7 +121,10 @@ GoRouter router(Ref ref) {
           ),
           GoRoute(
             path: '/scan',
-            builder: (context, state) => const ScanScreen(),
+            builder: (context, state) {
+              final sessionId = state.uri.queryParameters['sessionId'];
+              return ScanScreen(sessionId: sessionId);
+            },
           ),
         ],
       ),

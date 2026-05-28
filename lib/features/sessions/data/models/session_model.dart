@@ -42,7 +42,10 @@ abstract class CreateSessionRequest with _$CreateSessionRequest {
 
 @freezed
 abstract class QRTokenResponse with _$QRTokenResponse {
-  const factory QRTokenResponse({required String token}) = _QRTokenResponse;
+  const factory QRTokenResponse({
+    @JsonKey(name: 'qr_content') required String qrContent,
+    @JsonKey(name: 'expires_at') required String expiresAt,
+  }) = _QRTokenResponse;
 
   factory QRTokenResponse.fromJson(Map<String, dynamic> json) =>
       _$QRTokenResponseFromJson(json);

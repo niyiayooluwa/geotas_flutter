@@ -592,7 +592,7 @@ as int?,
 /// @nodoc
 mixin _$QRTokenResponse {
 
- String get token;
+@JsonKey(name: 'qr_content') String get qrContent;@JsonKey(name: 'expires_at') String get expiresAt;
 /// Create a copy of QRTokenResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -605,16 +605,16 @@ $QRTokenResponseCopyWith<QRTokenResponse> get copyWith => _$QRTokenResponseCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QRTokenResponse&&(identical(other.token, token) || other.token == token));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QRTokenResponse&&(identical(other.qrContent, qrContent) || other.qrContent == qrContent)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,token);
+int get hashCode => Object.hash(runtimeType,qrContent,expiresAt);
 
 @override
 String toString() {
-  return 'QRTokenResponse(token: $token)';
+  return 'QRTokenResponse(qrContent: $qrContent, expiresAt: $expiresAt)';
 }
 
 
@@ -625,7 +625,7 @@ abstract mixin class $QRTokenResponseCopyWith<$Res>  {
   factory $QRTokenResponseCopyWith(QRTokenResponse value, $Res Function(QRTokenResponse) _then) = _$QRTokenResponseCopyWithImpl;
 @useResult
 $Res call({
- String token
+@JsonKey(name: 'qr_content') String qrContent,@JsonKey(name: 'expires_at') String expiresAt
 });
 
 
@@ -642,9 +642,10 @@ class _$QRTokenResponseCopyWithImpl<$Res>
 
 /// Create a copy of QRTokenResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? token = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? qrContent = null,Object? expiresAt = null,}) {
   return _then(_self.copyWith(
-token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+qrContent: null == qrContent ? _self.qrContent : qrContent // ignore: cast_nullable_to_non_nullable
+as String,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -730,10 +731,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String token)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'qr_content')  String qrContent, @JsonKey(name: 'expires_at')  String expiresAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _QRTokenResponse() when $default != null:
-return $default(_that.token);case _:
+return $default(_that.qrContent,_that.expiresAt);case _:
   return orElse();
 
 }
@@ -751,10 +752,10 @@ return $default(_that.token);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String token)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'qr_content')  String qrContent, @JsonKey(name: 'expires_at')  String expiresAt)  $default,) {final _that = this;
 switch (_that) {
 case _QRTokenResponse():
-return $default(_that.token);case _:
+return $default(_that.qrContent,_that.expiresAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -771,10 +772,10 @@ return $default(_that.token);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String token)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'qr_content')  String qrContent, @JsonKey(name: 'expires_at')  String expiresAt)?  $default,) {final _that = this;
 switch (_that) {
 case _QRTokenResponse() when $default != null:
-return $default(_that.token);case _:
+return $default(_that.qrContent,_that.expiresAt);case _:
   return null;
 
 }
@@ -786,10 +787,11 @@ return $default(_that.token);case _:
 @JsonSerializable()
 
 class _QRTokenResponse implements QRTokenResponse {
-  const _QRTokenResponse({required this.token});
+  const _QRTokenResponse({@JsonKey(name: 'qr_content') required this.qrContent, @JsonKey(name: 'expires_at') required this.expiresAt});
   factory _QRTokenResponse.fromJson(Map<String, dynamic> json) => _$QRTokenResponseFromJson(json);
 
-@override final  String token;
+@override@JsonKey(name: 'qr_content') final  String qrContent;
+@override@JsonKey(name: 'expires_at') final  String expiresAt;
 
 /// Create a copy of QRTokenResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -804,16 +806,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QRTokenResponse&&(identical(other.token, token) || other.token == token));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QRTokenResponse&&(identical(other.qrContent, qrContent) || other.qrContent == qrContent)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,token);
+int get hashCode => Object.hash(runtimeType,qrContent,expiresAt);
 
 @override
 String toString() {
-  return 'QRTokenResponse(token: $token)';
+  return 'QRTokenResponse(qrContent: $qrContent, expiresAt: $expiresAt)';
 }
 
 
@@ -824,7 +826,7 @@ abstract mixin class _$QRTokenResponseCopyWith<$Res> implements $QRTokenResponse
   factory _$QRTokenResponseCopyWith(_QRTokenResponse value, $Res Function(_QRTokenResponse) _then) = __$QRTokenResponseCopyWithImpl;
 @override @useResult
 $Res call({
- String token
+@JsonKey(name: 'qr_content') String qrContent,@JsonKey(name: 'expires_at') String expiresAt
 });
 
 
@@ -841,9 +843,10 @@ class __$QRTokenResponseCopyWithImpl<$Res>
 
 /// Create a copy of QRTokenResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? token = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? qrContent = null,Object? expiresAt = null,}) {
   return _then(_QRTokenResponse(
-token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+qrContent: null == qrContent ? _self.qrContent : qrContent // ignore: cast_nullable_to_non_nullable
+as String,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

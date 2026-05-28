@@ -63,7 +63,13 @@ Map<String, dynamic> _$CreateSessionRequestToJson(
 };
 
 _QRTokenResponse _$QRTokenResponseFromJson(Map<String, dynamic> json) =>
-    _QRTokenResponse(token: json['token'] as String);
+    _QRTokenResponse(
+      qrContent: json['qr_content'] as String,
+      expiresAt: json['expires_at'] as String,
+    );
 
 Map<String, dynamic> _$QRTokenResponseToJson(_QRTokenResponse instance) =>
-    <String, dynamic>{'token': instance.token};
+    <String, dynamic>{
+      'qr_content': instance.qrContent,
+      'expires_at': instance.expiresAt,
+    };
