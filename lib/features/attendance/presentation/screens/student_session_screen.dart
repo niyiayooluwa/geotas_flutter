@@ -66,22 +66,14 @@ class StudentSessionScreen extends HookConsumerWidget {
         );
 
         await ref.read(markAttendanceProvider.notifier).withOTP(request);
-
-        final markState = ref.read(markAttendanceProvider);
-        markState.when(
-          data: (_) {
-            if (context.mounted) {
-              ShadToaster.of(context).show(
-                const ShadToast(
-                  description: Text('Attendance marked successfully!'),
-                ),
-              );
-              Navigator.pop(context);
-            }
-          },
-          error: (e, _) => throw e,
-          loading: () {},
-        );
+        if (context.mounted) {
+          ShadToaster.of(context).show(
+            const ShadToast(
+              description: Text('Attendance marked successfully!'),
+            ),
+          );
+          Navigator.pop(context);
+        }
       } catch (e) {
         if (context.mounted) {
           ShadToaster.of(context).show(

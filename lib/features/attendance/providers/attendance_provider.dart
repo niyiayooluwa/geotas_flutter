@@ -30,22 +30,20 @@ class SessionAttendance extends _$SessionAttendance {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class MarkAttendance extends _$MarkAttendance {
   @override
   AsyncValue<AttendanceResponse?> build() => const AsyncValue.data(null);
 
   Future<void> withQR(MarkAttendanceQRRequest request) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final result = await ref
-          .read(attendanceRepositoryProvider)
-          .markWithQR(request);
-      return result.fold(
-        ifLeft: (failure) => throw failure.message,
-        ifRight: (response) => response,
-      );
-    });
+    final result = await ref
+        .read(attendanceRepositoryProvider)
+        .markWithQR(request);
+    return result.fold(
+      ifLeft: (failure) => throw failure.message,
+      ifRight: (response) => response,
+    );
   }
 
   Future<void> withOTP(MarkAttendanceOTPRequest request) async {

@@ -72,13 +72,8 @@ class ScanScreen extends HookConsumerWidget {
         );
 
         await ref.read(markAttendanceProvider.notifier).withQR(request);
-
-        final markState = ref.read(markAttendanceProvider);
-        markState.when(
-          data: (_) => result.value = 'Attendance marked successfully!',
-          error: (e, _) => throw e,
-          loading: () {},
-        );
+        result.value = 'Attendance marked successfully!';
+        
       } catch (e) {
         error.value = e.toString();
       } finally {

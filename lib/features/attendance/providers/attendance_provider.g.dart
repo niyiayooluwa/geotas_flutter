@@ -123,7 +123,7 @@ final class MarkAttendanceProvider
         argument: null,
         retry: null,
         name: r'markAttendanceProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -146,7 +146,7 @@ final class MarkAttendanceProvider
   }
 }
 
-String _$markAttendanceHash() => r'c0c6d067bb8b694d54d90884d69d2aed9d399406';
+String _$markAttendanceHash() => r'8be21fdbf29592c58995cfeaf39516d95c13041e';
 
 abstract class _$MarkAttendance
     extends $Notifier<AsyncValue<AttendanceResponse?>> {
