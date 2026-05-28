@@ -42,6 +42,7 @@ dependencies:
   firebase_auth: ^6.5.1
   permission_handler: ^12.0.1
   flutter_expandable_fab: ^2.5.2
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_lints: ">=3.0.0 <7.0.0"
@@ -55,6 +56,15 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/image/icon.png"
+  web:
+    generate: true
+    image_path: "assets/image/icon.png"
+  min_sdk_android: 21
+
 
 # The following section is specific to Flutter packages.
 flutter:

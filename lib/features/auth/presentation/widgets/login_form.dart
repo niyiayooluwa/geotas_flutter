@@ -32,13 +32,25 @@ class LoginForm extends HookConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'Lecturer portal',
-          style: ShadTheme.of(
-            context,
-          ).textTheme.muted.copyWith(fontSize: 11, letterSpacing: 0.08 * 11),
-        ),
-        const SizedBox(height: 24),
+        if (!showLogo) ...[
+          Text(
+            'Lecturer portal',
+            style: ShadTheme.of(
+              context,
+            ).textTheme.muted.copyWith(fontSize: 14, letterSpacing: 0.08 * 11),
+          ),
+          const SizedBox(height: 24),
+        ],
+
+        if (showLogo) ...[
+          SvgPicture.asset(
+            'assets/svgs/logo-black.svg',
+            height: 32,
+            fit: BoxFit.contain,
+            alignment: Alignment.centerLeft,
+          ),
+          const SizedBox(height: 24),
+        ],
 
         Text(
           'Welcome back',
@@ -89,7 +101,7 @@ class LoginForm extends HookConsumerWidget {
         const SizedBox(height: 20),
 
         Text(
-          'Students mark attendance via the mobile app.\nThis portal is for lecturers only.',
+          'Students mark attendance via the mobile app.\nThe portal is for lecturers only.',
           style: ShadTheme.of(
             context,
           ).textTheme.muted.copyWith(fontSize: 12, height: 1.6),
