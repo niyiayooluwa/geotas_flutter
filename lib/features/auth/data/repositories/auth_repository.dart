@@ -14,8 +14,6 @@ part 'auth_repository.g.dart';
 class AuthRepository {
   final Dio _dio;
 
-  static bool _googleInitialized = false;
-
   AuthRepository(this._dio);
 
   Future<Either<Failure, String>> signInWithGoogle() async {
@@ -30,26 +28,27 @@ class AuthRepository {
         idToken = await userCredential.user?.getIdToken();
       } else {
         final googleSignIn = GoogleSignIn.instance;
-        if (!_googleInitialized) {
-          await googleSignIn.initialize();
-          _googleInitialized = true;
-        }
-        await googleSignIn.signOut();
+        await googleSignIn.initialize();
         final googleUser = await googleSignIn.authenticate();
-        idToken = googleUser.authentication.idToken;
+
+        final credential = GoogleAuthProvider.credential(
+          idToken: googleUser.authentication.idToken,
+        );
+
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(
+          credential,
+        );
+        idToken = await userCredential.user?.getIdToken();
       }
 
       if (idToken == null) {
-        return const Either.left(
-          ServerFailure('Failed to retrieve Google ID token'),
-        );
+        return const Either.left(ServerFailure('Failed to retrieve token'));
       }
 
       final response = await _dio.post(
         '/auth/google',
         data: {'id_token': idToken},
       );
-
       return Either.right(response.data['token'] as String);
     } on DioException catch (e) {
       return Either.left(mapDioException(e));
