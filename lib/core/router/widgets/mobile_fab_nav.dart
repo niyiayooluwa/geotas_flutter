@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -7,107 +8,101 @@ class MobileFabNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => _showNavSheet(context),
-      child: const Icon(LucideIcons.menu),
-    );
-  }
-
-  void _showNavSheet(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
 
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    return ExpandableFab(
+      type: ExpandableFabType.up,
+      distance: 64,
+      overlayStyle: ExpandableFabOverlayStyle(
+        color: Colors.black.withValues(alpha: 0.4),
       ),
-      builder: (context) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // drag handle
-                Container(
-                  width: 36,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                _NavSheetItem(
-                  icon: LucideIcons.book,
-                  label: 'Courses',
-                  active: location.startsWith('/courses'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    context.go('/courses');
-                  },
-                ),
-                _NavSheetItem(
-                  icon: LucideIcons.qrCode,
-                  label: 'Scan QR',
-                  active: location == '/scan',
-                  onTap: () {
-                    Navigator.pop(context);
-                    context.push('/scan');
-                  },
-                ),
-                _NavSheetItem(
-                  icon: LucideIcons.circleUser,
-                  label: 'Profile',
-                  active: location == '/profile',
-                  onTap: () {
-                    Navigator.pop(context);
-                    context.go('/profile');
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+      openButtonBuilder: RotateFloatingActionButtonBuilder(
+        child: const Icon(LucideIcons.menu),
+        fabSize: ExpandableFabSize.regular,
+      ),
+      closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+        child: const Icon(LucideIcons.x),
+        fabSize: ExpandableFabSize.small,
+      ),
+      children: [
+        _FabItem(
+          icon: LucideIcons.qrCode,
+          label: 'Scan QR',
+          active: location == '/scan',
+          onTap: () => context.push('/scan'),
+        ),
+        _FabItem(
+          icon: LucideIcons.circleUser,
+          label: 'Profile',
+          active: location == '/profile',
+          onTap: () => context.go('/profile'),
+        ),
+        _FabItem(
+          icon: LucideIcons.book,
+          label: 'Courses',
+          active: location.startsWith('/courses'),
+          onTap: () => context.go('/courses'),
+        ),
+      ],
     );
   }
 }
 
-class _NavSheetItem extends StatelessWidget {
-  const _NavSheetItem({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    this.active = false,
-  });
-
+class _FabItem extends StatelessWidget {
   final IconData icon;
   final String label;
-  final VoidCallback onTap;
   final bool active;
+  final VoidCallback onTap;
+
+  const _FabItem({
+    required this.icon,
+    required this.label,
+    required this.active,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final color = active
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.onSurface;
-
-    return ListTile(
-      leading: Icon(icon, color: color, size: 20),
-      title: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontWeight: active ? FontWeight.w600 : FontWeight.normal,
-          fontSize: 14,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: active ? FontWeight.w600 : FontWeight.normal,
+              color: active
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
         ),
-      ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      tileColor: active
-          ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.08)
-          : null,
-      onTap: onTap,
+        const SizedBox(width: 12),
+        FloatingActionButton.small(
+          heroTag: label,
+          onPressed: onTap,
+          backgroundColor: active
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.surface,
+          foregroundColor: active
+              ? Theme.of(context).colorScheme.onPrimary
+              : Theme.of(context).colorScheme.onSurface,
+          child: Icon(icon, size: 18),
+        ),
+      ],
     );
   }
 }

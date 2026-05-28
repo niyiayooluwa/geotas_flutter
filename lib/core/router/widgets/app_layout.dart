@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:geotas/core/router/widgets/mobile_fab_nav.dart';
 import 'package:geotas/core/router/widgets/sidebar.dart';
 import 'package:geotas/core/services/permission_gate.dart';
@@ -39,9 +40,8 @@ class AppLayout extends HookConsumerWidget {
 
         // Mobile — wrap with PermissionGate so permissions are checked once
         return Scaffold(
-          body: kIsWeb
-              ? child
-              : PermissionGate(child: child),
+          body: kIsWeb ? child : PermissionGate(child: child),
+          floatingActionButtonLocation: ExpandableFab.location,
           floatingActionButton: const MobileFabNav(),
         );
       },
