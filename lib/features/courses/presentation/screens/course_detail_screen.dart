@@ -135,6 +135,98 @@ class CourseDetailScreen extends HookConsumerWidget {
 
                   // Session List
                   _SessionList(courseId: courseId, isLecturer: isLecturer),
+
+                  const SizedBox(height: 24),
+
+                  if (isLecturer)
+                    ShadButton.destructive(
+                      width: double.infinity,
+                      onPressed: () async {
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: const Text('Delete Course?'),
+                            content: const Text(
+                              'This will permanently delete the course and all its sessions and attendance records.',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.red,
+                                ),
+                                onPressed: () => Navigator.pop(context, true),
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirm == true && context.mounted) {
+                          try {
+                            await ref
+                                .read(courseProvider.notifier)
+                                .deleteCourse(courseId);
+                            if (context.mounted) context.pop();
+                          } catch (e) {
+                            if (context.mounted) {
+                              showErrorToast(
+                                context,
+                                e is Failure ? e : const ServerFailure(),
+                              );
+                            }
+                          }
+                        }
+                      },
+                      child: const Text('Delete Course'),
+                    ),
+
+                  if (!isLecturer)
+                    ShadButton.outline(
+                      width: double.infinity,
+                      onPressed: () async {
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: const Text('Leave Course?'),
+                            content: const Text(
+                              'Your attendance records for this course will be deleted.',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.red,
+                                ),
+                                onPressed: () => Navigator.pop(context, true),
+                                child: const Text('Leave'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirm == true && context.mounted) {
+                          try {
+                            await ref
+                                .read(courseProvider.notifier)
+                                .leaveCourse(courseId);
+                            if (context.mounted) context.pop();
+                          } catch (e) {
+                            if (context.mounted) {
+                              showErrorToast(
+                                context,
+                                e is Failure ? e : const ServerFailure(),
+                              );
+                            }
+                          }
+                        }
+                      },
+                      child: const Text('Leave Course'),
+                    ),
                 ],
               ),
             ),

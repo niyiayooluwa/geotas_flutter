@@ -29,7 +29,9 @@ class CourseNotifier extends _$CourseNotifier {
     required String code,
     required String department,
   }) async {
-    final result = await ref.read(courseRepositoryProvider).createCourse(
+    final result = await ref
+        .read(courseRepositoryProvider)
+        .createCourse(
           CreateCourseRequest(title: title, code: code, department: department),
         );
 
@@ -46,7 +48,9 @@ class CourseNotifier extends _$CourseNotifier {
     required String inviteCode,
     required String matriculationNumber,
   }) async {
-    final result = await ref.read(courseRepositoryProvider).joinCourse(
+    final result = await ref
+        .read(courseRepositoryProvider)
+        .joinCourse(
           JoinCourseRequest(
             inviteCode: inviteCode,
             matriculationNumber: matriculationNumber,
@@ -59,6 +63,26 @@ class CourseNotifier extends _$CourseNotifier {
         ref.invalidateSelf();
         return true;
       },
+    );
+  }
+
+  Future<void> deleteCourse(String courseId) async {
+    final result = await ref
+        .read(courseRepositoryProvider)
+        .deleteCourse(courseId);
+    result.fold(
+      ifLeft: (failure) => throw failure.message,
+      ifRight: (_) => ref.invalidateSelf(),
+    );
+  }
+
+  Future<void> leaveCourse(String courseId) async {
+    final result = await ref
+        .read(courseRepositoryProvider)
+        .leaveCourse(courseId);
+    result.fold(
+      ifLeft: (failure) => throw failure.message,
+      ifRight: (_) => ref.invalidateSelf(),
     );
   }
 }

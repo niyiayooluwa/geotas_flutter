@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
+import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
 import 'package:geotas/features/courses/data/models/course_requests.dart';
 import 'package:geotas/features/courses/data/models/course_responses.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -78,6 +79,39 @@ class CourseRepository {
     try {
       await _dio.delete('/courses/$courseId');
       return Either.right(null);
+    } on DioException catch (e) {
+      return Either.left(mapDioException(e));
+    } catch (e) {
+      return Either.left(mapException(e));
+    }
+  }
+
+  Future<Either<Failure, void>> leaveCourse(String courseId) async {
+    try {
+      await _dio.delete('/courses/$courseId/leave');
+      return Either.right(null);
+    } on DioException catch (e) {
+      return Either.left(mapDioException(e));
+    } catch (e) {
+      return Either.left(mapException(e));
+    }
+  }
+
+  Future<Either<Failure, List<DetailedAttendanceModel>>> getCourseAttendance(
+    String courseId,
+  ) async {
+    try {
+      final response = await _dio.get('/courses/$courseId/attendance');
+      final data = (response.data ?? []) as List<dynamic>;
+      return Either.right(
+        data
+            .map(
+              (json) => DetailedAttendanceModel.fromJson(
+                json as Map<String, dynamic>,
+              ),
+            )
+            .toList(),
+      );
     } on DioException catch (e) {
       return Either.left(mapDioException(e));
     } catch (e) {
