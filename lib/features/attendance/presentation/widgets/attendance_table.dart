@@ -28,17 +28,17 @@ class AttendanceTable extends StatelessWidget {
       columnSpanExtent: (index) => switch (index) {
         0 => const FixedTableSpanExtent(160), // Name
         1 => const FixedTableSpanExtent(120), // Matric No
-        2 => const FixedTableSpanExtent(130), // Department
-        3 => const FixedTableSpanExtent(100), // Week
-        4 => const FixedTableSpanExtent(100), // Method
-        5 => const FixedTableSpanExtent(80), // Score
-        6 => const FixedTableSpanExtent(90), // Mock GPS
-        7 => const FixedTableSpanExtent(110), // Distance
-        8 => const MaxTableSpanExtent(
+        //2 => const FixedTableSpanExtent(130), // Department
+        2 => const FixedTableSpanExtent(100), // Week
+        3 => const FixedTableSpanExtent(100), // Method
+        4 => const FixedTableSpanExtent(80), // Score
+        5 => const FixedTableSpanExtent(90), // Mock GPS
+        6 => const FixedTableSpanExtent(110), // Distance
+        7 => const MaxTableSpanExtent(
           FixedTableSpanExtent(160),
           RemainingTableSpanExtent(),
         ), // Device — fills remaining space
-        9 => const FixedTableSpanExtent(70), // Time
+        8 => const FixedTableSpanExtent(70), // Time
         _ => null,
       },
       header: (context, column) {
@@ -59,11 +59,11 @@ class AttendanceTable extends StatelessWidget {
               item.matriculationNumber,
               overflow: TextOverflow.ellipsis,
             ),
-            2 => Text(item.department, overflow: TextOverflow.ellipsis),
-            3 => ShadBadge.outline(child: Text('Wk ${item.weekNumber}')),
-            4 => ShadBadge(child: Text(item.method.toUpperCase())),
-            5 => _ConfidenceBadge(score: item.confidenceScore),
-            6 =>
+            //2 => Text(item.department, overflow: TextOverflow.ellipsis),
+            2 => ShadBadge.outline(child: Text('Wk ${item.weekNumber}')),
+            3 => ShadBadge(child: Text(item.method.toUpperCase())),
+            4 => _ConfidenceBadge(score: item.confidenceScore),
+            5 =>
               item.mockLocationDetected
                   ? const Row(
                       mainAxisSize: MainAxisSize.min,
@@ -101,12 +101,12 @@ class AttendanceTable extends StatelessWidget {
                         ),
                       ],
                     ),
-            7 => Text('${item.distanceFromCenter.toStringAsFixed(1)}m'),
-            8 => Text(
+            6 => Text('${item.distanceFromCenter.toStringAsFixed(1)}m'),
+            7 => Text(
               '${item.deviceModel} · ${item.osVersion}',
               overflow: TextOverflow.ellipsis,
             ),
-            9 => Text(
+            8 => Text(
               DateFormat('HH:mm').format(DateTime.parse(item.markedAt)),
             ),
             _ => const SizedBox.shrink(),

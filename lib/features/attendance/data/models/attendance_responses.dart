@@ -39,7 +39,7 @@ abstract class DetailedAttendanceModel with _$DetailedAttendanceModel {
     @JsonKey(name: 'first_name') required String firstName,
     @JsonKey(name: 'last_name') required String lastName,
     @JsonKey(name: 'matriculation_number') required String matriculationNumber,
-    required String department,
+    required String? department,
   }) = _DetailedAttendanceModel;
 
   factory DetailedAttendanceModel.fromJson(Map<String, dynamic> json) =>

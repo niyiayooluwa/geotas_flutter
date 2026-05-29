@@ -48,7 +48,7 @@ _DetailedAttendanceModel _$DetailedAttendanceModelFromJson(
   firstName: json['first_name'] as String,
   lastName: json['last_name'] as String,
   matriculationNumber: json['matriculation_number'] as String,
-  department: json['department'] as String,
+  department: json['department'] as String?,
 );
 
 Map<String, dynamic> _$DetailedAttendanceModelToJson(

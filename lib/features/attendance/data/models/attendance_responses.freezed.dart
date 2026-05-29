@@ -296,7 +296,7 @@ as double,
 /// @nodoc
 mixin _$DetailedAttendanceModel {
 
- String get id;@JsonKey(name: 'session_id') String get sessionId;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'marked_at') String get markedAt; String get method; double get latitude; double get longitude;@JsonKey(name: 'distance_from_center') double get distanceFromCenter;@JsonKey(name: 'mock_location_detected') bool get mockLocationDetected;@JsonKey(name: 'confidence_score') double get confidenceScore;@JsonKey(name: 'week_number') int get weekNumber;@JsonKey(name: 'device_id') String get deviceId;@JsonKey(name: 'device_model') String get deviceModel;@JsonKey(name: 'os_version') String get osVersion;@JsonKey(name: 'first_name') String get firstName;@JsonKey(name: 'last_name') String get lastName;@JsonKey(name: 'matriculation_number') String get matriculationNumber; String get department;
+ String get id;@JsonKey(name: 'session_id') String get sessionId;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'marked_at') String get markedAt; String get method; double get latitude; double get longitude;@JsonKey(name: 'distance_from_center') double get distanceFromCenter;@JsonKey(name: 'mock_location_detected') bool get mockLocationDetected;@JsonKey(name: 'confidence_score') double get confidenceScore;@JsonKey(name: 'week_number') int get weekNumber;@JsonKey(name: 'device_id') String get deviceId;@JsonKey(name: 'device_model') String get deviceModel;@JsonKey(name: 'os_version') String get osVersion;@JsonKey(name: 'first_name') String get firstName;@JsonKey(name: 'last_name') String get lastName;@JsonKey(name: 'matriculation_number') String get matriculationNumber; String? get department;
 /// Create a copy of DetailedAttendanceModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -329,7 +329,7 @@ abstract mixin class $DetailedAttendanceModelCopyWith<$Res>  {
   factory $DetailedAttendanceModelCopyWith(DetailedAttendanceModel value, $Res Function(DetailedAttendanceModel) _then) = _$DetailedAttendanceModelCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method, double latitude, double longitude,@JsonKey(name: 'distance_from_center') double distanceFromCenter,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected,@JsonKey(name: 'confidence_score') double confidenceScore,@JsonKey(name: 'week_number') int weekNumber,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'first_name') String firstName,@JsonKey(name: 'last_name') String lastName,@JsonKey(name: 'matriculation_number') String matriculationNumber, String department
+ String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method, double latitude, double longitude,@JsonKey(name: 'distance_from_center') double distanceFromCenter,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected,@JsonKey(name: 'confidence_score') double confidenceScore,@JsonKey(name: 'week_number') int weekNumber,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'first_name') String firstName,@JsonKey(name: 'last_name') String lastName,@JsonKey(name: 'matriculation_number') String matriculationNumber, String? department
 });
 
 
@@ -346,7 +346,7 @@ class _$DetailedAttendanceModelCopyWithImpl<$Res>
 
 /// Create a copy of DetailedAttendanceModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? latitude = null,Object? longitude = null,Object? distanceFromCenter = null,Object? mockLocationDetected = null,Object? confidenceScore = null,Object? weekNumber = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? firstName = null,Object? lastName = null,Object? matriculationNumber = null,Object? department = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? latitude = null,Object? longitude = null,Object? distanceFromCenter = null,Object? mockLocationDetected = null,Object? confidenceScore = null,Object? weekNumber = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? firstName = null,Object? lastName = null,Object? matriculationNumber = null,Object? department = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,sessionId: null == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
@@ -365,8 +365,8 @@ as String,osVersion: null == osVersion ? _self.osVersion : osVersion // ignore: 
 as String,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String,matriculationNumber: null == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
-as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
-as String,
+as String,department: freezed == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -451,7 +451,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method,  double latitude,  double longitude, @JsonKey(name: 'distance_from_center')  double distanceFromCenter, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected, @JsonKey(name: 'confidence_score')  double confidenceScore, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'first_name')  String firstName, @JsonKey(name: 'last_name')  String lastName, @JsonKey(name: 'matriculation_number')  String matriculationNumber,  String department)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method,  double latitude,  double longitude, @JsonKey(name: 'distance_from_center')  double distanceFromCenter, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected, @JsonKey(name: 'confidence_score')  double confidenceScore, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'first_name')  String firstName, @JsonKey(name: 'last_name')  String lastName, @JsonKey(name: 'matriculation_number')  String matriculationNumber,  String? department)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DetailedAttendanceModel() when $default != null:
 return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.latitude,_that.longitude,_that.distanceFromCenter,_that.mockLocationDetected,_that.confidenceScore,_that.weekNumber,_that.deviceId,_that.deviceModel,_that.osVersion,_that.firstName,_that.lastName,_that.matriculationNumber,_that.department);case _:
@@ -472,7 +472,7 @@ return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.metho
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method,  double latitude,  double longitude, @JsonKey(name: 'distance_from_center')  double distanceFromCenter, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected, @JsonKey(name: 'confidence_score')  double confidenceScore, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'first_name')  String firstName, @JsonKey(name: 'last_name')  String lastName, @JsonKey(name: 'matriculation_number')  String matriculationNumber,  String department)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method,  double latitude,  double longitude, @JsonKey(name: 'distance_from_center')  double distanceFromCenter, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected, @JsonKey(name: 'confidence_score')  double confidenceScore, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'first_name')  String firstName, @JsonKey(name: 'last_name')  String lastName, @JsonKey(name: 'matriculation_number')  String matriculationNumber,  String? department)  $default,) {final _that = this;
 switch (_that) {
 case _DetailedAttendanceModel():
 return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.latitude,_that.longitude,_that.distanceFromCenter,_that.mockLocationDetected,_that.confidenceScore,_that.weekNumber,_that.deviceId,_that.deviceModel,_that.osVersion,_that.firstName,_that.lastName,_that.matriculationNumber,_that.department);case _:
@@ -492,7 +492,7 @@ return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.metho
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method,  double latitude,  double longitude, @JsonKey(name: 'distance_from_center')  double distanceFromCenter, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected, @JsonKey(name: 'confidence_score')  double confidenceScore, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'first_name')  String firstName, @JsonKey(name: 'last_name')  String lastName, @JsonKey(name: 'matriculation_number')  String matriculationNumber,  String department)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'marked_at')  String markedAt,  String method,  double latitude,  double longitude, @JsonKey(name: 'distance_from_center')  double distanceFromCenter, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected, @JsonKey(name: 'confidence_score')  double confidenceScore, @JsonKey(name: 'week_number')  int weekNumber, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'first_name')  String firstName, @JsonKey(name: 'last_name')  String lastName, @JsonKey(name: 'matriculation_number')  String matriculationNumber,  String? department)?  $default,) {final _that = this;
 switch (_that) {
 case _DetailedAttendanceModel() when $default != null:
 return $default(_that.id,_that.sessionId,_that.userId,_that.markedAt,_that.method,_that.latitude,_that.longitude,_that.distanceFromCenter,_that.mockLocationDetected,_that.confidenceScore,_that.weekNumber,_that.deviceId,_that.deviceModel,_that.osVersion,_that.firstName,_that.lastName,_that.matriculationNumber,_that.department);case _:
@@ -527,7 +527,7 @@ class _DetailedAttendanceModel implements DetailedAttendanceModel {
 @override@JsonKey(name: 'first_name') final  String firstName;
 @override@JsonKey(name: 'last_name') final  String lastName;
 @override@JsonKey(name: 'matriculation_number') final  String matriculationNumber;
-@override final  String department;
+@override final  String? department;
 
 /// Create a copy of DetailedAttendanceModel
 /// with the given fields replaced by the non-null parameter values.
@@ -562,7 +562,7 @@ abstract mixin class _$DetailedAttendanceModelCopyWith<$Res> implements $Detaile
   factory _$DetailedAttendanceModelCopyWith(_DetailedAttendanceModel value, $Res Function(_DetailedAttendanceModel) _then) = __$DetailedAttendanceModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method, double latitude, double longitude,@JsonKey(name: 'distance_from_center') double distanceFromCenter,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected,@JsonKey(name: 'confidence_score') double confidenceScore,@JsonKey(name: 'week_number') int weekNumber,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'first_name') String firstName,@JsonKey(name: 'last_name') String lastName,@JsonKey(name: 'matriculation_number') String matriculationNumber, String department
+ String id,@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'marked_at') String markedAt, String method, double latitude, double longitude,@JsonKey(name: 'distance_from_center') double distanceFromCenter,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected,@JsonKey(name: 'confidence_score') double confidenceScore,@JsonKey(name: 'week_number') int weekNumber,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'first_name') String firstName,@JsonKey(name: 'last_name') String lastName,@JsonKey(name: 'matriculation_number') String matriculationNumber, String? department
 });
 
 
@@ -579,7 +579,7 @@ class __$DetailedAttendanceModelCopyWithImpl<$Res>
 
 /// Create a copy of DetailedAttendanceModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? latitude = null,Object? longitude = null,Object? distanceFromCenter = null,Object? mockLocationDetected = null,Object? confidenceScore = null,Object? weekNumber = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? firstName = null,Object? lastName = null,Object? matriculationNumber = null,Object? department = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sessionId = null,Object? userId = null,Object? markedAt = null,Object? method = null,Object? latitude = null,Object? longitude = null,Object? distanceFromCenter = null,Object? mockLocationDetected = null,Object? confidenceScore = null,Object? weekNumber = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? firstName = null,Object? lastName = null,Object? matriculationNumber = null,Object? department = freezed,}) {
   return _then(_DetailedAttendanceModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,sessionId: null == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
@@ -598,8 +598,8 @@ as String,osVersion: null == osVersion ? _self.osVersion : osVersion // ignore: 
 as String,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String,matriculationNumber: null == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
-as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
-as String,
+as String,department: freezed == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
