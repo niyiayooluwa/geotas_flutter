@@ -38,15 +38,24 @@ class CourseDetailScreen extends HookConsumerWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(course.code),
-            /*actions: [
+            actions: [
               if (isLecturer)
                 IconButton(
-                  icon: const Icon(Icons.settings),
+                  icon: const Icon(Icons.assignment_ind_outlined),
+                  tooltip: 'View Attendance Register',
                   onPressed: () {
-                    // TODO: Settings
+                    context.push(
+                      Uri(
+                        path: '/courses/${course.id}/attendance',
+                        queryParameters: {
+                          'code': course.code,
+                          'title': course.title,
+                        },
+                      ).toString(),
+                    );
                   },
                 ),
-            ],*/
+            ],
           ),
           body: RefreshIndicator(
             onRefresh: () =>
@@ -174,7 +183,11 @@ class CourseDetailScreen extends HookConsumerWidget {
                             if (context.mounted) {
                               showErrorToast(
                                 context,
-                                e is Failure ? e : const ServerFailure(),
+                                e is Failure
+                                    ? e
+                                    : const ServerFailure(
+                                        'Failed to delete course',
+                                      ),
                               );
                             }
                           }
@@ -219,7 +232,11 @@ class CourseDetailScreen extends HookConsumerWidget {
                             if (context.mounted) {
                               showErrorToast(
                                 context,
-                                e is Failure ? e : const ServerFailure(),
+                                e is Failure
+                                    ? e
+                                    : const ServerFailure(
+                                        'Failed to leave course',
+                                      ),
                               );
                             }
                           }
@@ -287,7 +304,12 @@ class _SessionList extends ConsumerWidget {
           }
         } catch (e) {
           if (context.mounted) {
-            showErrorToast(context, e is Failure ? e : const ServerFailure());
+            showErrorToast(
+              context,
+              e is Failure
+                  ? e
+                  : const ServerFailure('Failed to delete session.'),
+            );
           }
         }
       }
@@ -322,12 +344,11 @@ class _SessionList extends ConsumerWidget {
 
             return Card(
               margin: const EdgeInsets.only(bottom: 12),
-              elevation: 0, // Flat modern look
-              clipBehavior: Clip
-                  .antiAlias, // Ensures the ripple effect stays inside the rounded corners
+              elevation: 0,
+              clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
-                side: BorderSide(color: Colors.grey.shade300), // Subtle border
+                side: BorderSide(color: Colors.grey.shade300),
               ),
               child: InkWell(
                 onTap: () {
@@ -337,7 +358,6 @@ class _SessionList extends ConsumerWidget {
                     context.push('/sessions/${session.id}/student');
                   }
                 },
-                // The Padding here is what gives the card its "thickness"
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -345,8 +365,8 @@ class _SessionList extends ConsumerWidget {
                     children: [
                       // --- TOP ROW: Title & Badge ---
                       Row(
-                        crossAxisAlignment: .start,
-                        mainAxisAlignment: .spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: Text(
@@ -362,7 +382,7 @@ class _SessionList extends ConsumerWidget {
                           const SizedBox(width: 12),
                           // Status Badge
                           Row(
-                            crossAxisAlignment: .center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 padding: const EdgeInsets.symmetric(
@@ -401,8 +421,7 @@ class _SessionList extends ConsumerWidget {
                                     size: 20,
                                   ),
                                   color: Colors.red.shade400,
-                                  constraints:
-                                      const BoxConstraints(), // Removes default bulky padding
+                                  constraints: const BoxConstraints(),
                                   padding: EdgeInsets.zero,
                                   onPressed: () =>
                                       confirmAndDelete(context, ref, session),
@@ -426,7 +445,6 @@ class _SessionList extends ConsumerWidget {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            // You might want to parse this with DateFormat if it's an ISO string
                             session.startedAt.substring(0, 10),
                             style: TextStyle(
                               fontSize: 13,

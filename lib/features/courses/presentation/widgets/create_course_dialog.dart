@@ -37,7 +37,10 @@ class CreateCourseDialog extends HookConsumerWidget {
       } catch (e) {
         if (context.mounted) {
           if (context.mounted) {
-            showErrorToast(context, e is Failure ? e : const ServerFailure());
+            showErrorToast(
+              context,
+              e is Failure ? e : const ServerFailure('Failed to create course'),
+            );
           }
         }
       } finally {

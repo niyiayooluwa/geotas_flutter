@@ -5,7 +5,6 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 const _headings = [
   'Name',
   'Matric No',
-  'Department',
   'Week',
   'Method',
   'Score',
@@ -26,8 +25,8 @@ class AttendanceTable extends StatelessWidget {
       columnCount: _headings.length,
       rowCount: attendance.length,
       columnSpanExtent: (index) => switch (index) {
-        0 => const FixedTableSpanExtent(160), // Name
-        1 => const FixedTableSpanExtent(120), // Matric No
+        0 => const FixedTableSpanExtent(200), // Name
+        1 => const FixedTableSpanExtent(150), // Matric No
         //2 => const FixedTableSpanExtent(130), // Department
         2 => const FixedTableSpanExtent(100), // Week
         3 => const FixedTableSpanExtent(100), // Method
