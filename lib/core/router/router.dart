@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geotas/core/router/splash.dart';
 import 'package:geotas/core/router/widgets/app_layout.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
+import 'package:geotas/features/attendance/presentation/screens/course_attendance_screen.dart'; // <-- Added import
 import 'package:geotas/features/attendance/presentation/screens/reports_screen.dart';
 import 'package:geotas/features/attendance/presentation/screens/scan_screen.dart';
 import 'package:geotas/features/attendance/presentation/screens/student_session_screen.dart';
@@ -18,22 +19,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
 
-// A single navigator key shared across the app.
-// GoRouter uses this to control navigation from outside the widget tree.
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @riverpod
 GoRouter router(Ref ref) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-
-    // App always starts at login — the redirect below will push
-    // authenticated users to the dashboard immediately if a token exists.
     initialLocation: '/splash',
 
-    // redirect runs before every navigation event.
-    // It checks SecureStorage for a token and enforces auth guards.
-    // Returns a path to redirect to, or null to allow the navigation through.
     redirect: (BuildContext context, GoRouterState state) async {
       if (state.matchedLocation == '/splash') return null;
 
@@ -51,7 +44,7 @@ GoRouter router(Ref ref) {
 
     routes: <RouteBase>[
       //=========================
-      // PRE_AUTHTENTICATION ROUTES
+      // PRE_AUTHENTICATION ROUTES
       //=========================
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
 
@@ -61,7 +54,7 @@ GoRouter router(Ref ref) {
       ),
 
       //=========================
-      // AUTHENTICATED ROUTES (With persistent layout)
+      // AUTHENTICATED ROUTES
       //=========================
       ShellRoute(
         builder: (context, state, child) => AppLayout(child: child),
@@ -77,6 +70,21 @@ GoRouter router(Ref ref) {
               return CourseDetailScreen(courseId: id);
             },
           ),
+          GoRoute(
+            path: '/courses/:id/attendance',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final code = state.uri.queryParameters['code'] ?? 'Course';
+              final title = state.uri.queryParameters['title'] ?? 'Register';
+              
+              return CourseAttendanceScreen(
+                courseId: id,
+                courseCode: code,
+                courseTitle: title,
+              );
+            },
+          ),
+          //=========================
           GoRoute(
             path: '/sessions',
             builder: (context, state) => const SessionScreen(),
