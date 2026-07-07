@@ -26,10 +26,10 @@ class MobileFabNav extends StatelessWidget {
       ),
       children: [
         _FabItem(
-          icon: LucideIcons.qrCode,
-          label: 'Scan QR',
-          active: location == '/scan',
-          onTap: () => context.push('/scan'),
+          icon: LucideIcons.chartColumn,
+          label: 'Reports',
+          active: location == '/reports',
+          onTap: () => context.go('/reports'),
         ),
         _FabItem(
           icon: LucideIcons.circleUser,
