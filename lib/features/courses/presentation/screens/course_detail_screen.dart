@@ -151,23 +151,22 @@ class CourseDetailScreen extends HookConsumerWidget {
                     ShadButton.destructive(
                       width: double.infinity,
                       onPressed: () async {
-                        final confirm = await showDialog<bool>(
+                        final confirm = await showShadDialog<bool>(
                           context: context,
-                          builder: (_) => AlertDialog(
+                          builder: (dialogContext) => ShadDialog.alert(
                             title: const Text('Delete Course?'),
-                            content: const Text(
+                            description: const Text(
                               'This will permanently delete the course and all its sessions and attendance records.',
                             ),
                             actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
+                              ShadButton.outline(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(false),
                                 child: const Text('Cancel'),
                               ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.red,
-                                ),
-                                onPressed: () => Navigator.pop(context, true),
+                              ShadButton.destructive(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(true),
                                 child: const Text('Delete'),
                               ),
                             ],
@@ -200,23 +199,22 @@ class CourseDetailScreen extends HookConsumerWidget {
                     ShadButton.outline(
                       width: double.infinity,
                       onPressed: () async {
-                        final confirm = await showDialog<bool>(
+                        final confirm = await showShadDialog<bool>(
                           context: context,
-                          builder: (_) => AlertDialog(
+                          builder: (dialogContext) => ShadDialog.alert(
                             title: const Text('Leave Course?'),
-                            content: const Text(
+                            description: const Text(
                               'Your attendance records for this course will be deleted.',
                             ),
                             actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
+                              ShadButton.outline(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(false),
                                 child: const Text('Cancel'),
                               ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.red,
-                                ),
-                                onPressed: () => Navigator.pop(context, true),
+                              ShadButton.destructive(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(true),
                                 child: const Text('Leave'),
                               ),
                             ],

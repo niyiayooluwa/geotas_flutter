@@ -75,6 +75,7 @@ class CreateSessionDialog extends HookConsumerWidget {
       title: const Text('Start Attendance Session'),
       description: const Text(
         'This will use your current location as the geofence center.',
+        textAlign: TextAlign.left,
       ),
       child: ShadForm(
         key: formKey,
