@@ -7,6 +7,9 @@ import 'package:geotas/features/attendance/presentation/screens/reports_screen.d
 import 'package:geotas/features/attendance/presentation/screens/scan_screen.dart';
 import 'package:geotas/features/attendance/presentation/screens/student_session_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
+import 'package:geotas/features/auth/presentation/screens/role_select_screen.dart';
+import 'package:geotas/features/auth/presentation/screens/lecturer_login_screen.dart';
+import 'package:geotas/features/auth/presentation/screens/lecturer_register_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/profile_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/settings_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
@@ -34,9 +37,12 @@ GoRouter router(Ref ref) {
       final token = await storage.getToken();
 
       final bool isLoggedIn = token != null;
-      final bool isGoingToAuth = state.matchedLocation == '/login';
+      final bool isGoingToAuth = state.matchedLocation == '/login' ||
+                                 state.matchedLocation == '/lecturer/login' ||
+                                 state.matchedLocation == '/lecturer/register' ||
+                                 state.matchedLocation == '/role-select';
 
-      if (!isLoggedIn && !isGoingToAuth) return '/login';
+      if (!isLoggedIn && !isGoingToAuth) return '/role-select';
       if (isLoggedIn && isGoingToAuth) return '/courses';
 
       return null;
@@ -47,6 +53,9 @@ GoRouter router(Ref ref) {
       // PRE_AUTHENTICATION ROUTES
       //=========================
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+      GoRoute(path: '/role-select', builder: (context, state) => const RoleSelectScreen()),
+      GoRoute(path: '/lecturer/login', builder: (context, state) => const LecturerLoginScreen()),
+      GoRoute(path: '/lecturer/register', builder: (context, state) => const LecturerRegisterScreen()),
 
       GoRoute(
         path: '/splash',
@@ -56,6 +65,11 @@ GoRouter router(Ref ref) {
       //=========================
       // AUTHENTICATED ROUTES
       //=========================
+      GoRoute(
+        path: '/lecturer/home',
+        redirect: (context, state) => '/courses',
+      ),
+
       ShellRoute(
         builder: (context, state, child) => AppLayout(child: child),
         routes: [

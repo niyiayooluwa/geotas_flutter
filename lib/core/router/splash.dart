@@ -22,7 +22,7 @@ class SplashScreen extends HookWidget {
         final token = results[0] as String?;
 
         if (context.mounted) {
-          token != null ? context.go('/courses') : context.go('/login');
+          token != null ? context.go('/courses') : context.go('/role-select');
         }
       }
 
