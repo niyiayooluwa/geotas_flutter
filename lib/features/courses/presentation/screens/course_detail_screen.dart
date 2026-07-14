@@ -133,17 +133,17 @@ class CourseDetailScreen extends HookConsumerWidget {
                   if (isLecturer)
                     ShadTabs<String>(
                       value: activeTab.value,
-                      onChanged: (v) => activeTab.value = v ?? 'sessions',
+                      onChanged: (v) => activeTab.value = v,
                       tabs: [
                         ShadTab(
                           value: 'sessions',
-                          child: const Text('Sessions'),
                           content: _SessionsTabContent(courseId: courseId),
+                          child: const Text('Sessions'),
                         ),
                         ShadTab(
                           value: 'register',
-                          child: const Text('Register'),
                           content: _RegisterTabContent(courseId: courseId),
+                          child: const Text('Register'),
                         ),
                       ],
                     ),
