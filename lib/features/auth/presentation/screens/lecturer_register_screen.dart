@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/utils/toast_helper.dart';
 import 'package:geotas/features/auth/presentation/widgets/image_widget.dart';
@@ -263,10 +265,13 @@ class _LecturerRegisterForm extends HookConsumerWidget {
                   },
             width: double.infinity,
             child: isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     height: 16,
-                    width: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    width: 32,
+                    child: SpinKitThreeBounce(
+                      color: ShadTheme.of(context).colorScheme.primaryForeground,
+                      size: 16,
+                    ),
                   )
                 : const Text('Register'),
           ),

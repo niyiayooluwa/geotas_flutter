@@ -140,11 +140,11 @@ class StudentSessionScreen extends HookConsumerWidget {
                               : () =>
                                     context.push('/scan?sessionId=$sessionId'),
                           child: isLoading.value
-                              ? const SizedBox(
+                              ? SizedBox(
                                   height: 16,
                                   width: 16,
                                   child: CircularProgressIndicator(
-                                    color: Colors.white,
+                                    color: ShadTheme.of(context).colorScheme.primaryForeground,
                                     strokeWidth: 2,
                                   ),
                                 )
@@ -178,11 +178,11 @@ class StudentSessionScreen extends HookConsumerWidget {
                           Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
+                              color: ShadTheme.of(context).colorScheme.background,
                               border: Border.all(
-                                color: Theme.of(
+                                color: ShadTheme.of(
                                   context,
-                                ).dividerColor.withValues(alpha: 0.3),
+                                ).colorScheme.border.withValues(alpha: 0.3),
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -206,7 +206,7 @@ class StudentSessionScreen extends HookConsumerWidget {
                                   'Expires at: ${otpResponse.value!.expiresAt}',
                                   style: TextStyle(
                                     fontSize: 11,
-                                    color: Theme.of(context).colorScheme.error,
+                                    color: ShadTheme.of(context).colorScheme.destructive,
                                   ),
                                 ),
                                 const SizedBox(height: 24),
@@ -252,13 +252,13 @@ class _SessionHeader extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            color: ShadTheme.of(context).colorScheme.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(
             LucideIcons.mapPin,
             size: 40,
-            color: Theme.of(context).colorScheme.primary,
+            color: ShadTheme.of(context).colorScheme.primary,
           ),
         ),
         const SizedBox(height: 24),

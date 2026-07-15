@@ -69,12 +69,12 @@ class AttendancePanel extends ConsumerWidget {
           width: double.infinity,
           onPressed: isClosing ? null : onClose,
           child: isClosing
-              ? const SizedBox(
+              ? SizedBox(
                   height: 16,
                   width: 16,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: ShadTheme.of(context).colorScheme.destructiveForeground,
                   ),
                 )
               : const Text('Close Session'),
@@ -96,9 +96,9 @@ class _AttendanceRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: ShadTheme.of(context).colorScheme.card,
         border: Border.all(
-          color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
+          color: ShadTheme.of(context).colorScheme.border,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -128,10 +128,7 @@ class _AttendanceRow extends StatelessWidget {
                   item.matriculationNumber,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.5),
+                    color: ShadTheme.of(context).colorScheme.mutedForeground,
                   ),
                 ),
               ],
@@ -148,7 +145,7 @@ class _AttendanceRow extends StatelessWidget {
                 '$confidence%',
                 style: TextStyle(
                   fontSize: 12,
-                  color: _confidenceColor(item.confidenceScore),
+                  color: _confidenceColor(context, item.confidenceScore),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -159,9 +156,9 @@ class _AttendanceRow extends StatelessWidget {
     );
   }
 
-  Color _confidenceColor(double score) {
+  Color _confidenceColor(BuildContext context, double score) {
     if (score >= 0.8) return Colors.green;
     if (score >= 0.5) return Colors.orange;
-    return Colors.red;
+    return ShadTheme.of(context).colorScheme.destructive;
   }
 }

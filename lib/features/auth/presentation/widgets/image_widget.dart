@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class AuthImagePanel extends StatelessWidget {
   const AuthImagePanel({super.key});
@@ -13,7 +13,7 @@ class AuthImagePanel extends StatelessWidget {
         Image.asset('assets/image/auth.jpg', fit: BoxFit.cover),
 
         // Dark overlay — heavy enough to wash out the image
-        Container(color: const Color(0xFF1a1a2e).withValues(alpha: 0.85)),
+        Container(color: ShadTheme.of(context).colorScheme.background.withValues(alpha: 0.85)),
 
         // Content
         Padding(
@@ -24,7 +24,9 @@ class AuthImagePanel extends StatelessWidget {
             children: [
               // Logo — swap SvgPicture for your actual logo asset
               SvgPicture.asset(
-                'assets/svgs/logo-white.svg',
+                Theme.of(context).brightness == Brightness.dark
+                    ? 'assets/svgs/logo-white.svg'
+                    : 'assets/svgs/logo-black.svg',
                 height: 32,
                 fit: BoxFit.contain,
                 alignment: Alignment.centerLeft,
@@ -40,9 +42,9 @@ class AuthImagePanel extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF7c6ef0).withValues(alpha: 0.18),
+                      color: ShadTheme.of(context).colorScheme.primary.withValues(alpha: 0.18),
                       border: Border.all(
-                        color: const Color(0xFF7c6ef0).withValues(alpha: 0.35),
+                        color: ShadTheme.of(context).colorScheme.primary.withValues(alpha: 0.35),
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -52,27 +54,27 @@ class AuthImagePanel extends StatelessWidget {
                         Container(
                           width: 6,
                           height: 6,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFa89cf5),
+                          decoration: BoxDecoration(
+                            color: ShadTheme.of(context).colorScheme.primary,
                             shape: BoxShape.circle,
                           ),
                         ),
                         const SizedBox(width: 6),
-                        const Text(
+                        Text(
                           'Geo-Temporal Attendance System',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Color(0xFFa89cf5),
+                            color: ShadTheme.of(context).colorScheme.primary,
                           ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
+                  Text(
                     'Attendance,\naccounted for.',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: ShadTheme.of(context).colorScheme.foreground,
                       fontSize: 28,
                       fontWeight: FontWeight.w500,
                       height: 1.25,
@@ -82,7 +84,7 @@ class AuthImagePanel extends StatelessWidget {
                   Text(
                     'Location-verified, QR-secured attendance\nfor Nigerian universities.',
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: ShadTheme.of(context).colorScheme.mutedForeground,
                       fontSize: 13,
                       height: 1.6,
                     ),
@@ -95,9 +97,9 @@ class AuthImagePanel extends StatelessWidget {
                 child: Row(
                   children: [
                     _Stat(value: '4 layers', label: 'of verification'),
-                    const VerticalDivider(color: Colors.white10, width: 40),
+                    VerticalDivider(color: ShadTheme.of(context).colorScheme.border, width: 40),
                     _Stat(value: 'Real-time', label: 'confidence scoring'),
-                    const VerticalDivider(color: Colors.white10, width: 40),
+                    VerticalDivider(color: ShadTheme.of(context).colorScheme.border, width: 40),
                     _Stat(value: 'Tamper-proof', label: 'records'),
                   ],
                 ),
@@ -123,8 +125,8 @@ class _Stat extends StatelessWidget {
       children: [
         Text(
           value,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: ShadTheme.of(context).colorScheme.foreground,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
@@ -133,7 +135,7 @@ class _Stat extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.4),
+            color: ShadTheme.of(context).colorScheme.mutedForeground,
             fontSize: 11,
           ),
         ),

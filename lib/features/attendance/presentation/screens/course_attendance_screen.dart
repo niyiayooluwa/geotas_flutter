@@ -37,13 +37,13 @@ class CourseAttendanceScreen extends HookConsumerWidget {
     final isExporting = useState(false);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
+      backgroundColor: ShadTheme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: ShadTheme.of(context).colorScheme.background,
         scrolledUnderElevation: 0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0.5),
-          child: Container(color: Colors.grey.shade300, height: 0.5),
+          child: Container(color: ShadTheme.of(context).colorScheme.border, height: 0.5),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class CourseAttendanceScreen extends HookConsumerWidget {
             ),
             Text(
               '$courseCode · $courseTitle',
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+              style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground),
             ),
           ],
         ),
@@ -141,7 +141,7 @@ class CourseAttendanceScreen extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey.shade600,
+                      color: ShadTheme.of(context).colorScheme.mutedForeground,
                       letterSpacing: 0.5,
                     ),
                   ),

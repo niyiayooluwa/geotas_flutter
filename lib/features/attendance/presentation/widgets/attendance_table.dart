@@ -62,44 +62,43 @@ class AttendanceTable extends StatelessWidget {
             2 => ShadBadge.outline(child: Text('Wk ${item.weekNumber}')),
             3 => ShadBadge(child: Text(item.method.toUpperCase())),
             4 => _ConfidenceBadge(score: item.confidenceScore),
-            5 =>
-              item.mockLocationDetected
-                  ? const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          LucideIcons.triangleAlert,
-                          color: Color(0xFFef4444),
-                          size: 13,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          'Yes',
-                          style: TextStyle(
-                            color: Color(0xFFef4444),
-                            fontSize: 12,
+            5 => item.mockLocationDetected
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            LucideIcons.triangleAlert,
+                            color: ShadTheme.of(context).colorScheme.destructive,
+                            size: 13,
                           ),
-                        ),
-                      ],
-                    )
-                  : const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          LucideIcons.circleCheck,
-                          color: Color(0xFF22c55e),
-                          size: 13,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          'No',
-                          style: TextStyle(
-                            color: Color(0xFF22c55e),
-                            fontSize: 12,
+                          const SizedBox(width: 4),
+                          Text(
+                            'Yes',
+                            style: TextStyle(
+                              color: ShadTheme.of(context).colorScheme.destructive,
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            LucideIcons.circleCheck,
+                            color: ShadTheme.of(context).colorScheme.primary, // using primary as success since shadcn doesn't have custom success standard
+                            size: 13,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'No',
+                            style: TextStyle(
+                              color: ShadTheme.of(context).colorScheme.primary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
             6 => Text('${item.distanceFromCenter.toStringAsFixed(1)}m'),
             7 => Text(
               '${item.deviceModel} · ${item.osVersion}',
@@ -123,22 +122,25 @@ class _ConfidenceBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ShadTheme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     final (bg, border, fg) = score >= 0.8
         ? (
-            const Color(0xFFdcfce7),
-            const Color(0xFF86efac),
-            const Color(0xFF16a34a),
+            colorScheme.primary.withValues(alpha: 0.1),
+            colorScheme.primary.withValues(alpha: 0.3),
+            colorScheme.primary,
           )
         : score >= 0.5
         ? (
-            const Color(0xFFfef9c3),
-            const Color(0xFFfde047),
-            const Color(0xFFca8a04),
+            Colors.amber.withValues(alpha: 0.1),
+            Colors.amber.withValues(alpha: 0.3),
+            Colors.amber.shade700,
           )
         : (
-            const Color(0xFFfee2e2),
-            const Color(0xFFfca5a5),
-            const Color(0xFFdc2626),
+            colorScheme.destructive.withValues(alpha: 0.1),
+            colorScheme.destructive.withValues(alpha: 0.3),
+            colorScheme.destructive,
           );
 
     return Container(

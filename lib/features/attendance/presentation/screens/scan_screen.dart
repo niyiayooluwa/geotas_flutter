@@ -186,7 +186,7 @@ class ScanScreen extends HookConsumerWidget {
       return Container(
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          color: ShadTheme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -210,12 +210,12 @@ class ScanScreen extends HookConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: ShadTheme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isSuccess
               ? Colors.green.withValues(alpha: 0.3)
-              : Colors.red.withValues(alpha: 0.3),
+              : ShadTheme.of(context).colorScheme.destructive.withValues(alpha: 0.3),
         ),
       ),
       child: Column(
@@ -224,7 +224,7 @@ class ScanScreen extends HookConsumerWidget {
           Icon(
             isSuccess ? LucideIcons.circleCheckBig : LucideIcons.circleX,
             size: 64,
-            color: isSuccess ? Colors.green : Colors.red,
+            color: isSuccess ? Colors.green : ShadTheme.of(context).colorScheme.destructive,
           ),
           const SizedBox(height: 24),
           Text(

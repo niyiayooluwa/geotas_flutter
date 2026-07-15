@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/utils/toast_helper.dart';
 import 'package:geotas/features/auth/providers/notifier/login_notifier.dart';
@@ -81,10 +82,10 @@ class LoginForm extends HookConsumerWidget {
                 },
           width: double.infinity,
           child: isLoading
-              ? const SizedBox(
+              ? SizedBox(
                   height: 16,
-                  width: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  width: 32, // slightly wider for three bounce
+                  child: SpinKitThreeBounce(color: ShadTheme.of(context).colorScheme.foreground, size: 16),
                 )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -97,13 +97,13 @@ class ActiveSessionContent extends HookConsumerWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: ShadTheme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  child: const Text(
+                  child: Text(
                     'LIVE',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: ShadTheme.of(context).colorScheme.primaryForeground,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
@@ -114,55 +114,36 @@ class ActiveSessionContent extends HookConsumerWidget {
           ),
         ),
         Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final isWideScreen = constraints.maxWidth >= 800;
-
-              final qrPanel = QrPanel(
-                session: session,
-                timeLeft: timeLeft.value,
-                isWideScreen: isWideScreen,
-              );
-
-              final attendancePanel = AttendancePanel(
-                session: session,
-                isClosing: isClosing.value,
-                onClose: handleClose,
-              );
-
-              if (isWideScreen) {
-                return Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          child: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                const TabBar(
+                  tabs: [
+                    Tab(icon: Icon(LucideIcons.qrCode), text: 'QR Code'),
+                    Tab(icon: Icon(LucideIcons.users), text: 'Attendance'),
+                  ],
+                ),
+                Expanded(
+                  child: TabBarView(
                     children: [
-                      Expanded(
-                        flex: 6,
-                        child: SingleChildScrollView(
-                          child: Center(child: qrPanel),
+                      SingleChildScrollView(
+                        padding: const EdgeInsets.all(24),
+                        child: QrPanel(
+                          session: session,
+                          timeLeft: timeLeft.value,
                         ),
                       ),
-                      const SizedBox(width: 48),
-                      Expanded(
-                        flex: 4,
-                        child: SingleChildScrollView(child: attendancePanel),
+                      AttendancePanel(
+                        session: session,
+                        isClosing: isClosing.value,
+                        onClose: handleClose,
                       ),
                     ],
                   ),
-                );
-              }
-
-              return SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    qrPanel,
-                    const SizedBox(height: 32),
-                    attendancePanel,
-                  ],
                 ),
-              );
-            },
+              ],
+            ),
           ),
         ),
       ],

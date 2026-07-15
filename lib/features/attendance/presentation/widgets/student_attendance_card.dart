@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class StudentAttendanceCard extends StatelessWidget {
   final List<DetailedAttendanceModel> studentRecords;
@@ -15,27 +16,34 @@ class StudentAttendanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ShadTheme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     final first = studentRecords.first;
     final initials = '${first.firstName[0]}${first.lastName[0]}'.toUpperCase();
     
     final avgScore = studentRecords.fold(0.0, (sum, r) => sum + r.confidenceScore) / studentRecords.length;
     
     Color badgeBg, badgeText, avatarBg, avatarText;
+    // For specific status colors (success, warning, destructive) we can use ShadTheme colors
+    // Or derive them with opacity for dark mode compatibility.
+    // However, Shadcn UI has primary, secondary, destructive.
     if (avgScore >= 0.75) {
-      badgeBg = const Color(0xFFE1F5EE);
-      badgeText = const Color(0xFF085041);
+      badgeBg = colorScheme.primary.withValues(alpha: 0.1);
+      badgeText = colorScheme.primary;
       avatarBg = badgeBg;
       avatarText = badgeText;
     } else if (avgScore >= 0.50) {
-      badgeBg = const Color(0xFFFAEEDA);
-      badgeText = const Color(0xFF854F0B);
+      // warning color roughly
+      badgeBg = Colors.amber.withValues(alpha: 0.1);
+      badgeText = Colors.amber.shade700;
       avatarBg = badgeBg;
-      avatarText = const Color(0xFF633806);
+      avatarText = Colors.amber.shade900;
     } else {
-      badgeBg = const Color(0xFFFCEBEB);
-      badgeText = const Color(0xFFA32D2D);
+      badgeBg = colorScheme.destructive.withValues(alpha: 0.1);
+      badgeText = colorScheme.destructive;
       avatarBg = badgeBg;
-      avatarText = const Color(0xFF791F1F);
+      avatarText = colorScheme.destructive;
     }
 
     final presentWeeks = studentRecords.map((r) => r.weekNumber).toSet();
@@ -45,9 +53,9 @@ class StudentAttendanceCard extends StatelessWidget {
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.background,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300, width: 0.5),
+        border: Border.all(color: colorScheme.border, width: 0.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,8 +67,7 @@ class StudentAttendanceCard extends StatelessWidget {
                 backgroundColor: avatarBg,
                 child: Text(
                   initials,
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: theme.textTheme.small.copyWith(
                     fontWeight: FontWeight.w500,
                     color: avatarText,
                   ),
@@ -73,20 +80,15 @@ class StudentAttendanceCard extends StatelessWidget {
                   children: [
                     Text(
                       '${first.firstName} ${first.lastName}',
-                      style: const TextStyle(
-                        fontSize: 14,
+                      style: theme.textTheme.p.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: Colors.black87,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 1),
                     Text(
                       first.matriculationNumber,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.grey.shade600,
-                      ),
+                      style: theme.textTheme.muted.copyWith(fontSize: 11),
                     ),
                   ],
                 ),
@@ -99,8 +101,7 @@ class StudentAttendanceCard extends StatelessWidget {
                 ),
                 child: Text(
                   avgScore.toStringAsFixed(2),
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: theme.textTheme.small.copyWith(
                     fontWeight: FontWeight.w500,
                     color: badgeText,
                   ),
@@ -117,18 +118,18 @@ class StudentAttendanceCard extends StatelessWidget {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: isPresent ? const Color(0xFFE1F5EE) : Colors.grey.shade50,
+                  color: isPresent ? colorScheme.primary.withValues(alpha: 0.1) : colorScheme.secondary,
                   borderRadius: BorderRadius.circular(6),
                   border: isPresent 
                       ? null 
-                      : Border.all(color: Colors.grey.shade300, width: 0.5, strokeAlign: BorderSide.strokeAlignOutside),
+                      : Border.all(color: colorScheme.border, width: 0.5, strokeAlign: BorderSide.strokeAlignOutside),
                 ),
                 child: Text(
                   'Wk $week',
-                  style: TextStyle(
+                  style: theme.textTheme.small.copyWith(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color: isPresent ? const Color(0xFF085041) : Colors.grey.shade500,
+                    color: isPresent ? colorScheme.primary : colorScheme.mutedForeground,
                   ),
                 ),
               );

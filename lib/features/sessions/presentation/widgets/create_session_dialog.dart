@@ -120,12 +120,12 @@ class CreateSessionDialog extends HookConsumerWidget {
                 onPressed: loading ? null : submit,
                 width: double.infinity,
                 child: loading
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 16,
                         width: 16,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: Colors.white,
+                          color: ShadTheme.of(context).colorScheme.primaryForeground,
                         ),
                       )
                     : const Text('Start Session'),

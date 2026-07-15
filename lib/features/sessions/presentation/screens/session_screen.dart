@@ -6,7 +6,7 @@ import 'package:geotas/features/sessions/data/models/session_model.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
+
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 class SessionScreen extends ConsumerWidget {
@@ -59,6 +59,9 @@ class _SessionListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ShadTheme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     final isActive = session.status == 'active';
     final date = DateFormat(
       'MMM dd, yyyy',
@@ -69,7 +72,7 @@ class _SessionListItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.grey.shade300),
+        side: BorderSide(color: colorScheme.border),
       ),
       child: InkWell(
         onTap: () {
@@ -97,10 +100,7 @@ class _SessionListItem extends StatelessWidget {
                       session.title.isEmpty
                           ? 'Week ${session.weekNumber}'
                           : session.title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: theme.textTheme.large,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -112,22 +112,21 @@ class _SessionListItem extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: isActive
-                          ? Colors.green.shade50
-                          : Colors.grey.shade100,
+                          ? colorScheme.primary.withValues(alpha: 0.1)
+                          : colorScheme.secondary,
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
                         color: isActive
-                            ? Colors.green.shade200
-                            : Colors.grey.shade300,
+                            ? colorScheme.primary.withValues(alpha: 0.3)
+                            : colorScheme.border,
                       ),
                     ),
                     child: Text(
                       isActive ? 'LIVE' : 'CLOSED',
-                      style: TextStyle(
+                      style: theme.textTheme.small.copyWith(
                         color: isActive
-                            ? Colors.green.shade700
-                            : Colors.grey.shade600,
-                        fontSize: 11,
+                            ? colorScheme.primary
+                            : colorScheme.mutedForeground,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
                       ),
@@ -145,14 +144,13 @@ class _SessionListItem extends StatelessWidget {
                   Icon(
                     Icons.book_rounded,
                     size: 15,
-                    color: Colors.grey.shade600,
+                    color: colorScheme.mutedForeground,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     courseCode,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade600,
+                    style: theme.textTheme.small.copyWith(
+                      color: colorScheme.mutedForeground,
                       fontWeight:
                           FontWeight.w600, // Slightly bolder to stand out
                     ),
@@ -164,14 +162,13 @@ class _SessionListItem extends StatelessWidget {
                   Icon(
                     Icons.calendar_today_rounded,
                     size: 14,
-                    color: Colors.grey.shade600,
+                    color: colorScheme.mutedForeground,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     date,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade600,
+                    style: theme.textTheme.small.copyWith(
+                      color: colorScheme.mutedForeground,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -183,14 +180,13 @@ class _SessionListItem extends StatelessWidget {
                   Icon(
                     Icons.my_location_rounded,
                     size: 15,
-                    color: Colors.grey.shade600,
+                    color: colorScheme.mutedForeground,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     '${session.radiusMeters.toInt()}m',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade600,
+                    style: theme.textTheme.small.copyWith(
+                      color: colorScheme.mutedForeground,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
