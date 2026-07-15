@@ -7,12 +7,12 @@ import 'package:geotas/features/attendance/presentation/screens/reports_screen.d
 import 'package:geotas/features/attendance/presentation/screens/scan_screen.dart';
 import 'package:geotas/features/attendance/presentation/screens/student_session_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/login_screen.dart';
-import 'package:geotas/features/auth/presentation/screens/role_select_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/lecturer_login_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/lecturer_register_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/profile_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/settings_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
+import 'package:geotas/features/lecturer/presentation/screens/lecturer_home_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
 import 'package:geotas/features/sessions/presentation/screens/active_session_screen.dart';
 import 'package:geotas/features/sessions/presentation/screens/session_attendance_details_screen.dart';
@@ -35,15 +35,17 @@ GoRouter router(Ref ref) {
 
       final storage = SecureStorage();
       final token = await storage.getToken();
+      final role = await storage.getRole();
 
       final bool isLoggedIn = token != null;
       final bool isGoingToAuth = state.matchedLocation == '/login' ||
                                  state.matchedLocation == '/lecturer/login' ||
-                                 state.matchedLocation == '/lecturer/register' ||
-                                 state.matchedLocation == '/role-select';
+                                 state.matchedLocation == '/lecturer/register';
 
-      if (!isLoggedIn && !isGoingToAuth) return '/role-select';
-      if (isLoggedIn && isGoingToAuth) return '/courses';
+      if (!isLoggedIn && !isGoingToAuth) return '/login';
+      if (isLoggedIn && isGoingToAuth) {
+        return role == 'lecturer' ? '/lecturer/home' : '/courses';
+      }
 
       return null;
     },
@@ -53,7 +55,6 @@ GoRouter router(Ref ref) {
       // PRE_AUTHENTICATION ROUTES
       //=========================
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
-      GoRoute(path: '/role-select', builder: (context, state) => const RoleSelectScreen()),
       GoRoute(path: '/lecturer/login', builder: (context, state) => const LecturerLoginScreen()),
       GoRoute(path: '/lecturer/register', builder: (context, state) => const LecturerRegisterScreen()),
 
@@ -65,14 +66,14 @@ GoRouter router(Ref ref) {
       //=========================
       // AUTHENTICATED ROUTES
       //=========================
-      GoRoute(
-        path: '/lecturer/home',
-        redirect: (context, state) => '/courses',
-      ),
 
       ShellRoute(
         builder: (context, state, child) => AppLayout(child: child),
         routes: [
+          GoRoute(
+            path: '/lecturer/home',
+            builder: (context, state) => const LecturerHomeScreen(),
+          ),
           GoRoute(
             path: '/courses',
             builder: (context, state) => const CoursesScreen(),

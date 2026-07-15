@@ -13,16 +13,27 @@ class SplashScreen extends HookWidget {
     // useEffect replaces initState. The empty list [] ensures it runs only once.
     useEffect(() {
       Future<void> navigate() async {
+        final storage = SecureStorage();
         final results = await Future.wait([
-          SecureStorage().getToken(),
+          storage.getToken(),
+          storage.getRole(),
           // Skip the artificial delay entirely if running on the web
           if (!kIsWeb) Future.delayed(const Duration(milliseconds: 3000)),
         ]);
 
         final token = results[0] as String?;
+        final role = results[1] as String?;
 
         if (context.mounted) {
-          token != null ? context.go('/courses') : context.go('/role-select');
+          if (token != null) {
+            if (role == 'lecturer') {
+              context.go('/lecturer/home');
+            } else {
+              context.go('/courses');
+            }
+          } else {
+            context.go('/login');
+          }
         }
       }
 

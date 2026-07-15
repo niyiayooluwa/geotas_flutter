@@ -133,6 +133,7 @@ class _CollapsibleSidebarState extends ConsumerState<CollapsibleSidebar>
                   collapsed: _collapsed,
                   onTap: () async {
                     await ref.read(secureStorageProvider).deleteToken();
+                    await ref.read(secureStorageProvider).deleteRole();
                     ref.read(userProvider.notifier).clear();
                     if (context.mounted) context.go('/login');
                   },
