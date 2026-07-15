@@ -1,9 +1,15 @@
+import 'package:flutter/foundation.dart';
+
 class ApiConstants {
-  // For Android Emulator, use
-  // static const String baseUrl = 'http://10.0.2.2:8080';
-  // For iOS Simulator/Web/Physical Device, use http://localhost:8080 or your local IP
-  //static const String baseUrl = 'http://localhost:8080';
-  static const String baseUrl = 'https://niyiayooluwa-geotas.hf.space';
+  static String get baseUrl {
+    if (kIsWeb) return 'http://localhost:8080';
+    // 10.0.2.2 is the special alias to your host loopback interface on Android emulators
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return 'https://commons-retrieval-occurrence-confident.trycloudflare.com';
+    }
+    // iOS Simulator, Web, or Physical device (requires local IP instead of localhost)
+    return 'http://localhost:8080';
+  }
 
   static const Duration connectTimeout = Duration(seconds: 10);
   static const Duration receiveTimeout = Duration(seconds: 10);
