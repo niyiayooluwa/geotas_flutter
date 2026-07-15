@@ -60,6 +60,11 @@ class CourseDetailScreen extends HookConsumerWidget {
                   courseId: courseId,
                   courseCode: course.code,
                 ),
+              if (isLecturer)
+                IconButton(
+                  icon: const Icon(LucideIcons.settings),
+                  onPressed: () => context.push('/courses/$courseId/settings'),
+                ),
             ],
           ),
           body: RefreshIndicator(
@@ -605,6 +610,7 @@ class _SessionList extends ConsumerWidget {
           itemBuilder: (context, index) {
             final session = sessions[index];
             final isActive = session.status == 'active';
+            final theme = ShadTheme.of(context);
 
             return Card(
               margin: const EdgeInsets.only(bottom: 12),
@@ -612,7 +618,7 @@ class _SessionList extends ConsumerWidget {
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
-                side: BorderSide(color: Colors.grey.shade300),
+                side: BorderSide(color: ShadTheme.of(context).colorScheme.border),
               ),
               child: InkWell(
                 onTap: () {
@@ -655,21 +661,21 @@ class _SessionList extends ConsumerWidget {
                                 ),
                                 decoration: BoxDecoration(
                                   color: isActive
-                                      ? Colors.green.shade50
-                                      : Colors.grey.shade100,
+                                      ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                                      : theme.colorScheme.secondary,
                                   borderRadius: BorderRadius.circular(6),
                                   border: Border.all(
                                     color: isActive
-                                        ? Colors.green.shade200
-                                        : Colors.grey.shade300,
+                                        ? theme.colorScheme.primary.withValues(alpha: 0.3)
+                                        : theme.colorScheme.border,
                                   ),
                                 ),
                                 child: Text(
                                   isActive ? 'LIVE' : 'CLOSED',
                                   style: TextStyle(
                                     color: isActive
-                                        ? Colors.green.shade700
-                                        : Colors.grey.shade600,
+                                        ? theme.colorScheme.primary
+                                        : theme.colorScheme.mutedForeground,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
                                     letterSpacing: 0.5,
@@ -684,7 +690,7 @@ class _SessionList extends ConsumerWidget {
                                     Icons.delete_outline,
                                     size: 20,
                                   ),
-                                  color: Colors.red.shade400,
+                                  color: theme.colorScheme.destructive,
                                   constraints: const BoxConstraints(),
                                   padding: EdgeInsets.zero,
                                   onPressed: () =>
@@ -705,14 +711,13 @@ class _SessionList extends ConsumerWidget {
                           Icon(
                             Icons.access_time_rounded,
                             size: 16,
-                            color: Colors.grey.shade600,
+                            color: theme.colorScheme.mutedForeground,
                           ),
                           const SizedBox(width: 6),
                           Text(
                             session.startedAt.substring(0, 10),
-                            style: TextStyle(
+                            style: theme.textTheme.muted.copyWith(
                               fontSize: 13,
-                              color: Colors.grey.shade600,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -723,14 +728,13 @@ class _SessionList extends ConsumerWidget {
                           Icon(
                             Icons.my_location_rounded,
                             size: 16,
-                            color: Colors.grey.shade600,
+                            color: theme.colorScheme.mutedForeground,
                           ),
                           const SizedBox(width: 6),
                           Text(
                             '${session.radiusMeters.toInt()}m',
-                            style: TextStyle(
+                            style: theme.textTheme.muted.copyWith(
                               fontSize: 13,
-                              color: Colors.grey.shade600,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

@@ -290,7 +290,7 @@ as String,
 /// @nodoc
 mixin _$CourseModel {
 
- String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code;@JsonKey(name: 'invite_code') String get inviteCode; String get department;@JsonKey(name: 'student_count') int get studentCount;@JsonKey(name: 'created_at') String get createdAt;
+ String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code;@JsonKey(name: 'invite_code') String get inviteCode; String get department;@JsonKey(name: 'student_count') int get studentCount;@JsonKey(name: 'created_at') String get createdAt;@JsonKey(name: 'confidence_threshold') double get confidenceThreshold;
 /// Create a copy of CourseModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -303,16 +303,16 @@ $CourseModelCopyWith<CourseModel> get copyWith => _$CourseModelCopyWithImpl<Cour
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.confidenceThreshold, confidenceThreshold) || other.confidenceThreshold == confidenceThreshold));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,studentCount,createdAt);
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,studentCount,createdAt,confidenceThreshold);
 
 @override
 String toString() {
-  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, studentCount: $studentCount, createdAt: $createdAt)';
+  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, studentCount: $studentCount, createdAt: $createdAt, confidenceThreshold: $confidenceThreshold)';
 }
 
 
@@ -323,7 +323,7 @@ abstract mixin class $CourseModelCopyWith<$Res>  {
   factory $CourseModelCopyWith(CourseModel value, $Res Function(CourseModel) _then) = _$CourseModelCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'created_at') String createdAt
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'confidence_threshold') double confidenceThreshold
 });
 
 
@@ -340,7 +340,7 @@ class _$CourseModelCopyWithImpl<$Res>
 
 /// Create a copy of CourseModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? studentCount = null,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? studentCount = null,Object? createdAt = null,Object? confidenceThreshold = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -350,7 +350,8 @@ as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // igno
 as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
 as String,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
 as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
+as String,confidenceThreshold: null == confidenceThreshold ? _self.confidenceThreshold : confidenceThreshold // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -435,10 +436,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'confidence_threshold')  double confidenceThreshold)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CourseModel() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt,_that.confidenceThreshold);case _:
   return orElse();
 
 }
@@ -456,10 +457,10 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'confidence_threshold')  double confidenceThreshold)  $default,) {final _that = this;
 switch (_that) {
 case _CourseModel():
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt,_that.confidenceThreshold);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -476,10 +477,10 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code, @JsonKey(name: 'invite_code')  String inviteCode,  String department, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'confidence_threshold')  double confidenceThreshold)?  $default,) {final _that = this;
 switch (_that) {
 case _CourseModel() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_that.department,_that.studentCount,_that.createdAt,_that.confidenceThreshold);case _:
   return null;
 
 }
@@ -491,7 +492,7 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.inviteCode,_
 @JsonSerializable()
 
 class _CourseModel implements CourseModel {
-  const _CourseModel({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, @JsonKey(name: 'invite_code') required this.inviteCode, required this.department, @JsonKey(name: 'student_count') this.studentCount = 0, @JsonKey(name: 'created_at') required this.createdAt});
+  const _CourseModel({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, @JsonKey(name: 'invite_code') required this.inviteCode, required this.department, @JsonKey(name: 'student_count') this.studentCount = 0, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'confidence_threshold') this.confidenceThreshold = 0.75});
   factory _CourseModel.fromJson(Map<String, dynamic> json) => _$CourseModelFromJson(json);
 
 @override final  String id;
@@ -502,6 +503,7 @@ class _CourseModel implements CourseModel {
 @override final  String department;
 @override@JsonKey(name: 'student_count') final  int studentCount;
 @override@JsonKey(name: 'created_at') final  String createdAt;
+@override@JsonKey(name: 'confidence_threshold') final  double confidenceThreshold;
 
 /// Create a copy of CourseModel
 /// with the given fields replaced by the non-null parameter values.
@@ -516,16 +518,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CourseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.department, department) || other.department == department)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.confidenceThreshold, confidenceThreshold) || other.confidenceThreshold == confidenceThreshold));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,studentCount,createdAt);
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,inviteCode,department,studentCount,createdAt,confidenceThreshold);
 
 @override
 String toString() {
-  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, studentCount: $studentCount, createdAt: $createdAt)';
+  return 'CourseModel(id: $id, ownerId: $ownerId, title: $title, code: $code, inviteCode: $inviteCode, department: $department, studentCount: $studentCount, createdAt: $createdAt, confidenceThreshold: $confidenceThreshold)';
 }
 
 
@@ -536,7 +538,7 @@ abstract mixin class _$CourseModelCopyWith<$Res> implements $CourseModelCopyWith
   factory _$CourseModelCopyWith(_CourseModel value, $Res Function(_CourseModel) _then) = __$CourseModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'created_at') String createdAt
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code,@JsonKey(name: 'invite_code') String inviteCode, String department,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'confidence_threshold') double confidenceThreshold
 });
 
 
@@ -553,7 +555,7 @@ class __$CourseModelCopyWithImpl<$Res>
 
 /// Create a copy of CourseModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? studentCount = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? inviteCode = null,Object? department = null,Object? studentCount = null,Object? createdAt = null,Object? confidenceThreshold = null,}) {
   return _then(_CourseModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -563,7 +565,8 @@ as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // igno
 as String,department: null == department ? _self.department : department // ignore: cast_nullable_to_non_nullable
 as String,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
 as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String,
+as String,confidenceThreshold: null == confidenceThreshold ? _self.confidenceThreshold : confidenceThreshold // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -574,7 +577,7 @@ as String,
 /// @nodoc
 mixin _$EnrolledCourse {
 
- String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code; String get department;@JsonKey(name: 'invite_code') String get inviteCode;@JsonKey(name: 'created_at') String get createdAt; String get role;@JsonKey(name: 'matriculation_number') String? get matriculationNumber;@JsonKey(name: 'student_count') int get studentCount;
+ String get id;@JsonKey(name: 'owner_id') String get ownerId; String get title; String get code; String get department;@JsonKey(name: 'invite_code') String get inviteCode;@JsonKey(name: 'created_at') String get createdAt; String get role;@JsonKey(name: 'matriculation_number') String? get matriculationNumber;@JsonKey(name: 'student_count') int get studentCount;@JsonKey(name: 'confidence_threshold') double get confidenceThreshold;
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -587,16 +590,16 @@ $EnrolledCourseCopyWith<EnrolledCourse> get copyWith => _$EnrolledCourseCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.confidenceThreshold, confidenceThreshold) || other.confidenceThreshold == confidenceThreshold));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber,studentCount);
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber,studentCount,confidenceThreshold);
 
 @override
 String toString() {
-  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber, studentCount: $studentCount)';
+  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber, studentCount: $studentCount, confidenceThreshold: $confidenceThreshold)';
 }
 
 
@@ -607,7 +610,7 @@ abstract mixin class $EnrolledCourseCopyWith<$Res>  {
   factory $EnrolledCourseCopyWith(EnrolledCourse value, $Res Function(EnrolledCourse) _then) = _$EnrolledCourseCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber,@JsonKey(name: 'student_count') int studentCount
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'confidence_threshold') double confidenceThreshold
 });
 
 
@@ -624,7 +627,7 @@ class _$EnrolledCourseCopyWithImpl<$Res>
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,Object? studentCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,Object? studentCount = null,Object? confidenceThreshold = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -636,7 +639,8 @@ as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: 
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,matriculationNumber: freezed == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
 as String?,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,confidenceThreshold: null == confidenceThreshold ? _self.confidenceThreshold : confidenceThreshold // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -721,10 +725,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'confidence_threshold')  double confidenceThreshold)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EnrolledCourse() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount,_that.confidenceThreshold);case _:
   return orElse();
 
 }
@@ -742,10 +746,10 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'confidence_threshold')  double confidenceThreshold)  $default,) {final _that = this;
 switch (_that) {
 case _EnrolledCourse():
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount,_that.confidenceThreshold);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -762,10 +766,10 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'owner_id')  String ownerId,  String title,  String code,  String department, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'created_at')  String createdAt,  String role, @JsonKey(name: 'matriculation_number')  String? matriculationNumber, @JsonKey(name: 'student_count')  int studentCount, @JsonKey(name: 'confidence_threshold')  double confidenceThreshold)?  $default,) {final _that = this;
 switch (_that) {
 case _EnrolledCourse() when $default != null:
-return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount);case _:
+return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_that.inviteCode,_that.createdAt,_that.role,_that.matriculationNumber,_that.studentCount,_that.confidenceThreshold);case _:
   return null;
 
 }
@@ -777,7 +781,7 @@ return $default(_that.id,_that.ownerId,_that.title,_that.code,_that.department,_
 @JsonSerializable()
 
 class _EnrolledCourse implements EnrolledCourse {
-  const _EnrolledCourse({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, required this.department, @JsonKey(name: 'invite_code') required this.inviteCode, @JsonKey(name: 'created_at') required this.createdAt, required this.role, @JsonKey(name: 'matriculation_number') this.matriculationNumber, @JsonKey(name: 'student_count') this.studentCount = 0});
+  const _EnrolledCourse({required this.id, @JsonKey(name: 'owner_id') required this.ownerId, required this.title, required this.code, required this.department, @JsonKey(name: 'invite_code') required this.inviteCode, @JsonKey(name: 'created_at') required this.createdAt, required this.role, @JsonKey(name: 'matriculation_number') this.matriculationNumber, @JsonKey(name: 'student_count') this.studentCount = 0, @JsonKey(name: 'confidence_threshold') this.confidenceThreshold = 0.75});
   factory _EnrolledCourse.fromJson(Map<String, dynamic> json) => _$EnrolledCourseFromJson(json);
 
 @override final  String id;
@@ -790,6 +794,7 @@ class _EnrolledCourse implements EnrolledCourse {
 @override final  String role;
 @override@JsonKey(name: 'matriculation_number') final  String? matriculationNumber;
 @override@JsonKey(name: 'student_count') final  int studentCount;
+@override@JsonKey(name: 'confidence_threshold') final  double confidenceThreshold;
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
@@ -804,16 +809,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnrolledCourse&&(identical(other.id, id) || other.id == id)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.title, title) || other.title == title)&&(identical(other.code, code) || other.code == code)&&(identical(other.department, department) || other.department == department)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.role, role) || other.role == role)&&(identical(other.matriculationNumber, matriculationNumber) || other.matriculationNumber == matriculationNumber)&&(identical(other.studentCount, studentCount) || other.studentCount == studentCount)&&(identical(other.confidenceThreshold, confidenceThreshold) || other.confidenceThreshold == confidenceThreshold));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber,studentCount);
+int get hashCode => Object.hash(runtimeType,id,ownerId,title,code,department,inviteCode,createdAt,role,matriculationNumber,studentCount,confidenceThreshold);
 
 @override
 String toString() {
-  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber, studentCount: $studentCount)';
+  return 'EnrolledCourse(id: $id, ownerId: $ownerId, title: $title, code: $code, department: $department, inviteCode: $inviteCode, createdAt: $createdAt, role: $role, matriculationNumber: $matriculationNumber, studentCount: $studentCount, confidenceThreshold: $confidenceThreshold)';
 }
 
 
@@ -824,7 +829,7 @@ abstract mixin class _$EnrolledCourseCopyWith<$Res> implements $EnrolledCourseCo
   factory _$EnrolledCourseCopyWith(_EnrolledCourse value, $Res Function(_EnrolledCourse) _then) = __$EnrolledCourseCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber,@JsonKey(name: 'student_count') int studentCount
+ String id,@JsonKey(name: 'owner_id') String ownerId, String title, String code, String department,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'created_at') String createdAt, String role,@JsonKey(name: 'matriculation_number') String? matriculationNumber,@JsonKey(name: 'student_count') int studentCount,@JsonKey(name: 'confidence_threshold') double confidenceThreshold
 });
 
 
@@ -841,7 +846,7 @@ class __$EnrolledCourseCopyWithImpl<$Res>
 
 /// Create a copy of EnrolledCourse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,Object? studentCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ownerId = null,Object? title = null,Object? code = null,Object? department = null,Object? inviteCode = null,Object? createdAt = null,Object? role = null,Object? matriculationNumber = freezed,Object? studentCount = null,Object? confidenceThreshold = null,}) {
   return _then(_EnrolledCourse(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
@@ -853,7 +858,8 @@ as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: 
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,matriculationNumber: freezed == matriculationNumber ? _self.matriculationNumber : matriculationNumber // ignore: cast_nullable_to_non_nullable
 as String?,studentCount: null == studentCount ? _self.studentCount : studentCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,confidenceThreshold: null == confidenceThreshold ? _self.confidenceThreshold : confidenceThreshold // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 

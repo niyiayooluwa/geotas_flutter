@@ -25,3 +25,13 @@ abstract class JoinCourseRequest with _$JoinCourseRequest {
   factory JoinCourseRequest.fromJson(Map<String, dynamic> json) =>
       _$JoinCourseRequestFromJson(json);
 }
+
+@freezed
+abstract class UpdateCourseSettingsRequest with _$UpdateCourseSettingsRequest {
+  const factory UpdateCourseSettingsRequest({
+    @JsonKey(name: 'confidence_threshold') required double confidenceThreshold,
+  }) = _UpdateCourseSettingsRequest;
+
+  factory UpdateCourseSettingsRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateCourseSettingsRequestFromJson(json);
+}

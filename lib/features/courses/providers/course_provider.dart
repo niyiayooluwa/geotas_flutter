@@ -85,4 +85,17 @@ class CourseNotifier extends _$CourseNotifier {
       ifRight: (_) => ref.invalidateSelf(),
     );
   }
+
+  Future<void> updateCourseSettings(String courseId, double confidenceThreshold) async {
+    final result = await ref
+        .read(courseRepositoryProvider)
+        .updateCourseSettings(
+          courseId,
+          UpdateCourseSettingsRequest(confidenceThreshold: confidenceThreshold),
+        );
+    result.fold(
+      ifLeft: (failure) => throw failure.message,
+      ifRight: (_) => ref.invalidateSelf(),
+    );
+  }
 }

@@ -546,4 +546,267 @@ as String,
 
 }
 
+
+/// @nodoc
+mixin _$UpdateCourseSettingsRequest {
+
+@JsonKey(name: 'confidence_threshold') double get confidenceThreshold;
+/// Create a copy of UpdateCourseSettingsRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateCourseSettingsRequestCopyWith<UpdateCourseSettingsRequest> get copyWith => _$UpdateCourseSettingsRequestCopyWithImpl<UpdateCourseSettingsRequest>(this as UpdateCourseSettingsRequest, _$identity);
+
+  /// Serializes this UpdateCourseSettingsRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateCourseSettingsRequest&&(identical(other.confidenceThreshold, confidenceThreshold) || other.confidenceThreshold == confidenceThreshold));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,confidenceThreshold);
+
+@override
+String toString() {
+  return 'UpdateCourseSettingsRequest(confidenceThreshold: $confidenceThreshold)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateCourseSettingsRequestCopyWith<$Res>  {
+  factory $UpdateCourseSettingsRequestCopyWith(UpdateCourseSettingsRequest value, $Res Function(UpdateCourseSettingsRequest) _then) = _$UpdateCourseSettingsRequestCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'confidence_threshold') double confidenceThreshold
+});
+
+
+
+
+}
+/// @nodoc
+class _$UpdateCourseSettingsRequestCopyWithImpl<$Res>
+    implements $UpdateCourseSettingsRequestCopyWith<$Res> {
+  _$UpdateCourseSettingsRequestCopyWithImpl(this._self, this._then);
+
+  final UpdateCourseSettingsRequest _self;
+  final $Res Function(UpdateCourseSettingsRequest) _then;
+
+/// Create a copy of UpdateCourseSettingsRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? confidenceThreshold = null,}) {
+  return _then(_self.copyWith(
+confidenceThreshold: null == confidenceThreshold ? _self.confidenceThreshold : confidenceThreshold // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UpdateCourseSettingsRequest].
+extension UpdateCourseSettingsRequestPatterns on UpdateCourseSettingsRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UpdateCourseSettingsRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UpdateCourseSettingsRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UpdateCourseSettingsRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateCourseSettingsRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UpdateCourseSettingsRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateCourseSettingsRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'confidence_threshold')  double confidenceThreshold)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UpdateCourseSettingsRequest() when $default != null:
+return $default(_that.confidenceThreshold);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'confidence_threshold')  double confidenceThreshold)  $default,) {final _that = this;
+switch (_that) {
+case _UpdateCourseSettingsRequest():
+return $default(_that.confidenceThreshold);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'confidence_threshold')  double confidenceThreshold)?  $default,) {final _that = this;
+switch (_that) {
+case _UpdateCourseSettingsRequest() when $default != null:
+return $default(_that.confidenceThreshold);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UpdateCourseSettingsRequest implements UpdateCourseSettingsRequest {
+  const _UpdateCourseSettingsRequest({@JsonKey(name: 'confidence_threshold') required this.confidenceThreshold});
+  factory _UpdateCourseSettingsRequest.fromJson(Map<String, dynamic> json) => _$UpdateCourseSettingsRequestFromJson(json);
+
+@override@JsonKey(name: 'confidence_threshold') final  double confidenceThreshold;
+
+/// Create a copy of UpdateCourseSettingsRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpdateCourseSettingsRequestCopyWith<_UpdateCourseSettingsRequest> get copyWith => __$UpdateCourseSettingsRequestCopyWithImpl<_UpdateCourseSettingsRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UpdateCourseSettingsRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateCourseSettingsRequest&&(identical(other.confidenceThreshold, confidenceThreshold) || other.confidenceThreshold == confidenceThreshold));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,confidenceThreshold);
+
+@override
+String toString() {
+  return 'UpdateCourseSettingsRequest(confidenceThreshold: $confidenceThreshold)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpdateCourseSettingsRequestCopyWith<$Res> implements $UpdateCourseSettingsRequestCopyWith<$Res> {
+  factory _$UpdateCourseSettingsRequestCopyWith(_UpdateCourseSettingsRequest value, $Res Function(_UpdateCourseSettingsRequest) _then) = __$UpdateCourseSettingsRequestCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'confidence_threshold') double confidenceThreshold
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpdateCourseSettingsRequestCopyWithImpl<$Res>
+    implements _$UpdateCourseSettingsRequestCopyWith<$Res> {
+  __$UpdateCourseSettingsRequestCopyWithImpl(this._self, this._then);
+
+  final _UpdateCourseSettingsRequest _self;
+  final $Res Function(_UpdateCourseSettingsRequest) _then;
+
+/// Create a copy of UpdateCourseSettingsRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? confidenceThreshold = null,}) {
+  return _then(_UpdateCourseSettingsRequest(
+confidenceThreshold: null == confidenceThreshold ? _self.confidenceThreshold : confidenceThreshold // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
+}
+
 // dart format on

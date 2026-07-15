@@ -118,6 +118,20 @@ class CourseRepository {
       return Either.left(mapException(e));
     }
   }
+
+  Future<Either<Failure, void>> updateCourseSettings(
+    String courseId,
+    UpdateCourseSettingsRequest request,
+  ) async {
+    try {
+      await _dio.patch('/courses/$courseId/settings', data: request.toJson());
+      return Either.right(null);
+    } on DioException catch (e) {
+      return Either.left(mapDioException(e));
+    } catch (e) {
+      return Either.left(mapException(e));
+    }
+  }
 }
 
 @Riverpod(keepAlive: true)

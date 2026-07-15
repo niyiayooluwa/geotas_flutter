@@ -33,6 +33,8 @@ _CourseModel _$CourseModelFromJson(Map<String, dynamic> json) => _CourseModel(
   department: json['department'] as String,
   studentCount: (json['student_count'] as num?)?.toInt() ?? 0,
   createdAt: json['created_at'] as String,
+  confidenceThreshold:
+      (json['confidence_threshold'] as num?)?.toDouble() ?? 0.75,
 );
 
 Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
@@ -45,6 +47,7 @@ Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
       'department': instance.department,
       'student_count': instance.studentCount,
       'created_at': instance.createdAt,
+      'confidence_threshold': instance.confidenceThreshold,
     };
 
 _EnrolledCourse _$EnrolledCourseFromJson(Map<String, dynamic> json) =>
@@ -59,6 +62,8 @@ _EnrolledCourse _$EnrolledCourseFromJson(Map<String, dynamic> json) =>
       role: json['role'] as String,
       matriculationNumber: json['matriculation_number'] as String?,
       studentCount: (json['student_count'] as num?)?.toInt() ?? 0,
+      confidenceThreshold:
+          (json['confidence_threshold'] as num?)?.toDouble() ?? 0.75,
     );
 
 Map<String, dynamic> _$EnrolledCourseToJson(_EnrolledCourse instance) =>
@@ -73,4 +78,5 @@ Map<String, dynamic> _$EnrolledCourseToJson(_EnrolledCourse instance) =>
       'role': instance.role,
       'matriculation_number': instance.matriculationNumber,
       'student_count': instance.studentCount,
+      'confidence_threshold': instance.confidenceThreshold,
     };

@@ -28,6 +28,7 @@ abstract class CourseModel with _$CourseModel {
     required String department,
     @JsonKey(name: 'student_count') @Default(0) int studentCount,
     @JsonKey(name: 'created_at') required String createdAt,
+    @JsonKey(name: 'confidence_threshold') @Default(0.75) double confidenceThreshold,
   }) = _CourseModel;
 
   factory CourseModel.fromJson(Map<String, dynamic> json) =>
@@ -47,6 +48,7 @@ abstract class EnrolledCourse with _$EnrolledCourse {
     required String role,
     @JsonKey(name: 'matriculation_number') String? matriculationNumber,
     @JsonKey(name: 'student_count') @Default(0) int studentCount,
+    @JsonKey(name: 'confidence_threshold') @Default(0.75) double confidenceThreshold,
   }) = _EnrolledCourse;
 
   factory EnrolledCourse.fromJson(Map<String, dynamic> json) =>

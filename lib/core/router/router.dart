@@ -14,6 +14,7 @@ import 'package:geotas/features/auth/presentation/screens/settings_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:geotas/features/lecturer/presentation/screens/lecturer_home_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
+import 'package:geotas/features/courses/presentation/screens/course_settings_screen.dart';
 import 'package:geotas/features/sessions/presentation/screens/active_session_screen.dart';
 import 'package:geotas/features/sessions/presentation/screens/session_attendance_details_screen.dart';
 import 'package:geotas/features/sessions/presentation/screens/session_screen.dart';
@@ -22,12 +23,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @riverpod
 GoRouter router(Ref ref) {
   return GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     initialLocation: '/splash',
 
     redirect: (BuildContext context, GoRouterState state) async {
@@ -83,6 +84,13 @@ GoRouter router(Ref ref) {
             builder: (context, state) {
               final id = state.pathParameters['id']!;
               return CourseDetailScreen(courseId: id);
+            },
+          ),
+          GoRoute(
+            path: '/courses/:id/settings',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return CourseSettingsScreen(courseId: id);
             },
           ),
           GoRoute(

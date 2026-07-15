@@ -32,3 +32,13 @@ Map<String, dynamic> _$JoinCourseRequestToJson(_JoinCourseRequest instance) =>
       'invite_code': instance.inviteCode,
       'matriculation_number': instance.matriculationNumber,
     };
+
+_UpdateCourseSettingsRequest _$UpdateCourseSettingsRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdateCourseSettingsRequest(
+  confidenceThreshold: (json['confidence_threshold'] as num).toDouble(),
+);
+
+Map<String, dynamic> _$UpdateCourseSettingsRequestToJson(
+  _UpdateCourseSettingsRequest instance,
+) => <String, dynamic>{'confidence_threshold': instance.confidenceThreshold};
