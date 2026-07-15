@@ -33,7 +33,7 @@ final class LecturerAuthProvider
   LecturerAuth create() => LecturerAuth();
 }
 
-String _$lecturerAuthHash() => r'3114e0b08f944ee2e68eec338b8ad61c8b28a658';
+String _$lecturerAuthHash() => r'f9942e12a5bc64f7d661fdf55d36eb130d0ab59b';
 
 abstract class _$LecturerAuth extends $AsyncNotifier<void> {
   FutureOr<void> build();

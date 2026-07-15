@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:geotas/core/router/router.dart';
 import 'package:geotas/core/storage/secure_storage.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthInterceptor extends Interceptor {
   // Instantiate directly — no Ref needed, SecureStorage has no dependencies.
@@ -30,7 +32,11 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       _storage.deleteToken();
       _storage.deleteRole();
-      // Navigation will be handled by the caller using the error response
+      
+      final context = rootNavigatorKey.currentContext;
+      if (context != null && context.mounted) {
+        GoRouter.of(context).go('/login');
+      }
     }
     handler.next(err);
   }
