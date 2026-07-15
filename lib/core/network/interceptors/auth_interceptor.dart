@@ -29,6 +29,7 @@ class AuthInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode == 401) {
       _storage.deleteToken();
+      _storage.deleteRole();
       // Navigation will be handled by the caller using the error response
     }
     handler.next(err);

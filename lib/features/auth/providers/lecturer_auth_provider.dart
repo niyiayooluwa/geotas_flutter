@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
+import 'package:geotas/core/storage/secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'lecturer_auth_provider.g.dart';
@@ -17,17 +17,14 @@ class LecturerAuth extends _$LecturerAuth {
       final dio = ref.read(dioProvider);
       final response = await dio.post(
         '/auth/login',
-        data: {
-          'email': email,
-          'password': password,
-        },
+        data: {'email': email, 'password': password},
       );
 
       final token = response.data['token'] as String;
 
-      const storage = FlutterSecureStorage();
-      await storage.write(key: 'geotas_token', value: token);
-      await storage.write(key: 'geotas_role', value: 'lecturer');
+      final storage = SecureStorage();
+      await storage.saveToken(token);
+      await storage.saveRole('lecturer');
 
       state = const AsyncValue.data(null);
     } on DioException catch (e) {
@@ -43,7 +40,6 @@ class LecturerAuth extends _$LecturerAuth {
     required String lastName,
     required String email,
     required String password,
-    required String department,
   }) async {
     state = const AsyncValue.loading();
     try {
@@ -55,7 +51,6 @@ class LecturerAuth extends _$LecturerAuth {
           'last_name': lastName,
           'email': email,
           'password': password,
-          'department': department,
         },
       );
       // Automatically log in after registration

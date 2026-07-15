@@ -18,16 +18,14 @@ class LoginNotifier extends _$LoginNotifier {
 
     return result.fold(
       ifLeft: (failure) {
-        state = AsyncValue.error(
-          failure,
-          StackTrace.current,
-        );
+        state = AsyncValue.error(failure, StackTrace.current);
         return false;
       },
       ifRight: (token) async {
         // Save the raw token string
         final storage = ref.read(secureStorageProvider);
         await storage.saveToken(token);
+        await storage.saveRole('student');
 
         // Fetch and cache the user
         await ref.read(userProvider.notifier).fetch();

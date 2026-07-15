@@ -10,10 +10,7 @@ class AuthImagePanel extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         // Background image — faint
-        Image.asset(
-          'assets/image/auth.jpg',
-          fit: BoxFit.cover,
-        ),
+        Image.asset('assets/image/auth.jpg', fit: BoxFit.cover),
 
         // Dark overlay — heavy enough to wash out the image
         Container(color: const Color(0xFF1a1a2e).withValues(alpha: 0.85)),
@@ -38,7 +35,10 @@ class AuthImagePanel extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFF7c6ef0).withValues(alpha: 0.18),
                       border: Border.all(
@@ -60,7 +60,10 @@ class AuthImagePanel extends StatelessWidget {
                         const SizedBox(width: 6),
                         const Text(
                           'Geo-Temporal Attendance System',
-                          style: TextStyle(fontSize: 12, color: Color(0xFFa89cf5)),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFFa89cf5),
+                          ),
                         ),
                       ],
                     ),

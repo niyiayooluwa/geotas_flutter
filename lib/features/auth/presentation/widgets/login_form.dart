@@ -100,12 +100,9 @@ class LoginForm extends HookConsumerWidget {
         const Divider(),
         const SizedBox(height: 20),
 
-        Text(
-          'Students mark attendance via the mobile app.\nThe portal is for lecturers only.',
-          style: ShadTheme.of(
-            context,
-          ).textTheme.muted.copyWith(fontSize: 12, height: 1.6),
-          textAlign: TextAlign.center,
+        TextButton(
+          onPressed: () => context.go('/lecturer/login'),
+          child: const Text('Are you a lecturer? Sign in here'),
         ),
       ],
     );

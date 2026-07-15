@@ -70,6 +70,7 @@ class ProfileScreen extends ConsumerWidget {
                   width: double.infinity,
                   onPressed: () async {
                     await ref.read(secureStorageProvider).deleteToken();
+                    await ref.read(secureStorageProvider).deleteRole();
                     ref.read(userProvider.notifier).clear();
                     if (context.mounted) context.go('/login');
                   },
