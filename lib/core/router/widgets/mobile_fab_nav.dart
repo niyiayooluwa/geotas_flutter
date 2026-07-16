@@ -25,12 +25,7 @@ class MobileFabNav extends StatelessWidget {
         fabSize: ExpandableFabSize.small,
       ),
       children: [
-        _FabItem(
-          icon: LucideIcons.chartColumn,
-          label: 'Reports',
-          active: location == '/reports',
-          onTap: () => context.go('/reports'),
-        ),
+
         _FabItem(
           icon: LucideIcons.circleUser,
           label: 'Profile',

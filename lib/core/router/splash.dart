@@ -46,10 +46,18 @@ class SplashScreen extends HookConsumerWidget {
               context.go('/login');
             },
             ifRight: (user) {
-              // 200 -> route by returned role to lecturer or student home
+              // 200 -> route by returned role
               storage.saveRole(user.role);
               if (user.role == 'lecturer') {
-                context.go('/lecturer/home');
+                storage.deleteToken();
+                storage.deleteRole();
+                ShadToaster.of(context).show(
+                  const ShadToast.destructive(
+                    title: Text('Please use the web dashboard'),
+                    description: Text('The mobile app is for students only.'),
+                  ),
+                );
+                context.go('/login');
               } else {
                 context.go('/courses');
               }

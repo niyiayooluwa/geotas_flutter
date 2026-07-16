@@ -115,13 +115,7 @@ class _CollapsibleSidebarState extends ConsumerState<CollapsibleSidebar>
                   collapsed: _collapsed,
                   onTap: () => context.go('/courses'),
                 ),
-                _SidebarItem(
-                  icon: LucideIcons.chartColumn,
-                  label: 'Reports',
-                  active: location == '/reports',
-                  collapsed: _collapsed,
-                  onTap: () => context.go('/reports'),
-                ),
+
 
                 const Spacer(),
 
