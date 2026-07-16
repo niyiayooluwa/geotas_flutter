@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -31,15 +32,23 @@ class ScanScreen extends HookConsumerWidget {
     final cameraController = useMemoized(() => MobileScannerController());
     useEffect(() => cameraController.dispose, const []);
 
-    // Start fetching location the moment the screen opens.
+    // Refresh location every 20 s so the cached data is never stale.
+    // - First fetch: immediately on screen open (beats GPS warm-up delay).
+    // - Subsequent fetches: rolling so a student OTW to class always has a
+    //   fresh position by the time they point the camera at the QR.
     useEffect(() {
-      DeviceInfoHelper.getCollectionData().then((data) {
-        prefetchedData.value = data;
-        debugPrint('[QR] Location pre-fetched: $data');
-      }).catchError((e) {
-        debugPrint('[QR] Pre-fetch failed: $e');
-      });
-      return null;
+      void refresh() {
+        DeviceInfoHelper.getCollectionData().then((data) {
+          prefetchedData.value = data;
+          debugPrint('[QR] Location refreshed: lat=${data["latitude"]}, lng=${data["longitude"]}');
+        }).catchError((e) {
+          debugPrint('[QR] Location refresh failed: $e');
+        });
+      }
+
+      refresh(); // immediate first fetch
+      final timer = Timer.periodic(const Duration(seconds: 20), (_) => refresh());
+      return timer.cancel;
     }, const []);
 
     Future<void> processToken(String scannedValue) async {
