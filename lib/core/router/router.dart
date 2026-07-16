@@ -9,7 +9,6 @@ import 'package:geotas/features/auth/presentation/screens/profile_screen.dart';
 import 'package:geotas/features/auth/presentation/screens/settings_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:geotas/features/courses/presentation/screens/course_screen.dart';
-import 'package:geotas/features/sessions/presentation/screens/session_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,7 +27,6 @@ GoRouter router(Ref ref) {
 
       final storage = SecureStorage();
       final token = await storage.getToken();
-      final role = await storage.getRole();
 
       final bool isLoggedIn = token != null;
       final bool isGoingToAuth = state.matchedLocation == '/login';
@@ -71,10 +69,6 @@ GoRouter router(Ref ref) {
             },
           ),
           //=========================
-          GoRoute(
-            path: '/sessions',
-            builder: (context, state) => const SessionScreen(),
-          ),
           GoRoute(
             path: '/settings',
             builder: (context, state) => const SettingsScreen(),

@@ -4,8 +4,6 @@ import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/router/widgets/error_view.dart';
 import 'package:geotas/core/utils/device_info_helper.dart';
 import 'package:geotas/features/attendance/data/models/attendance_requests.dart';
-import 'package:geotas/features/attendance/data/models/attendance_responses.dart';
-import 'package:geotas/features/attendance/data/repositories/attendance_repository.dart';
 import 'package:geotas/features/attendance/providers/attendance_provider.dart';
 import 'package:geotas/features/sessions/providers/session_provider.dart';
 import 'package:geotas/features/sessions/data/models/session_model.dart';

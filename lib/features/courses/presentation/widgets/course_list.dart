@@ -53,7 +53,6 @@ class MobileCourseRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accent = colourForCode(course.code);
-    final theme = Theme.of(context);
     return GestureDetector(
       onTap: () => context.push('/courses/${course.id}'),
       child: Container(
