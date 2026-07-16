@@ -13,7 +13,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:universal_html/html.dart' as html;
 
 class ReportsScreen extends HookConsumerWidget {
   const ReportsScreen({super.key});
@@ -349,32 +348,22 @@ class ReportsScreen extends HookConsumerWidget {
 
     final csvString = buffer.toString();
 
-    if (kIsWeb) {
-      final bytes = utf8.encode(csvString);
-      final blob = html.Blob([bytes], 'text/csv');
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      html.AnchorElement(href: url)
-        ..setAttribute('download', 'attendance_report.csv')
-        ..click();
-      html.Url.revokeObjectUrl(url);
-    } else {
-      try {
-        final tempDir = await getTemporaryDirectory();
-        final file = File('${tempDir.path}/attendance_report.csv');
-        await file.writeAsString(csvString);
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final file = File('${tempDir.path}/attendance_report.csv');
+      await file.writeAsString(csvString);
 
-        await Share.shareXFiles([
-          XFile(file.path),
-        ], subject: 'Attendance Report');
-      } catch (e) {
-        if (context.mounted) {
-          ShadToaster.of(context).show(
-            ShadToast.destructive(
-              title: const Text('Export failed'),
-              description: Text(e.toString()),
-            ),
-          );
-        }
+      await Share.shareXFiles([
+        XFile(file.path),
+      ], subject: 'Attendance Report');
+    } catch (e) {
+      if (context.mounted) {
+        ShadToaster.of(context).show(
+          ShadToast.destructive(
+            title: const Text('Export failed'),
+            description: Text(e.toString()),
+          ),
+        );
       }
     }
   }

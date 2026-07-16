@@ -1,7 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
@@ -20,26 +19,18 @@ class AuthRepository {
     try {
       String? idToken;
 
-      if (kIsWeb) {
-        final provider = GoogleAuthProvider();
-        final userCredential = await FirebaseAuth.instance.signInWithPopup(
-          provider,
-        );
-        idToken = await userCredential.user?.getIdToken();
-      } else {
-        final googleSignIn = GoogleSignIn.instance;
-        await googleSignIn.initialize();
-        final googleUser = await googleSignIn.authenticate();
+      final googleSignIn = GoogleSignIn.instance;
+      await googleSignIn.initialize();
+      final googleUser = await googleSignIn.authenticate();
 
-        final credential = GoogleAuthProvider.credential(
-          idToken: googleUser.authentication.idToken,
-        );
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleUser.authentication.idToken,
+      );
 
-        final userCredential = await FirebaseAuth.instance.signInWithCredential(
-          credential,
-        );
-        idToken = await userCredential.user?.getIdToken();
-      }
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+      idToken = await userCredential.user?.getIdToken();
 
       if (idToken == null) {
         return const Either.left(ServerFailure('Failed to retrieve token'));

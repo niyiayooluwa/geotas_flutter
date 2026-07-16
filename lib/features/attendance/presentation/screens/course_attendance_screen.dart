@@ -15,9 +15,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-// ignore: avoid_web_libraries_in_flutter
-import 'package:universal_html/html.dart' as html;
-
 class CourseAttendanceScreen extends HookConsumerWidget {
   final String courseId;
   final String courseCode;
@@ -174,23 +171,13 @@ class CourseAttendanceScreen extends HookConsumerWidget {
       final csv = _buildCSV(records);
       final fileName = '${courseCode.replaceAll(' ', '_')}_attendance.csv';
 
-      if (kIsWeb) {
-        final bytes = Uint8List.fromList(csv.codeUnits);
-        final blob = html.Blob([bytes], 'text/csv');
-        final url = html.Url.createObjectUrlFromBlob(blob);
-        final _ = html.AnchorElement(href: url)
-          ..setAttribute('download', fileName)
-          ..click();
-        html.Url.revokeObjectUrl(url);
-      } else {
-        final dir = await getTemporaryDirectory();
-        final file = File('${dir.path}/$fileName');
-        await file.writeAsString(csv);
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/$fileName');
+      await file.writeAsString(csv);
 
-        await Share.shareXFiles([
-          XFile(file.path, mimeType: 'text/csv'),
-        ], subject: '$courseCode Attendance Register');
-      }
+      await Share.shareXFiles([
+        XFile(file.path, mimeType: 'text/csv'),
+      ], subject: '$courseCode Attendance Register');
 
       if (context.mounted) {
         showSuccessToast(context, 'Register exported successfully');

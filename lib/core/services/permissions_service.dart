@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart'; // <-- Added this
 
@@ -7,17 +6,6 @@ class PermissionService {
   /// Requests location permission and enforces PRECISE accuracy.
   /// Returns true if granted and precise.
   static Future<bool> requestLocation() async {
-    if (kIsWeb) {
-      final permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        final requested = await Geolocator.requestPermission();
-        return requested == LocationPermission.whileInUse ||
-            requested == LocationPermission.always;
-      }
-      return permission == LocationPermission.whileInUse ||
-          permission == LocationPermission.always;
-    }
-
     // 1. Check if the physical GPS is turned on
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -58,8 +46,6 @@ class PermissionService {
 
   /// Requests camera permission explicitly via permission_handler. Returns true if granted.
   static Future<bool> requestCamera() async {
-    if (kIsWeb) return true;
-
     // 1. Check current status
     var status = await Permission.camera.status;
 

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 
 class DeviceInfoHelper {
@@ -11,12 +10,7 @@ class DeviceInfoHelper {
     String osVersion = 'unknown';
     bool mockLocationDetected = false;
 
-    if (kIsWeb) {
-      final webInfo = await deviceInfo.webBrowserInfo;
-      deviceId = webInfo.userAgent ?? 'unknown';
-      deviceModel = webInfo.browserName.name;
-      osVersion = webInfo.appVersion ?? 'unknown';
-    } else if (Platform.isAndroid) {
+    if (Platform.isAndroid) {
       final androidInfo = await deviceInfo.androidInfo;
       deviceId = androidInfo.id;
       deviceModel = androidInfo.model;

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geotas/core/services/permissions_service.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -24,7 +23,7 @@ class _PermissionGateState extends State<PermissionGate> {
 
   Future<void> _check() async {
     final location = await PermissionService.requestLocation();
-    final camera = kIsWeb ? true : await PermissionService.requestCamera();
+    final camera = await PermissionService.requestCamera();
     setState(() {
       _locationGranted = location;
       _cameraGranted = camera;
@@ -75,12 +74,11 @@ class _PermissionGateState extends State<PermissionGate> {
                 granted: _locationGranted,
               ),
               const SizedBox(height: 12),
-              if (!kIsWeb)
-                _PermissionRow(
-                  icon: Icons.camera_alt_outlined,
-                  label: 'Camera (for QR scanning)',
-                  granted: _cameraGranted,
-                ),
+              _PermissionRow(
+                icon: Icons.camera_alt_outlined,
+                label: 'Camera (for QR scanning)',
+                granted: _cameraGranted,
+              ),
               const SizedBox(height: 32),
               ShadButton(
                 onPressed: _retry,

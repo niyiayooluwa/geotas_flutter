@@ -2,7 +2,7 @@
 // ignore_for_file: type=lint
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show defaultTargetPlatform, TargetPlatform;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -16,9 +16,6 @@ import 'package:flutter/foundation.dart'
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    if (kIsWeb) {
-      return web;
-    }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
@@ -48,16 +45,6 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDVq3uze-VeBY48KL2uq1qdZd8lw0kHDj0',
-    appId: '1:126735209283:web:60267d94dd64a643b955f6',
-    messagingSenderId: '126735209283',
-    projectId: 'geotas-eeaca',
-    authDomain: 'geotas-eeaca.firebaseapp.com',
-    storageBucket: 'geotas-eeaca.firebasestorage.app',
-    measurementId: 'G-ZCMD59C1J9',
-  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDO1UDqD4DGEd6rh16vIx02QEJp697uAWo',

@@ -1,5 +1,4 @@
 import 'package:dart_either/dart_either.dart';
-import 'package:flutter/foundation.dart'; // Required for kIsWeb
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart'; // Added hooks
 import 'package:geotas/core/errors/failures.dart';
@@ -23,7 +22,7 @@ class SplashScreen extends HookConsumerWidget {
 
         // If no token stored -> route to role-select/login directly, skip network call
         if (token == null) {
-          if (!kIsWeb) await Future.delayed(const Duration(milliseconds: 3000));
+          await Future.delayed(const Duration(milliseconds: 3000));
           if (context.mounted) context.go('/login');
           return;
         }
@@ -33,7 +32,7 @@ class SplashScreen extends HookConsumerWidget {
         
         final results = await Future.wait([
           apiCall,
-          if (!kIsWeb) Future.delayed(const Duration(milliseconds: 3000)),
+          Future.delayed(const Duration(milliseconds: 3000)),
         ]);
 
         final result = results[0] as Either<Failure, UserModel>;
@@ -62,21 +61,6 @@ class SplashScreen extends HookConsumerWidget {
       navigate();
       return null; // No cleanup needed
     }, []);
-
-    // Return a simple loader for the web during the split-second token check
-    if (kIsWeb) {
-      return Scaffold(
-        backgroundColor: ShadTheme.of(context).colorScheme.background,
-        body: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.sizeOf(context).width * 0.6,
-            ),
-            child: const ShadProgress(),
-          ),
-        ),
-      );
-    }
 
     // Keep the animated splash screen for the mobile app
     return Scaffold(
