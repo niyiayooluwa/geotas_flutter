@@ -30,19 +30,7 @@ class AttendanceRepository {
     }
   }
 
-  Future<Either<Failure, OTPResponse>> requestOTP(String sessionId) async {
-    try {
-      final response = await _dio.post(
-        '/attendance/otp/request',
-        data: {'session_id': sessionId},
-      );
-      return Either.right(OTPResponse.fromJson(response.data));
-    } on DioException catch (e) {
-      return Either.left(mapDioException(e));
-    } catch (e) {
-      return Either.left(mapException(e));
-    }
-  }
+
 
   Future<Either<Failure, AttendanceResponse>> verifyOTP(
     MarkAttendanceOTPRequest request,

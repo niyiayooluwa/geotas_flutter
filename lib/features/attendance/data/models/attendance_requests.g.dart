@@ -9,8 +9,7 @@ part of 'attendance_requests.dart';
 _MarkAttendanceQRRequest _$MarkAttendanceQRRequestFromJson(
   Map<String, dynamic> json,
 ) => _MarkAttendanceQRRequest(
-  sessionId: json['session_id'] as String,
-  qrToken: json['qr_token'] as String,
+  qrTokenString: json['qr_token_string'] as String,
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
   deviceId: json['device_id'] as String,
@@ -22,8 +21,7 @@ _MarkAttendanceQRRequest _$MarkAttendanceQRRequestFromJson(
 Map<String, dynamic> _$MarkAttendanceQRRequestToJson(
   _MarkAttendanceQRRequest instance,
 ) => <String, dynamic>{
-  'session_id': instance.sessionId,
-  'qr_token': instance.qrToken,
+  'qr_token_string': instance.qrTokenString,
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'device_id': instance.deviceId,
@@ -57,9 +55,3 @@ Map<String, dynamic> _$MarkAttendanceOTPRequestToJson(
   'os_version': instance.osVersion,
   'mock_location_detected': instance.mockLocationDetected,
 };
-
-_RequestOTPRequest _$RequestOTPRequestFromJson(Map<String, dynamic> json) =>
-    _RequestOTPRequest(sessionId: json['session_id'] as String);
-
-Map<String, dynamic> _$RequestOTPRequestToJson(_RequestOTPRequest instance) =>
-    <String, dynamic>{'session_id': instance.sessionId};

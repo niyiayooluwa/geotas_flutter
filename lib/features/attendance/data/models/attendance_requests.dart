@@ -6,8 +6,7 @@ part 'attendance_requests.g.dart';
 @freezed
 abstract class MarkAttendanceQRRequest with _$MarkAttendanceQRRequest {
   const factory MarkAttendanceQRRequest({
-    @JsonKey(name: 'session_id') required String sessionId,
-    @JsonKey(name: 'qr_token') required String qrToken,
+    @JsonKey(name: 'qr_token_string') required String qrTokenString,
     required double latitude,
     required double longitude,
     @JsonKey(name: 'device_id') required String deviceId,
@@ -35,14 +34,4 @@ abstract class MarkAttendanceOTPRequest with _$MarkAttendanceOTPRequest {
 
   factory MarkAttendanceOTPRequest.fromJson(Map<String, dynamic> json) =>
       _$MarkAttendanceOTPRequestFromJson(json);
-}
-
-@freezed
-abstract class RequestOTPRequest with _$RequestOTPRequest {
-  const factory RequestOTPRequest({
-    @JsonKey(name: 'session_id') required String sessionId,
-  }) = _RequestOTPRequest;
-
-  factory RequestOTPRequest.fromJson(Map<String, dynamic> json) =>
-      _$RequestOTPRequestFromJson(json);
 }

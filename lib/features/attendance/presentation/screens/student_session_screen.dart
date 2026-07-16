@@ -21,33 +21,8 @@ class StudentSessionScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionAsync = ref.watch(sessionDetailsProvider(sessionId));
-    final otpResponse = useState<OTPResponse?>(null);
     final otpController = useTextEditingController();
     final isLoading = useState(false);
-
-    Future<void> requestOTP() async {
-      isLoading.value = true;
-      try {
-        final result = await ref
-            .read(attendanceRepositoryProvider)
-            .requestOTP(sessionId);
-        result.fold(
-          ifLeft: (failure) => throw failure.message,
-          ifRight: (response) => otpResponse.value = response,
-        );
-      } catch (e) {
-        if (context.mounted) {
-          ShadToaster.of(context).show(
-            ShadToast.destructive(
-              title: const Text('Failed to request OTP'),
-              description: Text(e.toString()),
-            ),
-          );
-        }
-      } finally {
-        isLoading.value = false;
-      }
-    }
 
     Future<void> verifyOTP() async {
       if (otpController.text.isEmpty) return;
@@ -159,74 +134,59 @@ class StudentSessionScreen extends HookConsumerWidget {
                         ),
                         const SizedBox(height: 16),
 
-                        ShadButton.outline(
-                          size: ShadButtonSize.lg,
-                          onPressed: isLoading.value ? null : requestOTP,
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        const SizedBox(height: 32),
+                        Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: ShadTheme.of(context).colorScheme.background,
+                            border: Border.all(
+                              color: ShadTheme.of(
+                                context,
+                              ).colorScheme.border.withValues(alpha: 0.3),
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(LucideIcons.keySquare, size: 20),
-                              SizedBox(width: 12),
-                              Text('Request OTP'),
+                              const Text(
+                                'Manual Verification',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'If your camera is broken, ask the lecturer for an OTP to mark your attendance manually.',
+                                style: ShadTheme.of(context).textTheme.muted,
+                              ),
+                              const SizedBox(height: 24),
+                              ShadInput(
+                                controller: otpController,
+                                placeholder: const Text(
+                                  'Enter 6-digit OTP',
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                              const SizedBox(height: 16),
+                              ShadButton.outline(
+                                onPressed: isLoading.value ? null : verifyOTP,
+                                width: double.infinity,
+                                child: isLoading.value
+                                    ? SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator(
+                                          color: ShadTheme.of(context).colorScheme.primary,
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const Text('Submit OTP'),
+                              ),
                             ],
                           ),
                         ),
-
-                        if (otpResponse.value != null) ...[
-                          const SizedBox(height: 32),
-                          // Shadcn-style bordered container instead of standard Card
-                          Container(
-                            padding: const EdgeInsets.all(24),
-                            decoration: BoxDecoration(
-                              color: ShadTheme.of(context).colorScheme.background,
-                              border: Border.all(
-                                color: ShadTheme.of(
-                                  context,
-                                ).colorScheme.border.withValues(alpha: 0.3),
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Your OTP Code',
-                                  style: ShadTheme.of(context).textTheme.muted,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  otpResponse.value!.otpCode,
-                                  style: const TextStyle(
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 8,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Expires at: ${otpResponse.value!.expiresAt}',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: ShadTheme.of(context).colorScheme.destructive,
-                                  ),
-                                ),
-                                const SizedBox(height: 24),
-                                ShadInput(
-                                  controller: otpController,
-                                  placeholder: const Text(
-                                    'Enter OTP to verify',
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
-                                const SizedBox(height: 16),
-                                ShadButton(
-                                  onPressed: isLoading.value ? null : verifyOTP,
-                                  width: double.infinity,
-                                  child: const Text('Verify OTP'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                   ),
