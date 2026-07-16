@@ -1,5 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:geotas/core/errors/failure_mapper.dart';
 import 'package:geotas/core/errors/failures.dart';
 import 'package:geotas/core/network/dio_client.dart';
@@ -18,14 +19,18 @@ class AttendanceRepository {
     MarkAttendanceQRRequest request,
   ) async {
     try {
+      debugPrint('[REPO] POST /attendance/qr → ${request.toJson()}');
       final response = await _dio.post(
         '/attendance/qr',
         data: request.toJson(),
       );
+      debugPrint('[REPO] Response ${response.statusCode}: ${response.data}');
       return Either.right(AttendanceResponse.fromJson(response.data));
     } on DioException catch (e) {
+      debugPrint('[REPO] DioException ${e.response?.statusCode}: ${e.response?.data}');
       return Either.left(mapDioException(e));
     } catch (e) {
+      debugPrint('[REPO] Exception: $e');
       return Either.left(mapException(e));
     }
   }

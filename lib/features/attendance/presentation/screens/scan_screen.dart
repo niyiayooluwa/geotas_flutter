@@ -23,9 +23,24 @@ class ScanScreen extends HookConsumerWidget {
     final error = useState<String?>(null);
     final isLoading = useState(false);
     final isScanned = useState(false);
+    // Pre-fetched device+location data so GPS is warm before the scan lands.
+    // getCurrentPosition() can take several seconds on Android — if we wait
+    // until after the scan, the QR token expires in that window.
+    final prefetchedData = useState<Map<String, dynamic>?>(null);
 
     final cameraController = useMemoized(() => MobileScannerController());
     useEffect(() => cameraController.dispose, const []);
+
+    // Start fetching location the moment the screen opens.
+    useEffect(() {
+      DeviceInfoHelper.getCollectionData().then((data) {
+        prefetchedData.value = data;
+        debugPrint('[QR] Location pre-fetched: $data');
+      }).catchError((e) {
+        debugPrint('[QR] Pre-fetch failed: $e');
+      });
+      return null;
+    }, const []);
 
     Future<void> processToken(String scannedValue) async {
       if (isScanned.value) return;
@@ -46,8 +61,16 @@ class ScanScreen extends HookConsumerWidget {
           throw 'Invalid QR code. Please scan a GEOTAS QR code.';
         }
 
+        debugPrint('━━━━━━━━━ QR SCAN ━━━━━━━━━');
+        debugPrint('[QR] Raw value: $rawValue');
+        debugPrint('[QR] Parsed payload: $payload');
+
         final token = payload['token'] as String?;
         final payloadSessionId = payload['session_id'] as String?;
+
+        debugPrint('[QR] token: $token');
+        debugPrint('[QR] payload session_id: $payloadSessionId');
+        debugPrint('[QR] injected sessionId: $sessionId');
 
         if (token == null) {
           throw 'Invalid QR code. Please scan a GEOTAS QR code.';
@@ -59,7 +82,11 @@ class ScanScreen extends HookConsumerWidget {
           throw 'QR code does not contain a session ID.';
         }
 
-        final data = await DeviceInfoHelper.getCollectionData();
+        // Use pre-fetched data if available; otherwise fall back to a fresh
+        // fetch (e.g. user opened screen before GPS had time to warm up).
+        final data = prefetchedData.value ?? await DeviceInfoHelper.getCollectionData();
+        debugPrint('[QR] Device data (prefetched=${prefetchedData.value != null}): $data');
+
         final request = MarkAttendanceQRRequest(
           sessionId: resolvedSessionId,
           qrToken: token,
@@ -70,6 +97,9 @@ class ScanScreen extends HookConsumerWidget {
           osVersion: data['osVersion'],
           mockLocationDetected: data['mockLocationDetected'],
         );
+
+        debugPrint('[QR] Request JSON: ${request.toJson()}');
+        debugPrint('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
         await ref.read(markAttendanceProvider.notifier).withQR(request);
         result.value = 'Attendance marked successfully!';
