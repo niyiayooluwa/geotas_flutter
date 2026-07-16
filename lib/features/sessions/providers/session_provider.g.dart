@@ -256,48 +256,6 @@ final class SessionAttendanceFamily extends $Family
   String toString() => r'sessionAttendanceProvider';
 }
 
-@ProviderFor(allLecturerSessions)
-const allLecturerSessionsProvider = AllLecturerSessionsProvider._();
-
-final class AllLecturerSessionsProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<SessionModel>>,
-          List<SessionModel>,
-          FutureOr<List<SessionModel>>
-        >
-    with
-        $FutureModifier<List<SessionModel>>,
-        $FutureProvider<List<SessionModel>> {
-  const AllLecturerSessionsProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'allLecturerSessionsProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$allLecturerSessionsHash();
-
-  @$internal
-  @override
-  $FutureProviderElement<List<SessionModel>> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<List<SessionModel>> create(Ref ref) {
-    return allLecturerSessions(ref);
-  }
-}
-
-String _$allLecturerSessionsHash() =>
-    r'9ce3ff40bb2dca0e44f18121abbd2ffbbf11c747';
-
 @ProviderFor(sessionDetails)
 const sessionDetailsProvider = SessionDetailsFamily._();
 

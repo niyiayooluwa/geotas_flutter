@@ -111,23 +111,6 @@ Future<List<DetailedAttendanceModel>> sessionAttendance(
 }
 
 @riverpod
-Future<List<SessionModel>> allLecturerSessions(Ref ref) async {
-  final coursesAsync = ref.watch(courseProvider);
-  final courses = coursesAsync.value ?? [];
-  final lecturerCourses = courses.where((c) => c.role == 'lecturer').toList();
-
-  List<SessionModel> allSessions = [];
-  for (final course in lecturerCourses) {
-    // ignore: unused_result
-    final sessions = await ref.watch(courseSessionsProvider(course.id).future);
-    allSessions.addAll(sessions);
-  }
-
-  allSessions.sort((a, b) => b.startedAt.compareTo(a.startedAt));
-  return allSessions;
-}
-
-@riverpod
 Future<SessionModel?> sessionDetails(Ref ref, String sessionId) async {
   final coursesAsync = ref.watch(courseProvider);
   final courses = coursesAsync.value ?? [];
