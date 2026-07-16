@@ -97,14 +97,7 @@ class LoginForm extends HookConsumerWidget {
                 ),
         ),
 
-        const SizedBox(height: 28),
-        const Divider(),
-        const SizedBox(height: 20),
 
-        TextButton(
-          onPressed: () => context.go('/lecturer/login'),
-          child: const Text('Are you a lecturer? Sign in here'),
-        ),
       ],
     );
   }
