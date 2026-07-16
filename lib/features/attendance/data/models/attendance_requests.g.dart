@@ -9,7 +9,8 @@ part of 'attendance_requests.dart';
 _MarkAttendanceQRRequest _$MarkAttendanceQRRequestFromJson(
   Map<String, dynamic> json,
 ) => _MarkAttendanceQRRequest(
-  qrTokenString: json['qr_token_string'] as String,
+  sessionId: json['session_id'] as String,
+  qrToken: json['qr_token'] as String,
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
   deviceId: json['device_id'] as String,
@@ -21,7 +22,8 @@ _MarkAttendanceQRRequest _$MarkAttendanceQRRequestFromJson(
 Map<String, dynamic> _$MarkAttendanceQRRequestToJson(
   _MarkAttendanceQRRequest instance,
 ) => <String, dynamic>{
-  'qr_token_string': instance.qrTokenString,
+  'session_id': instance.sessionId,
+  'qr_token': instance.qrToken,
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'device_id': instance.deviceId,

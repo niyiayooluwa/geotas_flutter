@@ -25,7 +25,12 @@ class MobileFabNav extends StatelessWidget {
         fabSize: ExpandableFabSize.small,
       ),
       children: [
-
+        _FabItem(
+          icon: LucideIcons.qrCode,
+          label: 'Scan QR',
+          active: location == '/scan',
+          onTap: () => context.push('/scan'),
+        ),
         _FabItem(
           icon: LucideIcons.circleUser,
           label: 'Profile',

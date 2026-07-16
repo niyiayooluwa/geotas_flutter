@@ -61,7 +61,8 @@ class ScanScreen extends HookConsumerWidget {
 
         final data = await DeviceInfoHelper.getCollectionData();
         final request = MarkAttendanceQRRequest(
-          qrTokenString: rawValue,
+          sessionId: resolvedSessionId,
+          qrToken: token,
           latitude: data['latitude'],
           longitude: data['longitude'],
           deviceId: data['deviceId'],

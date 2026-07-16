@@ -6,7 +6,8 @@ part 'attendance_requests.g.dart';
 @freezed
 abstract class MarkAttendanceQRRequest with _$MarkAttendanceQRRequest {
   const factory MarkAttendanceQRRequest({
-    @JsonKey(name: 'qr_token_string') required String qrTokenString,
+    @JsonKey(name: 'session_id') required String sessionId,
+    @JsonKey(name: 'qr_token') required String qrToken,
     required double latitude,
     required double longitude,
     @JsonKey(name: 'device_id') required String deviceId,

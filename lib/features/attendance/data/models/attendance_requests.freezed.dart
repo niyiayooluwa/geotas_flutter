@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MarkAttendanceQRRequest {
 
-@JsonKey(name: 'qr_token_string') String get qrTokenString; double get latitude; double get longitude;@JsonKey(name: 'device_id') String get deviceId;@JsonKey(name: 'device_model') String get deviceModel;@JsonKey(name: 'os_version') String get osVersion;@JsonKey(name: 'mock_location_detected') bool get mockLocationDetected;
+@JsonKey(name: 'session_id') String get sessionId;@JsonKey(name: 'qr_token') String get qrToken; double get latitude; double get longitude;@JsonKey(name: 'device_id') String get deviceId;@JsonKey(name: 'device_model') String get deviceModel;@JsonKey(name: 'os_version') String get osVersion;@JsonKey(name: 'mock_location_detected') bool get mockLocationDetected;
 /// Create a copy of MarkAttendanceQRRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MarkAttendanceQRRequestCopyWith<MarkAttendanceQRRequest> get copyWith => _$Mark
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarkAttendanceQRRequest&&(identical(other.qrTokenString, qrTokenString) || other.qrTokenString == qrTokenString)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarkAttendanceQRRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.qrToken, qrToken) || other.qrToken == qrToken)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,qrTokenString,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
+int get hashCode => Object.hash(runtimeType,sessionId,qrToken,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
 
 @override
 String toString() {
-  return 'MarkAttendanceQRRequest(qrTokenString: $qrTokenString, latitude: $latitude, longitude: $longitude, deviceId: $deviceId, deviceModel: $deviceModel, osVersion: $osVersion, mockLocationDetected: $mockLocationDetected)';
+  return 'MarkAttendanceQRRequest(sessionId: $sessionId, qrToken: $qrToken, latitude: $latitude, longitude: $longitude, deviceId: $deviceId, deviceModel: $deviceModel, osVersion: $osVersion, mockLocationDetected: $mockLocationDetected)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MarkAttendanceQRRequestCopyWith<$Res>  {
   factory $MarkAttendanceQRRequestCopyWith(MarkAttendanceQRRequest value, $Res Function(MarkAttendanceQRRequest) _then) = _$MarkAttendanceQRRequestCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'qr_token_string') String qrTokenString, double latitude, double longitude,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected
+@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'qr_token') String qrToken, double latitude, double longitude,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected
 });
 
 
@@ -65,9 +65,10 @@ class _$MarkAttendanceQRRequestCopyWithImpl<$Res>
 
 /// Create a copy of MarkAttendanceQRRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? qrTokenString = null,Object? latitude = null,Object? longitude = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? mockLocationDetected = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? sessionId = null,Object? qrToken = null,Object? latitude = null,Object? longitude = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? mockLocationDetected = null,}) {
   return _then(_self.copyWith(
-qrTokenString: null == qrTokenString ? _self.qrTokenString : qrTokenString // ignore: cast_nullable_to_non_nullable
+sessionId: null == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
+as String,qrToken: null == qrToken ? _self.qrToken : qrToken // ignore: cast_nullable_to_non_nullable
 as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double,deviceId: null == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
@@ -159,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'qr_token_string')  String qrTokenString,  double latitude,  double longitude, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'qr_token')  String qrToken,  double latitude,  double longitude, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MarkAttendanceQRRequest() when $default != null:
-return $default(_that.qrTokenString,_that.latitude,_that.longitude,_that.deviceId,_that.deviceModel,_that.osVersion,_that.mockLocationDetected);case _:
+return $default(_that.sessionId,_that.qrToken,_that.latitude,_that.longitude,_that.deviceId,_that.deviceModel,_that.osVersion,_that.mockLocationDetected);case _:
   return orElse();
 
 }
@@ -180,10 +181,10 @@ return $default(_that.qrTokenString,_that.latitude,_that.longitude,_that.deviceI
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'qr_token_string')  String qrTokenString,  double latitude,  double longitude, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'qr_token')  String qrToken,  double latitude,  double longitude, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected)  $default,) {final _that = this;
 switch (_that) {
 case _MarkAttendanceQRRequest():
-return $default(_that.qrTokenString,_that.latitude,_that.longitude,_that.deviceId,_that.deviceModel,_that.osVersion,_that.mockLocationDetected);case _:
+return $default(_that.sessionId,_that.qrToken,_that.latitude,_that.longitude,_that.deviceId,_that.deviceModel,_that.osVersion,_that.mockLocationDetected);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +201,10 @@ return $default(_that.qrTokenString,_that.latitude,_that.longitude,_that.deviceI
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'qr_token_string')  String qrTokenString,  double latitude,  double longitude, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'session_id')  String sessionId, @JsonKey(name: 'qr_token')  String qrToken,  double latitude,  double longitude, @JsonKey(name: 'device_id')  String deviceId, @JsonKey(name: 'device_model')  String deviceModel, @JsonKey(name: 'os_version')  String osVersion, @JsonKey(name: 'mock_location_detected')  bool mockLocationDetected)?  $default,) {final _that = this;
 switch (_that) {
 case _MarkAttendanceQRRequest() when $default != null:
-return $default(_that.qrTokenString,_that.latitude,_that.longitude,_that.deviceId,_that.deviceModel,_that.osVersion,_that.mockLocationDetected);case _:
+return $default(_that.sessionId,_that.qrToken,_that.latitude,_that.longitude,_that.deviceId,_that.deviceModel,_that.osVersion,_that.mockLocationDetected);case _:
   return null;
 
 }
@@ -215,10 +216,11 @@ return $default(_that.qrTokenString,_that.latitude,_that.longitude,_that.deviceI
 @JsonSerializable()
 
 class _MarkAttendanceQRRequest implements MarkAttendanceQRRequest {
-  const _MarkAttendanceQRRequest({@JsonKey(name: 'qr_token_string') required this.qrTokenString, required this.latitude, required this.longitude, @JsonKey(name: 'device_id') required this.deviceId, @JsonKey(name: 'device_model') required this.deviceModel, @JsonKey(name: 'os_version') required this.osVersion, @JsonKey(name: 'mock_location_detected') required this.mockLocationDetected});
+  const _MarkAttendanceQRRequest({@JsonKey(name: 'session_id') required this.sessionId, @JsonKey(name: 'qr_token') required this.qrToken, required this.latitude, required this.longitude, @JsonKey(name: 'device_id') required this.deviceId, @JsonKey(name: 'device_model') required this.deviceModel, @JsonKey(name: 'os_version') required this.osVersion, @JsonKey(name: 'mock_location_detected') required this.mockLocationDetected});
   factory _MarkAttendanceQRRequest.fromJson(Map<String, dynamic> json) => _$MarkAttendanceQRRequestFromJson(json);
 
-@override@JsonKey(name: 'qr_token_string') final  String qrTokenString;
+@override@JsonKey(name: 'session_id') final  String sessionId;
+@override@JsonKey(name: 'qr_token') final  String qrToken;
 @override final  double latitude;
 @override final  double longitude;
 @override@JsonKey(name: 'device_id') final  String deviceId;
@@ -239,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarkAttendanceQRRequest&&(identical(other.qrTokenString, qrTokenString) || other.qrTokenString == qrTokenString)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarkAttendanceQRRequest&&(identical(other.sessionId, sessionId) || other.sessionId == sessionId)&&(identical(other.qrToken, qrToken) || other.qrToken == qrToken)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.deviceModel, deviceModel) || other.deviceModel == deviceModel)&&(identical(other.osVersion, osVersion) || other.osVersion == osVersion)&&(identical(other.mockLocationDetected, mockLocationDetected) || other.mockLocationDetected == mockLocationDetected));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,qrTokenString,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
+int get hashCode => Object.hash(runtimeType,sessionId,qrToken,latitude,longitude,deviceId,deviceModel,osVersion,mockLocationDetected);
 
 @override
 String toString() {
-  return 'MarkAttendanceQRRequest(qrTokenString: $qrTokenString, latitude: $latitude, longitude: $longitude, deviceId: $deviceId, deviceModel: $deviceModel, osVersion: $osVersion, mockLocationDetected: $mockLocationDetected)';
+  return 'MarkAttendanceQRRequest(sessionId: $sessionId, qrToken: $qrToken, latitude: $latitude, longitude: $longitude, deviceId: $deviceId, deviceModel: $deviceModel, osVersion: $osVersion, mockLocationDetected: $mockLocationDetected)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$MarkAttendanceQRRequestCopyWith<$Res> implements $MarkAtt
   factory _$MarkAttendanceQRRequestCopyWith(_MarkAttendanceQRRequest value, $Res Function(_MarkAttendanceQRRequest) _then) = __$MarkAttendanceQRRequestCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'qr_token_string') String qrTokenString, double latitude, double longitude,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected
+@JsonKey(name: 'session_id') String sessionId,@JsonKey(name: 'qr_token') String qrToken, double latitude, double longitude,@JsonKey(name: 'device_id') String deviceId,@JsonKey(name: 'device_model') String deviceModel,@JsonKey(name: 'os_version') String osVersion,@JsonKey(name: 'mock_location_detected') bool mockLocationDetected
 });
 
 
@@ -276,9 +278,10 @@ class __$MarkAttendanceQRRequestCopyWithImpl<$Res>
 
 /// Create a copy of MarkAttendanceQRRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? qrTokenString = null,Object? latitude = null,Object? longitude = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? mockLocationDetected = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? sessionId = null,Object? qrToken = null,Object? latitude = null,Object? longitude = null,Object? deviceId = null,Object? deviceModel = null,Object? osVersion = null,Object? mockLocationDetected = null,}) {
   return _then(_MarkAttendanceQRRequest(
-qrTokenString: null == qrTokenString ? _self.qrTokenString : qrTokenString // ignore: cast_nullable_to_non_nullable
+sessionId: null == sessionId ? _self.sessionId : sessionId // ignore: cast_nullable_to_non_nullable
+as String,qrToken: null == qrToken ? _self.qrToken : qrToken // ignore: cast_nullable_to_non_nullable
 as String,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double,deviceId: null == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable

@@ -31,7 +31,7 @@ class DeviceInfoHelper {
       'deviceId': deviceId,
       'deviceModel': deviceModel,
       'osVersion': osVersion,
-      'mockLocationDetected': mockLocationDetected,
+      'mockLocationDetected': mockLocationDetected || position.isMocked,
       'latitude': position.latitude,
       'longitude': position.longitude,
     };
