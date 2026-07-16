@@ -34,6 +34,7 @@ class DeviceInfoHelper {
       'mockLocationDetected': mockLocationDetected || position.isMocked,
       'latitude': position.latitude,
       'longitude': position.longitude,
+      'locationAccuracyMeters': position.accuracy,
     };
   }
 }

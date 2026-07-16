@@ -32,6 +32,7 @@ class StudentSessionScreen extends HookConsumerWidget {
           otpCode: otpController.text.trim(),
           latitude: data['latitude'],
           longitude: data['longitude'],
+          locationAccuracyMeters: data['locationAccuracyMeters'],
           deviceId: data['deviceId'],
           deviceModel: data['deviceModel'],
           osVersion: data['osVersion'],

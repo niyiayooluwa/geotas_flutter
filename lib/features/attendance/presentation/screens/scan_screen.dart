@@ -101,6 +101,7 @@ class ScanScreen extends HookConsumerWidget {
           qrToken: token,
           latitude: data['latitude'],
           longitude: data['longitude'],
+          locationAccuracyMeters: data['locationAccuracyMeters'],
           deviceId: data['deviceId'],
           deviceModel: data['deviceModel'],
           osVersion: data['osVersion'],
