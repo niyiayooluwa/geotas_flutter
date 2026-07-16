@@ -10,6 +10,7 @@ abstract class JoinCourseResponse with _$JoinCourseResponse {
     @JsonKey(name: 'course_id') required String courseId,
     @JsonKey(name: 'user_id') required String userId,
     required String role,
+    @JsonKey(name: 'matriculation_number') required String matriculationNumber,
     @JsonKey(name: 'joined_at') required String joinedAt,
   }) = _JoinCourseResponse;
 
@@ -53,4 +54,37 @@ abstract class EnrolledCourse with _$EnrolledCourse {
 
   factory EnrolledCourse.fromJson(Map<String, dynamic> json) =>
       _$EnrolledCourseFromJson(json);
+}
+
+@freezed
+abstract class CourseMemberModel with _$CourseMemberModel {
+  const factory CourseMemberModel({
+    @JsonKey(name: 'user_id') required String userId,
+    @JsonKey(name: 'first_name') required String firstName,
+    @JsonKey(name: 'last_name') required String lastName,
+    required String email,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
+    required String role,
+    @JsonKey(name: 'matriculation_number') String? matriculationNumber,
+    @JsonKey(name: 'co_lecturer') required bool coLecturer,
+    @JsonKey(name: 'joined_at') required String joinedAt,
+  }) = _CourseMemberModel;
+
+  factory CourseMemberModel.fromJson(Map<String, dynamic> json) =>
+      _$CourseMemberModelFromJson(json);
+}
+
+@freezed
+abstract class ScheduleModel with _$ScheduleModel {
+  const factory ScheduleModel({
+    required String id,
+    @JsonKey(name: 'course_id') required String courseId,
+    @JsonKey(name: 'day_of_week') required int dayOfWeek,
+    @JsonKey(name: 'start_time') required String startTime,
+    @JsonKey(name: 'end_time') required String endTime,
+    required String venue,
+  }) = _ScheduleModel;
+
+  factory ScheduleModel.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleModelFromJson(json);
 }

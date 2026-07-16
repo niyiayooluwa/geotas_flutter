@@ -12,6 +12,7 @@ _JoinCourseResponse _$JoinCourseResponseFromJson(Map<String, dynamic> json) =>
       courseId: json['course_id'] as String,
       userId: json['user_id'] as String,
       role: json['role'] as String,
+      matriculationNumber: json['matriculation_number'] as String,
       joinedAt: json['joined_at'] as String,
     );
 
@@ -21,6 +22,7 @@ Map<String, dynamic> _$JoinCourseResponseToJson(_JoinCourseResponse instance) =>
       'course_id': instance.courseId,
       'user_id': instance.userId,
       'role': instance.role,
+      'matriculation_number': instance.matriculationNumber,
       'joined_at': instance.joinedAt,
     };
 
@@ -79,4 +81,50 @@ Map<String, dynamic> _$EnrolledCourseToJson(_EnrolledCourse instance) =>
       'matriculation_number': instance.matriculationNumber,
       'student_count': instance.studentCount,
       'confidence_threshold': instance.confidenceThreshold,
+    };
+
+_CourseMemberModel _$CourseMemberModelFromJson(Map<String, dynamic> json) =>
+    _CourseMemberModel(
+      userId: json['user_id'] as String,
+      firstName: json['first_name'] as String,
+      lastName: json['last_name'] as String,
+      email: json['email'] as String,
+      avatarUrl: json['avatar_url'] as String?,
+      role: json['role'] as String,
+      matriculationNumber: json['matriculation_number'] as String?,
+      coLecturer: json['co_lecturer'] as bool,
+      joinedAt: json['joined_at'] as String,
+    );
+
+Map<String, dynamic> _$CourseMemberModelToJson(_CourseMemberModel instance) =>
+    <String, dynamic>{
+      'user_id': instance.userId,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
+      'email': instance.email,
+      'avatar_url': instance.avatarUrl,
+      'role': instance.role,
+      'matriculation_number': instance.matriculationNumber,
+      'co_lecturer': instance.coLecturer,
+      'joined_at': instance.joinedAt,
+    };
+
+_ScheduleModel _$ScheduleModelFromJson(Map<String, dynamic> json) =>
+    _ScheduleModel(
+      id: json['id'] as String,
+      courseId: json['course_id'] as String,
+      dayOfWeek: (json['day_of_week'] as num).toInt(),
+      startTime: json['start_time'] as String,
+      endTime: json['end_time'] as String,
+      venue: json['venue'] as String,
+    );
+
+Map<String, dynamic> _$ScheduleModelToJson(_ScheduleModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'course_id': instance.courseId,
+      'day_of_week': instance.dayOfWeek,
+      'start_time': instance.startTime,
+      'end_time': instance.endTime,
+      'venue': instance.venue,
     };

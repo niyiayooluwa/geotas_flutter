@@ -132,6 +132,46 @@ class CourseRepository {
       return Either.left(mapException(e));
     }
   }
+
+  Future<Either<Failure, List<CourseMemberModel>>> getCourseMembers(
+    String courseId,
+  ) async {
+    try {
+      final response = await _dio.get('/courses/$courseId/members');
+      final data = (response.data ?? []) as List<dynamic>;
+      return Either.right(
+        data
+            .map(
+              (json) => CourseMemberModel.fromJson(json as Map<String, dynamic>),
+            )
+            .toList(),
+      );
+    } on DioException catch (e) {
+      return Either.left(mapDioException(e));
+    } catch (e) {
+      return Either.left(mapException(e));
+    }
+  }
+
+  Future<Either<Failure, List<ScheduleModel>>> getCourseSchedules(
+    String courseId,
+  ) async {
+    try {
+      final response = await _dio.get('/courses/$courseId/schedules');
+      final data = (response.data ?? []) as List<dynamic>;
+      return Either.right(
+        data
+            .map(
+              (json) => ScheduleModel.fromJson(json as Map<String, dynamic>),
+            )
+            .toList(),
+      );
+    } on DioException catch (e) {
+      return Either.left(mapDioException(e));
+    } catch (e) {
+      return Either.left(mapException(e));
+    }
+  }
 }
 
 @Riverpod(keepAlive: true)
