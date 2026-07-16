@@ -199,12 +199,12 @@ class _SessionList extends ConsumerWidget {
                                 ),
                                 decoration: BoxDecoration(
                                   color: isActive
-                                      ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                                      ? Colors.green.withValues(alpha: .2)
                                       : theme.colorScheme.secondary,
                                   borderRadius: BorderRadius.circular(6),
                                   border: Border.all(
                                     color: isActive
-                                        ? theme.colorScheme.primary.withValues(alpha: 0.3)
+                                        ? Colors.green
                                         : theme.colorScheme.border,
                                   ),
                                 ),
@@ -212,7 +212,7 @@ class _SessionList extends ConsumerWidget {
                                   isActive ? 'LIVE' : 'CLOSED',
                                   style: TextStyle(
                                     color: isActive
-                                        ? theme.colorScheme.primary
+                                        ? Colors.green
                                         : theme.colorScheme.mutedForeground,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
